@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQml 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import QtQuick.Controls.Styles 1.4
 
 RowLayout{
     spacing: 2
@@ -34,6 +33,13 @@ RowLayout{
     }
 
     Button{
+        id: button_send
+        property string color_default: "#cc5100"
+
+        property string color_hovered: "#FF6600"
+
+        property string color_pressed: "#993c00"
+
         text: "Отправить"
         font.letterSpacing: 0.15
         font.weight: Font.Light
@@ -44,12 +50,39 @@ RowLayout{
         Layout.fillWidth: false
         Layout.preferredWidth: 70
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
         palette.buttonText: "white"
 
-        background: Rectangle{
-            color: "#cc5100"
+        background:
+            MouseArea{
+            id: mouse
+            hoverEnabled: true
 
+            property bool isPressed: false
+
+
+            onPressed: {
+                isPressed = true
+            }
+            onReleased: {
+                isPressed = false
+            }
+
+            Rectangle{
+                anchors.fill: parent
+
+                color: {
+                    if (mouse.isPressed){
+                        return button_send.color_pressed
+                    }
+                    else{
+                        return mouse.containsMouse ? button_send.color_hovered : button_send.color_default
+                    }
+                }
+
+                border.color: "#26282a"
+                border.width: 1
+                radius: 4
+            }
         }
     }
 }

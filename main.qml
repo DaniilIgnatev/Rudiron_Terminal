@@ -6,7 +6,7 @@ import QtQuick.Window 2.2
 
 Window {
     visible: true
-    title: qsTr("Rudiron terminal")
+    title: qsTr("Rudiron Terminal")
 
     minimumWidth: 400
     minimumHeight: 200
