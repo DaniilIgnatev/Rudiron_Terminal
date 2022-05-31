@@ -1,47 +1,60 @@
-import QtQuick 2.6
+import QtQuick 2.15
 import QtQml 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import QtQuick.Controls.Styles 1.4
 
 RowLayout{
+    spacing: 2
 
-    ColumnLayout{
+    Rectangle {
+        Layout.leftMargin: 2
+        Layout.rightMargin: 2
+
         Layout.fillHeight: true
         Layout.fillWidth: true
 
-        Item{
-            Layout.fillHeight: true
-            Layout.fillWidth: false
-        }
+        clip: true
+        color: "#1d2125"
 
         TextInput{
+            topPadding: 2
+            leftPadding: 2
+            anchors.fill: parent
+
+            text: "Рудирон!"
+            color: "#d1d5da"
+            selectionColor: "#0664d3"
+            selectedTextColor: "#ffffff"
+
+            font.pointSize: 9
             selectByMouse: true
             cursorVisible: true
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
-        }
-
-        Item{
-            Layout.fillHeight: true
-            Layout.fillWidth: false
         }
     }
 
     Button{
+        text: "Отправить"
+        font.letterSpacing: 0.15
+        font.weight: Font.Light
+        font.pointSize: 7
+        font.family: "Verdana"
+        Layout.rightMargin: 2
         Layout.fillHeight: true
         Layout.fillWidth: false
-
         Layout.preferredWidth: 70
-
-        text: "Отправить"
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        flat: false
+
+        palette.buttonText: "white"
+
+        background: Rectangle{
+            color: "#cc5100"
+
+        }
     }
 }
-
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:30;width:300}D{i:2}D{i:3}D{i:4}D{i:1}D{i:5}
+    D{i:0;autoSize:true;height:30;width:300}D{i:2}D{i:1}D{i:3}
 }
 ##^##*/

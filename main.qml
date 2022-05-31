@@ -6,16 +6,20 @@ import QtQuick.Window 2.2
 
 Window {
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Rudiron terminal")
 
     minimumWidth: 400
     minimumHeight: 200
 
+    color: "#2f363d"
+
     ColumnLayout{
         anchors.fill: parent
-        spacing: 0
+
+        spacing: 3
 
         Transmitter{
+            Layout.topMargin: 3
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.preferredHeight: 20
@@ -27,6 +31,7 @@ Window {
         }
 
         Options{
+            Layout.bottomMargin: 3
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.preferredHeight: 20
