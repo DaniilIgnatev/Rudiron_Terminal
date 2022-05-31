@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Printer.qml</file>
-        <file>Dispatcher.qml</file>
-        <file>DispatcherOptions.qml</file>
+        <file>Receiver.qml</file>
+        <file>Transmitter.qml</file>
+        <file>Options.qml</file>
     </qresource>
 </RCC>
