@@ -4,6 +4,8 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Window 2.2
 
+import com.VM 1.0
+
 Window {
     visible: true
     title: qsTr("Rudiron Terminal")
@@ -12,6 +14,10 @@ Window {
     minimumHeight: 200
 
     color: "#2f363d"
+
+    TerminalVM{
+        id: vm
+    }
 
     ColumnLayout{
         anchors.fill: parent
@@ -23,6 +29,8 @@ Window {
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.preferredHeight: 20
+
+            id: transmitter
         }
 
         Receiver{
@@ -38,6 +46,9 @@ Window {
         }
     }
 
+    Component.onCompleted: {
+        transmitter.vm =vm.getTransmitter()
+    }
 }
 
 /*##^##

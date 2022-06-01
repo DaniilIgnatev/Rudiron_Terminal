@@ -3,7 +3,11 @@ import QtQml 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
+import com.VM 1.0
+
 RowLayout{
+    property TransmitterVM vm
+
     spacing: 2
 
     Rectangle {
@@ -20,6 +24,8 @@ RowLayout{
             topPadding: 2
             leftPadding: 2
             anchors.fill: parent
+
+            id: textInput
 
             text: "Рудирон!"
             color: "#d1d5da"
@@ -62,6 +68,7 @@ RowLayout{
 
             onPressed: {
                 isPressed = true
+                vm.send(textInput.text)
             }
             onReleased: {
                 isPressed = false

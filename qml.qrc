@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>Terminal.qml</file>
         <file>Receiver.qml</file>
         <file>Transmitter.qml</file>
         <file>Options.qml</file>

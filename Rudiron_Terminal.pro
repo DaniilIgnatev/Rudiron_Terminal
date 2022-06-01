@@ -7,6 +7,8 @@ QT += serialport
 
 SOURCES += \
         main.cpp \
+        terminalvm.cpp \
+        transmittervm.cpp \
         uart.cpp
 
 RESOURCES += qml.qrc
@@ -24,4 +26,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     TypeDefs.hpp \
+    terminalvm.hpp \
+    transmittervm.hpp \
     uart.hpp

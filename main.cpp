@@ -1,6 +1,12 @@
 #include <QGuiApplication>
+#include <QObject>
+#include <QQmlComponent>
 #include <QQmlApplicationEngine>
+#include <QQuickWindow>
+#include <QSurfaceFormat>
 
+#include "terminalvm.hpp"
+#include "transmittervm.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -9,8 +15,11 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
+    qmlRegisterType<TerminalVM>("com.VM",1, 0,"TerminalVM");
+    qmlRegisterType<TransmitterVM>("com.VM",1, 0,"TransmitterVM");
+
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/Terminal.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
