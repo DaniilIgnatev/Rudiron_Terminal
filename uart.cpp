@@ -13,19 +13,14 @@ UART::UART(QObject *parent)
 
 int UART::getByte(int at)
 {
-    if (at >= this->rx_buffer_index){
-        return -1;
-    }
-    else{
-        return this->rx_buffer[at];
-    }
+    return this->rx_buffer[at];
 }
 
 bool UART::begin(QSerialPortInfo port)
 {
     serial = new QSerialPort(port, this);
 
-    //    connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
+    connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
     connect(serial, &QSerialPort::readyRead, this, &UART::readyReadSlot);
 
     if (!serial->setBaudRate(QSerialPort::Baud115200, QSerialPort::AllDirections)){
@@ -92,16 +87,18 @@ void UART::writeSync()
 
 void UART::writeRead(QByteArray buffer, int waitRXBytes)
 {
+    int count_target = this->rx_buffer.count() + waitRXBytes;
+
     serial->write(buffer);
     serial->waitForBytesWritten();
     serial->waitForReadyRead(1);
 
     if (waitRXBytes){
-        while (rx_buffer_index < waitRXBytes){
+        while (rx_buffer.count() < count_target){
             serial->waitForReadyRead(0);
         }
-        while (rx_buffer_index > waitRXBytes) {
-            popByte();
+        while (rx_buffer.count() > count_target) {
+            rx_buffer.remove(rx_buffer.count() - 1, 1);
         }
     }
 }
@@ -131,48 +128,10 @@ void UART::writeRead(QByteArray buffer, int waitRXBytes)
 }
 #endif
 
-int UART::readByte()
-{
-    if (serial->atEnd()){
-        return -1;
-    }
-    else{
-        if (this->rx_buffer_index < this->rx_buffer_size){
-            char byte = serial->read(1).at(0);
-            this->rx_buffer[this->rx_buffer_index] = byte;
-            this->rx_buffer_index++;
-            return byte;
-        }
-        else{
-            return -1;
-        }
-    }
-}
-
 void UART::readyReadSlot()
 {
-    while (!serial->atEnd()) {
-        readByte();
-    }
+    rx_buffer.append(serial->readAll());
     emit available();
-}
-
-int UART::popByte()
-{
-    if (rx_buffer_index == 0){
-        return -1;
-    }
-
-    char byte = rx_buffer[0];
-
-    for (int i = 1; i < rx_buffer_size; i++){
-        rx_buffer[i - 1] = rx_buffer[i];
-    }
-
-    rx_buffer[rx_buffer_size - 1] = 0;
-    rx_buffer_index -= 1;
-
-    return byte;
 }
 
 void UART::waitRead(int timeout)
@@ -203,10 +162,7 @@ void UART::clearRXBuffer()
 {
     QThread::currentThread()->msleep(1);
     serial->clear();
-    for (int i = 0; i < rx_buffer_index; i++){
-        rx_buffer[i] = 0;
-    }
-    rx_buffer_index = 0;
+    rx_buffer.clear();
 }
 
 QByteArray UART::getRXBuffer()

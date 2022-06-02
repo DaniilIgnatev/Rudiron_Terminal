@@ -32,6 +32,8 @@ RowLayout{
             leftPadding: 5
             anchors.fill: parent
 
+            focus: true
+
             id: textInput
 
             color: "#d1d5da"

@@ -1,5 +1,11 @@
 #include "logvm.hpp"
 
+LogVM::LogVM(QObject *parent)
+    : QObject{parent}
+{
+
+}
+
 UART *LogVM::getUart() const
 {
     return uart;
@@ -13,33 +19,27 @@ void LogVM::setUart(UART *newUart)
 
 void LogVM::uartAvailable()
 {
-    LogVM_Package* p = new LogVM_Package();
-    p->data = uart->getRXBuffer();
-    p->dateTime = QDateTime::currentDateTime();
+    LogVM_Package* package = new LogVM_Package();
+    package->data = uart->getRXBuffer();
+    package->dateTime = QDateTime::currentDateTime();
     uart->clearRXBuffer();
-    receivedPackages.append(p);
-    emit newPackageReceived(p);
+    receivedPackages.append(package);
+
+    QString appendedLog = convertToLog(package);
+    emit logAppended(appendedLog);
 }
 
-QString LogVM::getLog(LogVM::DisplayModeEnum mode)
+LogVM::DisplayModeEnum LogVM::getDisplayMode() const
 {
-    switch (mode) {
-        case DisplayModeEnum::TEXT:
-        return getLogAsText();
-    default:
-        return getLogAsText();
-    }
+    return displayMode;
 }
 
-QString LogVM::getLogAsText()
+void LogVM::setDisplayMode(DisplayModeEnum newDisplayMode)
 {
-    return "Доделать!!!";
-}
-
-LogVM::LogVM(QObject *parent)
-    : QObject{parent}
-{
-
+    if (displayMode == newDisplayMode)
+        return;
+    displayMode = newDisplayMode;
+    emit displayModeChanged();
 }
 
 const QByteArray &LogVM_Package::getData() const
@@ -50,4 +50,40 @@ const QByteArray &LogVM_Package::getData() const
 const QDateTime &LogVM_Package::getDateTime() const
 {
     return dateTime;
+}
+
+QString LogVM::getLog()
+{
+    QString log;
+    for(int i = 0; i < receivedPackages.count(); i++){
+        auto package = receivedPackages.at(i);
+        log += convertToLog(package);
+    }
+
+    return log;
+}
+
+QString LogVM::convertToLog(const LogVM_Package* package)
+{
+    switch (displayMode) {
+        case DisplayModeEnum::TEXT:
+        return convertPackageAsText(package);
+    default:
+        return convertPackageAsText(package);
+    }
+}
+
+QString LogVM::convertPackageAsText(const LogVM_Package* package)
+{
+    QString text;
+    text.append(QString::number(package->dateTime.time().hour()));
+    text.append(":");
+    text.append(QString::number(package->dateTime.time().minute()));
+    text.append(":");
+    text.append(QString::number(package->dateTime.time().second()));
+    text.append(":");
+    text.append(QString::number(package->dateTime.time().msec()));
+    text.append(" -> ");
+    text.append(package->data);
+    return text;
 }

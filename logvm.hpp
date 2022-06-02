@@ -22,6 +22,7 @@ public:
 class LogVM : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(DisplayModeEnum displayMode READ getDisplayMode WRITE setDisplayMode NOTIFY displayModeChanged)
 public:
     enum DisplayModeEnum{
         TEXT,
@@ -37,14 +38,22 @@ private:
 
     QList<LogVM_Package*> receivedPackages;
 
+    DisplayModeEnum displayMode = DisplayModeEnum::TEXT;
+
 public:
     explicit LogVM(QObject *parent = nullptr);
 
     UART *getUart() const;
     void setUart(UART *newUart);
 
+    DisplayModeEnum getDisplayMode() const;
+
+    void setDisplayMode(DisplayModeEnum newDisplayMode);
+
 signals:
-    void newPackageReceived(LogVM_Package* package);
+    void logAppended(QString appendedLog);
+
+    void displayModeChanged();
 
 private slots:
 
@@ -52,10 +61,13 @@ private slots:
 
 public slots:
 
-    QString getLog(LogVM::DisplayModeEnum mode);
+    QString getLog();
 
 private:
-    QString getLogAsText();
+    QString convertToLog(const LogVM_Package* package);
+
+    QString convertPackageAsText(const LogVM_Package* package);
+
 };
 
 #endif // LOGVM_H

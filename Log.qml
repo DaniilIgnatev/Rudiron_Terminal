@@ -12,12 +12,8 @@ Rectangle{
 
     function initialize(){
         scroll.ScrollBar.vertical.position = 0
-        vm.newPackageReceived.connect ((newPackage) => {
-                                           console.log(newPackage.dateTime)
-                                           console.log(newPackage.data)
-                                           var text = vm.getLog(LogVM.TEXT)
-                                           console.log(text)
-                                           _text.text += text
+        vm.logAppended.connect ((appendedLog) => {
+                                           _text.text += appendedLog
                                          })
     }
 
@@ -30,7 +26,7 @@ Rectangle{
 
         clip: true
 
-        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        ScrollBar.vertical.policy: ScrollBar.AsNeeded
         ScrollBar.horizontal.policy: ScrollBar.AsNeeded
 
         TextEdit {
@@ -54,7 +50,7 @@ Rectangle{
             textFormat: Text.PlainText
             font.family: "Segoe UI"
 
-            onTextChanged: {
+            onHeightChanged: {
                 scroll.ScrollBar.vertical.position = 1
             }
         }

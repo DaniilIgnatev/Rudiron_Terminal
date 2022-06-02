@@ -14,16 +14,7 @@ private:
 
     QSerialPort* serial = nullptr;
 
-    static const unsigned char rx_buffer_size = 255;
-
-    unsigned char rx_buffer[rx_buffer_size] = {0};
-
-    ///Индекс последнего свободного байта в буфере приема
-    unsigned char rx_buffer_index = 0;
-
-    int readByte();
-
-    int popByte();
+    QByteArray rx_buffer;
 
     int getEventLoopDelay();
 
