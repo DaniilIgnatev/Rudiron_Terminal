@@ -5,6 +5,7 @@
 #include <QByteArray>
 #include <QtDebug>
 #include <QDateTime>
+#include <QList>
 
 #include <QDir>
 #include <QFile>

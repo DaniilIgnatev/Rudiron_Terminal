@@ -28,7 +28,7 @@ bool UART::begin(QSerialPortInfo port)
     //    connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
     connect(serial, &QSerialPort::readyRead, this, &UART::readyReadSlot);
 
-    if (!serial->setBaudRate(QSerialPort::Baud9600, QSerialPort::AllDirections)){
+    if (!serial->setBaudRate(QSerialPort::Baud115200, QSerialPort::AllDirections)){
         return false;
     }
     if (!serial->setDataBits(QSerialPort::Data8)){
@@ -154,6 +154,7 @@ void UART::readyReadSlot()
     while (!serial->atEnd()) {
         readByte();
     }
+    emit available();
 }
 
 int UART::popByte()
@@ -206,4 +207,10 @@ void UART::clearRXBuffer()
         rx_buffer[i] = 0;
     }
     rx_buffer_index = 0;
+}
+
+QByteArray UART::getRXBuffer()
+{
+    QByteArray array((const char*)rx_buffer);
+    return array;
 }

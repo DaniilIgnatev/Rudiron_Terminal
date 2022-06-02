@@ -17,8 +17,11 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<TerminalVM>("com.VM",1, 0,"TerminalVM");
     qmlRegisterType<TransmitterVM>("com.VM",1, 0,"TransmitterVM");
-    qmlRegisterType<LogVM>("com.VM",1, 0,"ReceiverVM");
+
     qmlRegisterType<OptionsVM>("com.VM",1, 0,"OptionsVM");
+
+    qmlRegisterType<LogVM>("com.VM",1, 0,"LogVM");
+    qmlRegisterType<LogVM_Package>("com.VM", 1, 0, "LogVM_Package");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Terminal.qml"));

@@ -46,7 +46,11 @@ public:
 
     void clearRXBuffer();
 
+    QByteArray getRXBuffer();
+
 signals:
+
+    void available();
 
 public slots:
     void errorSlot(QSerialPort::SerialPortError error);

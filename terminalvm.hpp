@@ -14,11 +14,11 @@ class TerminalVM : public QObject
 private:
     UART* uart = new UART(this);
 
-    TransmitterVM* transmitter = new TransmitterVM(this);
+    TransmitterVM* transmitterVM = new TransmitterVM(this);
 
-    LogVM* receiver = new LogVM(this);
+    LogVM* logVM = new LogVM(this);
 
-    OptionsVM* options = new OptionsVM(this);
+    OptionsVM* optionsVM = new OptionsVM(this);
 
 public:
     explicit TerminalVM(QObject *parent = nullptr);
@@ -29,11 +29,11 @@ signals:
 
 
 public slots:
-   TransmitterVM *getTransmitter();
+   TransmitterVM *getTransmitterVM();
 
-   LogVM *getReceiver();
+   LogVM *getLogVM();
 
-   OptionsVM *getOptions();
+   OptionsVM *getOptionsVM();
 
 };
 

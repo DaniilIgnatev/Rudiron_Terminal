@@ -1,18 +1,18 @@
 #include "terminalvm.hpp"
 
-TransmitterVM *TerminalVM::getTransmitter()
+TransmitterVM *TerminalVM::getTransmitterVM()
 {
-    return transmitter;
+    return transmitterVM;
 }
 
-LogVM *TerminalVM::getReceiver()
+LogVM *TerminalVM::getLogVM()
 {
-    return receiver;
+    return logVM;
 }
 
-OptionsVM *TerminalVM::getOptions()
+OptionsVM *TerminalVM::getOptionsVM()
 {
-    return options;
+    return optionsVM;
 }
 
 TerminalVM::TerminalVM(QObject *parent)
@@ -30,6 +30,7 @@ TerminalVM::TerminalVM(QObject *parent)
 
     uart->begin(port);
 
-    transmitter->setUart(uart);
-
+    transmitterVM->setUart(uart);
+    logVM->setUart(uart);
+    optionsVM->setUart(uart);
 }

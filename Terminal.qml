@@ -34,7 +34,7 @@ Window {
         }
 
         Log{
-            id: receiver
+            id: log
 
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -51,9 +51,10 @@ Window {
     }
 
     Component.onCompleted: {
-        transmitter.vm =vm.getTransmitter()
-        receiver.vm = vm.getReceiver()
-        options.vm = vm.getOptions()
+        transmitter.vm =vm.getTransmitterVM()
+        log.vm = vm.getLogVM()
+        log.initialize()
+        options.vm = vm.getOptionsVM()
     }
 }
 
