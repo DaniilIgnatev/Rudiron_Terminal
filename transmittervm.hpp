@@ -4,6 +4,7 @@
 #include <QObject>
 #include "uart.hpp"
 
+
 class TransmitterVM : public QObject
 {
     Q_OBJECT

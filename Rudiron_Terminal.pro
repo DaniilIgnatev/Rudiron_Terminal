@@ -6,7 +6,9 @@ QT += serialport
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        logvm.cpp \
         main.cpp \
+        optionsvm.cpp \
         terminalvm.cpp \
         transmittervm.cpp \
         uart.cpp
@@ -26,6 +28,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     TypeDefs.hpp \
+    logvm.hpp \
+    optionsvm.hpp \
     terminalvm.hpp \
     transmittervm.hpp \
     uart.hpp

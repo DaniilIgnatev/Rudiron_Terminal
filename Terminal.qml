@@ -25,20 +25,24 @@ Window {
         spacing: 3
 
         Transmitter{
+            id: transmitter
+
             Layout.topMargin: 3
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.preferredHeight: 20
-
-            id: transmitter
         }
 
-        Receiver{
+        Log{
+            id: receiver
+
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
 
         Options{
+            id: options
+
             Layout.bottomMargin: 3
             Layout.fillHeight: false
             Layout.fillWidth: true
@@ -48,11 +52,13 @@ Window {
 
     Component.onCompleted: {
         transmitter.vm =vm.getTransmitter()
+        receiver.vm = vm.getReceiver()
+        options.vm = vm.getOptions()
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:4}D{i:2}D{i:3}D{i:4}D{i:1}
+    D{i:0;formeditorZoom:4}D{i:1}D{i:3}D{i:4}D{i:5}D{i:2}
 }
 ##^##*/

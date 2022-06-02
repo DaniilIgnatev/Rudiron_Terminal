@@ -10,6 +10,13 @@ RowLayout{
 
     spacing: 2
 
+    function sendText(){
+        if (textInput.text != ""){
+            vm.send(textInput.text)
+            textInput.text = ""
+        }
+    }
+
     Rectangle {
         Layout.leftMargin: 2
         Layout.rightMargin: 2
@@ -22,12 +29,11 @@ RowLayout{
 
         TextInput{
             topPadding: 2
-            leftPadding: 2
+            leftPadding: 5
             anchors.fill: parent
 
             id: textInput
 
-            text: "Рудирон!"
             color: "#d1d5da"
             selectionColor: "#0664d3"
             selectedTextColor: "#ffffff"
@@ -35,6 +41,25 @@ RowLayout{
             font.pointSize: 9
             selectByMouse: true
             cursorVisible: true
+
+            onAccepted: {
+                sendText()
+            }
+
+            TextInput {
+                topPadding: 2
+                leftPadding: 5
+                anchors.fill: parent
+                readOnly: true
+
+                text: "Введите строку..."
+                color: "#d1d5da"
+                visible: !textInput.text
+
+                font.pointSize: 9
+                selectByMouse: false
+                cursorVisible: false
+            }
         }
     }
 
@@ -68,7 +93,7 @@ RowLayout{
 
             onPressed: {
                 isPressed = true
-                vm.send(textInput.text)
+                sendText()
             }
             onReleased: {
                 isPressed = false
@@ -95,6 +120,6 @@ RowLayout{
 }
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:30;width:300}D{i:2}D{i:1}D{i:3}
+    D{i:0;autoSize:true;height:30;width:300}D{i:3}D{i:2}D{i:1}D{i:4}
 }
 ##^##*/

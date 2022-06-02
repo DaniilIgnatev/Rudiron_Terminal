@@ -6,7 +6,7 @@
 #include <QSurfaceFormat>
 
 #include "terminalvm.hpp"
-#include "transmittervm.hpp"
+
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<TerminalVM>("com.VM",1, 0,"TerminalVM");
     qmlRegisterType<TransmitterVM>("com.VM",1, 0,"TransmitterVM");
+    qmlRegisterType<LogVM>("com.VM",1, 0,"ReceiverVM");
+    qmlRegisterType<OptionsVM>("com.VM",1, 0,"OptionsVM");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Terminal.qml"));

@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>Terminal.qml</file>
-        <file>Receiver.qml</file>
+        <file>Log.qml</file>
         <file>Transmitter.qml</file>
         <file>Options.qml</file>
     </qresource>
