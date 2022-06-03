@@ -1,7 +1,7 @@
 #include "logvm.hpp"
 
 LogVM::LogVM(QObject *parent)
-    : QObject{parent}
+    : IDisplayMode{parent}
 {
 
 }
@@ -17,6 +17,27 @@ void LogVM::setUart(UART *newUart)
     connect(uart, &UART::available, this, &LogVM::uartAvailable);
 }
 
+IDisplayMode::Enum LogVM::getDisplayMode()
+{
+    return displayModeDelegate->getDisplayMode();
+}
+
+void LogVM::setDisplayMode(IDisplayMode::Enum newDisplayMode)
+{
+    displayModeDelegate->setDisplayMode(newDisplayMode);
+}
+
+IDisplayMode *LogVM::getDisplayModeDelegate() const
+{
+    return displayModeDelegate;
+}
+
+void LogVM::setDisplayModeDelegate(IDisplayMode *newDisplayModeDelegate)
+{
+    displayModeDelegate = newDisplayModeDelegate;
+    connect(displayModeDelegate, &IDisplayMode::displayModeChanged, this, &LogVM::displayModeChanged);
+}
+
 void LogVM::uartAvailable()
 {
     UARTPackage* package = new UARTPackage();
@@ -27,29 +48,6 @@ void LogVM::uartAvailable()
 
     QString appendedLog = convertToLog(package);
     emit logAppended(appendedLog);
-}
-
-DisplayMode::Enum LogVM::getDisplayMode() const
-{
-    return displayMode;
-}
-
-void LogVM::setDisplayMode(DisplayMode::Enum newDisplayMode)
-{
-    if (displayMode == newDisplayMode)
-        return;
-    displayMode = newDisplayMode;
-    emit displayModeChanged();
-}
-
-const QByteArray &UARTPackage::getData() const
-{
-    return data;
-}
-
-const QDateTime &UARTPackage::getDateTime() const
-{
-    return dateTime;
 }
 
 QString LogVM::getLog()
@@ -65,8 +63,8 @@ QString LogVM::getLog()
 
 QString LogVM::convertToLog(const UARTPackage* package)
 {
-    switch (displayMode) {
-        case DisplayMode::Enum::TEXT:
+    switch (getDisplayMode()) {
+        case IDisplayMode::Enum::TEXT:
         return convertPackageAsText(package);
     default:
         return convertPackageAsText(package);

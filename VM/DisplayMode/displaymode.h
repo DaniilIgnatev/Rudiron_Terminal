@@ -3,8 +3,11 @@
 
 #include <QObject>
 
-class DisplayMode: public QObject{
+
+class IDisplayMode : public QObject{
     Q_OBJECT
+    Q_PROPERTY(IDisplayMode::Enum displayMode READ getDisplayMode WRITE setDisplayMode NOTIFY displayModeChanged)
+
 public:
     enum Enum{
         TEXT,
@@ -14,12 +17,12 @@ public:
         BIN
     };
     Q_ENUM(Enum)
-};
 
-
-class IDisplayMode{
-    virtual void setDisplayMode(DisplayMode::Enum mode) = 0;
-    virtual DisplayMode::Enum getDisplayMode() = 0;
+    explicit IDisplayMode(QObject* parent = nullptr): QObject(parent){};
+    virtual IDisplayMode::Enum getDisplayMode(){ return IDisplayMode::Enum::TEXT; };
+    virtual void setDisplayMode(IDisplayMode::Enum newDisplayMode){ Q_UNUSED(newDisplayMode) };
+signals:
+    void displayModeChanged(IDisplayMode::Enum newValue);
 };
 
 #endif // DISPLAYMODE_H

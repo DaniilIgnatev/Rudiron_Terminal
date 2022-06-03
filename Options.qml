@@ -32,7 +32,7 @@ Rectangle {
             }
 
             onCurrent_valueChanged: {
-                vm.setDisplayMode(current_value)
+                vm.displayMode = current_value
             }
         }
 
@@ -44,6 +44,10 @@ Rectangle {
             Layout.fillWidth: false
             Layout.fillHeight: true
         }
+    }
+
+    Component.onCompleted: {
+        vm.displayMode = IDisplayMode.TEXT
     }
 }
 

@@ -1,5 +1,28 @@
 #include "terminalvm.hpp"
 
+TerminalVM::TerminalVM(QObject *parent)
+    : IDisplayMode{parent}
+{
+    QSerialPortInfo port;
+    auto ports = QSerialPortInfo::availablePorts();
+
+    for (auto &p: ports){
+        if (p.productIdentifier() == 60000){
+            port = p;
+            break;
+        }
+    }
+
+    uart->begin(port);
+    transmitterVM->setUart(uart);
+    logVM->setUart(uart);
+    optionsVM->setUart(uart);
+
+    transmitterVM->setDisplayModeDelegate(this);
+    logVM->setDisplayModeDelegate(this);
+    optionsVM->setDisplayModeDelegate(this);
+}
+
 TransmitterVM *TerminalVM::getTransmitterVM()
 {
     return transmitterVM;
@@ -15,22 +38,15 @@ OptionsVM *TerminalVM::getOptionsVM()
     return optionsVM;
 }
 
-TerminalVM::TerminalVM(QObject *parent)
-    : QObject{parent}
+IDisplayMode::Enum TerminalVM::getDisplayMode()
 {
-    QSerialPortInfo port;
-    auto ports = QSerialPortInfo::availablePorts();
+    return this->displayMode;
+}
 
-    for (auto &p: ports){
-        if (p.productIdentifier() == 60000){
-            port = p;
-            break;
-        }
-    }
-
-    uart->begin(port);
-
-    transmitterVM->setUart(uart);
-    logVM->setUart(uart);
-    optionsVM->setUart(uart);
+void TerminalVM::setDisplayMode(IDisplayMode::Enum newDisplayMode)
+{
+    if (displayMode == newDisplayMode)
+        return;
+    displayMode = newDisplayMode;
+    emit displayModeChanged(newDisplayMode);
 }

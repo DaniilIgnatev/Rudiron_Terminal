@@ -3,19 +3,19 @@
 
 #include <QObject>
 #include "uart.hpp"
-#include "uartpackage.h"
-#include "TypeDefs.hpp"
+#include "uartpackage.hpp"
 #include "displaymode.h"
 
 
-class LogVM : public QObject
+class LogVM : public IDisplayMode
 {
     Q_OBJECT
-    Q_PROPERTY(DisplayModeEnum displayMode READ getDisplayMode WRITE setDisplayMode NOTIFY displayModeChanged)
 private:
     UART* uart;
 
     QList<UARTPackage*> receivedPackages;
+
+    IDisplayMode* displayModeDelegate = nullptr;
 
 public:
     explicit LogVM(QObject *parent = nullptr);
@@ -23,21 +23,21 @@ public:
     UART *getUart() const;
     void setUart(UART *newUart);
 
-signals:
-    void logAppended(QString appendedLog);
+    virtual IDisplayMode::Enum getDisplayMode() override;
+    virtual void setDisplayMode(IDisplayMode::Enum newDisplayMode) override;
 
-    void displayModeChanged();
+    IDisplayMode *getDisplayModeDelegate() const;
+    void setDisplayModeDelegate(IDisplayMode *newDisplayModeDelegate);
 
 private slots:
-
     void uartAvailable();
+
+signals:
+    void logAppended(QString appendedLog);
 
 public slots:
 
     QString getLog();
-
-    DisplayMode::Enum getDisplayMode() const;
-    void setDisplayMode(DisplayMode::Enum newDisplayMode);
 
 private:
     QString convertToLog(const UARTPackage* package);

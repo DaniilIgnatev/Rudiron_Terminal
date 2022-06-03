@@ -6,11 +6,13 @@
 #include "displaymode.h"
 
 
-class TransmitterVM : public QObject, IDisplayMode
+class TransmitterVM : public IDisplayMode
 {
     Q_OBJECT
 private:
     UART* uart;
+
+    IDisplayMode* displayModeDelegate = nullptr;
 
 public:
     explicit TransmitterVM(QObject *parent = nullptr);
@@ -18,8 +20,11 @@ public:
     UART *getUart() const;
     void setUart(UART *newUart);
 
-    virtual void setDisplayMode(DisplayMode::Enum mode) override;
-    virtual DisplayMode::Enum getDisplayMode() override;
+    virtual IDisplayMode::Enum getDisplayMode() override;
+    virtual void setDisplayMode(IDisplayMode::Enum newDisplayMode) override;
+
+    IDisplayMode *getDisplayModeDelegate() const;
+    void setDisplayModeDelegate(IDisplayMode *newDisplayModeDelegate);
 
 signals:
 

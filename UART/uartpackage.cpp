@@ -1,4 +1,4 @@
-#include "uartpackage.h"
+#include "uartpackage.hpp"
 
 UARTPackage::UARTPackage(QObject *parent) : QObject(parent)
 {
@@ -7,26 +7,26 @@ UARTPackage::UARTPackage(QObject *parent) : QObject(parent)
 
 const QDateTime &UARTPackage::getDateTime() const
 {
-    return dateTime;
+    return _dateTime;
 }
 
 void UARTPackage::setDateTime(const QDateTime &newDateTime)
 {
-    if (dateTime == newDateTime)
+    if (_dateTime == newDateTime)
         return;
-    dateTime = newDateTime;
+    _dateTime = newDateTime;
     emit dateTimeChanged();
 }
 
 const QByteArray &UARTPackage::getData() const
 {
-    return data;
+    return _data;
 }
 
 void UARTPackage::setData(const QByteArray &newData)
 {
-    if (data == newData)
+    if (_data == newData)
         return;
-    data = newData;
+    _data = newData;
     emit dataChanged();
 }

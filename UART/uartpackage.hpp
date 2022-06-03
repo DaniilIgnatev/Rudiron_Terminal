@@ -1,17 +1,17 @@
 #ifndef UARTPACKAGE_H
 #define UARTPACKAGE_H
 
+#include <QObject>
 #include "TypeDefs.hpp"
 
 class UARTPackage : public QObject{
     Q_OBJECT
+    Q_PROPERTY(QByteArray data READ getData WRITE setData NOTIFY dataChanged)
+    Q_PROPERTY(QDateTime dateTime READ getDateTime WRITE setDateTime NOTIFY dateTimeChanged)
 
 private:
-    QByteArray data;
-    QDateTime dateTime;
-    Q_PROPERTY(QByteArray data READ getData WRITE setData NOTIFY dataChanged)
-
-    Q_PROPERTY(QDateTime dateTime READ getDateTime WRITE setDateTime NOTIFY dateTimeChanged)
+    QByteArray _data;
+    QDateTime _dateTime;
 
 public:
     explicit UARTPackage(QObject* object = nullptr);

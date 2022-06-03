@@ -30,13 +30,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     TypeDefs.hpp \
     UART/uart.hpp \
-    UART/uartpackage.h \
+    UART/uartpackage.hpp \
     VM/DisplayMode/displaymode.h \
     VM/logvm.hpp \
     VM/optionsvm.hpp \
     VM/terminalvm.hpp \
     VM/transmittervm.hpp \
-    displaymode.h \
 
 INCLUDEPATH += \
     UART \

@@ -21,7 +21,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<OptionsVM>("com.VM",1, 0,"OptionsVM");
 
     qmlRegisterType<LogVM>("com.VM",1, 0,"LogVM");
-    qmlRegisterType<UARTPackage>("com.VM", 1, 0, "LogVM_Package");
+    qmlRegisterType<UARTPackage>("com.VM", 1, 0, "UARTPackage");
+
+    qmlRegisterType<IDisplayMode>("com.VM", 1, 0, "IDisplayMode");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Terminal.qml"));
