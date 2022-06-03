@@ -3,9 +3,10 @@
 
 #include <QObject>
 #include "uart.hpp"
+#include "displaymode.h"
 
 
-class OptionsVM : public QObject
+class OptionsVM : public QObject, IDisplayMode
 {
     Q_OBJECT
 private:
@@ -16,6 +17,9 @@ public:
 
     UART *getUart() const;
     void setUart(UART *newUart);
+
+    virtual void setDisplayMode(DisplayMode::Enum mode) override;
+    virtual DisplayMode::Enum getDisplayMode() override;
 
 signals:
 

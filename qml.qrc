@@ -4,5 +4,6 @@
         <file>Log.qml</file>
         <file>Transmitter.qml</file>
         <file>Options.qml</file>
+        <file>R_ComboBox.qml</file>
     </qresource>
 </RCC>

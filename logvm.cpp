@@ -19,9 +19,9 @@ void LogVM::setUart(UART *newUart)
 
 void LogVM::uartAvailable()
 {
-    LogVM_Package* package = new LogVM_Package();
-    package->data = uart->getRXBuffer();
-    package->dateTime = QDateTime::currentDateTime();
+    UARTPackage* package = new UARTPackage();
+    package->setData(uart->getRXBuffer());
+    package->setDateTime(QDateTime::currentDateTime());
     uart->clearRXBuffer();
     receivedPackages.append(package);
 
@@ -29,12 +29,12 @@ void LogVM::uartAvailable()
     emit logAppended(appendedLog);
 }
 
-LogVM::DisplayModeEnum LogVM::getDisplayMode() const
+DisplayMode::Enum LogVM::getDisplayMode() const
 {
     return displayMode;
 }
 
-void LogVM::setDisplayMode(DisplayModeEnum newDisplayMode)
+void LogVM::setDisplayMode(DisplayMode::Enum newDisplayMode)
 {
     if (displayMode == newDisplayMode)
         return;
@@ -42,12 +42,12 @@ void LogVM::setDisplayMode(DisplayModeEnum newDisplayMode)
     emit displayModeChanged();
 }
 
-const QByteArray &LogVM_Package::getData() const
+const QByteArray &UARTPackage::getData() const
 {
     return data;
 }
 
-const QDateTime &LogVM_Package::getDateTime() const
+const QDateTime &UARTPackage::getDateTime() const
 {
     return dateTime;
 }
@@ -63,27 +63,27 @@ QString LogVM::getLog()
     return log;
 }
 
-QString LogVM::convertToLog(const LogVM_Package* package)
+QString LogVM::convertToLog(const UARTPackage* package)
 {
     switch (displayMode) {
-        case DisplayModeEnum::TEXT:
+        case DisplayMode::Enum::TEXT:
         return convertPackageAsText(package);
     default:
         return convertPackageAsText(package);
     }
 }
 
-QString LogVM::convertPackageAsText(const LogVM_Package* package)
+QString LogVM::convertPackageAsText(const UARTPackage* package)
 {
     QString text;
-    text.append(QString::number(package->dateTime.time().hour()));
+    text.append(QString::number(package->getDateTime().time().hour()));
     text.append(":");
-    text.append(QString::number(package->dateTime.time().minute()));
+    text.append(QString::number(package->getDateTime().time().minute()));
     text.append(":");
-    text.append(QString::number(package->dateTime.time().second()));
+    text.append(QString::number(package->getDateTime().time().second()));
     text.append(":");
-    text.append(QString::number(package->dateTime.time().msec()));
+    text.append(QString::number(package->getDateTime().time().msec()));
     text.append(" -> ");
-    text.append(package->data);
+    text.append(package->getData());
     return text;
 }

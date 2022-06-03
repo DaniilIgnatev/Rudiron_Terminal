@@ -3,52 +3,25 @@
 
 #include <QObject>
 #include "uart.hpp"
+#include "uartpackage.h"
 #include "TypeDefs.hpp"
-
-
-class LogVM_Package : public QObject{
-    Q_OBJECT
-    Q_PROPERTY(QDateTime dateTime READ getDateTime CONSTANT)
-    Q_PROPERTY(QByteArray data READ getData CONSTANT)
-public:
-    QByteArray data;
-
-    QDateTime dateTime;
-    const QDateTime &getDateTime() const;
-    const QByteArray &getData() const;
-};
+#include "displaymode.h"
 
 
 class LogVM : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(DisplayModeEnum displayMode READ getDisplayMode WRITE setDisplayMode NOTIFY displayModeChanged)
-public:
-    enum DisplayModeEnum{
-        TEXT,
-        HEX,
-        DEC,
-        OCT,
-        BIN
-    };
-    Q_ENUM(DisplayModeEnum)
-
 private:
     UART* uart;
 
-    QList<LogVM_Package*> receivedPackages;
-
-    DisplayModeEnum displayMode = DisplayModeEnum::TEXT;
+    QList<UARTPackage*> receivedPackages;
 
 public:
     explicit LogVM(QObject *parent = nullptr);
 
     UART *getUart() const;
     void setUart(UART *newUart);
-
-    DisplayModeEnum getDisplayMode() const;
-
-    void setDisplayMode(DisplayModeEnum newDisplayMode);
 
 signals:
     void logAppended(QString appendedLog);
@@ -63,10 +36,13 @@ public slots:
 
     QString getLog();
 
-private:
-    QString convertToLog(const LogVM_Package* package);
+    DisplayMode::Enum getDisplayMode() const;
+    void setDisplayMode(DisplayMode::Enum newDisplayMode);
 
-    QString convertPackageAsText(const LogVM_Package* package);
+private:
+    QString convertToLog(const UARTPackage* package);
+
+    QString convertPackageAsText(const UARTPackage* package);
 
 };
 

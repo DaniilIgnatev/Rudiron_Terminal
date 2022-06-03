@@ -11,7 +11,8 @@ SOURCES += \
         optionsvm.cpp \
         terminalvm.cpp \
         transmittervm.cpp \
-        uart.cpp
+        uart.cpp \
+        uartpackage.cpp
 
 RESOURCES += qml.qrc
 
@@ -28,8 +29,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     TypeDefs.hpp \
+    displaymode.h \
     logvm.hpp \
     optionsvm.hpp \
     terminalvm.hpp \
     transmittervm.hpp \
-    uart.hpp
+    uart.hpp \
+    uartpackage.h

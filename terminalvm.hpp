@@ -6,9 +6,10 @@
 #include "transmittervm.hpp"
 #include "logvm.hpp"
 #include "optionsvm.hpp"
+#include "displaymode.h"
 
 
-class TerminalVM : public QObject
+class TerminalVM : public QObject, IDisplayMode
 {
     Q_OBJECT
 private:
@@ -20,10 +21,13 @@ private:
 
     OptionsVM* optionsVM = new OptionsVM(this);
 
+    DisplayMode::Enum displayMode = DisplayMode::Enum::TEXT;
+
 public:
     explicit TerminalVM(QObject *parent = nullptr);
 
-
+    virtual void setDisplayMode(DisplayMode::Enum mode) override;
+    virtual DisplayMode::Enum getDisplayMode() override;
 
 signals:
 
@@ -34,6 +38,8 @@ public slots:
    LogVM *getLogVM();
 
    OptionsVM *getOptionsVM();
+
+
 
 };
 
