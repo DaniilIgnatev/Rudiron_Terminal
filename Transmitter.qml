@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick 2.12
 import QtQml 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
@@ -32,6 +32,9 @@ RowLayout{
             leftPadding: 5
             anchors.fill: parent
 
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+
             focus: true
 
             id: textInput
@@ -53,6 +56,9 @@ RowLayout{
                 leftPadding: 5
                 anchors.fill: parent
                 readOnly: true
+
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
 
                 text: "Введите строку..."
                 color: "#d1d5da"
@@ -122,6 +128,6 @@ RowLayout{
 }
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:30;width:300}D{i:3}D{i:2}D{i:1}D{i:4}
+    D{i:0;autoSize:true;height:30;width:300}
 }
 ##^##*/

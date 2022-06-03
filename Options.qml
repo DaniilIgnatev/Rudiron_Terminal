@@ -182,7 +182,6 @@ Rectangle {
                         }
                 }
 
-                displayText: currentValue
                 currentIndex: 0
                 textRole: "key"
                 model: ListModel {

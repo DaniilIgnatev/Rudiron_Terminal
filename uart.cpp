@@ -116,7 +116,7 @@ void UART::writeRead(QByteArray buffer, int waitRXBytes)
         serial->write(buffer);
         serial->waitForReadyRead(read_delay);
 
-        while (rx_buffer_index < waitRXBytes){
+        while (rx_buffer.count()  < waitRXBytes){
             QThread::currentThread()->usleep(getEventLoopDelay());
             serial->waitForReadyRead(read_delay);
         }
