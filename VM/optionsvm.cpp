@@ -1,6 +1,6 @@
 #include "optionsvm.hpp"
 
-OptionsVM::OptionsVM(QObject *parent): IDisplayMode{parent}
+OptionsVM::OptionsVM(QObject *parent): IOptionsModelDelegate{parent}
 {
 
 }
@@ -15,23 +15,23 @@ void OptionsVM::setUart(UART *newUart)
     uart = newUart;
 }
 
-void OptionsVM::setDisplayMode(IDisplayMode::Enum newDisplayMode)
+OptionsModel* OptionsVM::getOptionsModel()
 {
-    displayModeDelegate->setDisplayMode(newDisplayMode);
+    return displayModeDelegate->getOptionsModel();
 }
 
-IDisplayMode::Enum OptionsVM::getDisplayMode()
+void OptionsVM::setOptionsModel(OptionsModel *newOptionsModel)
 {
-    return displayModeDelegate->getDisplayMode();
+    displayModeDelegate->setOptionsModel(newOptionsModel);
 }
 
-IDisplayMode *OptionsVM::getDisplayModeDelegate() const
+IOptionsModelDelegate *OptionsVM::getDisplayModeDelegate() const
 {
     return displayModeDelegate;
 }
 
-void OptionsVM::setDisplayModeDelegate(IDisplayMode *newDisplayModeDelegate)
+void OptionsVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate)
 {
     displayModeDelegate = newDisplayModeDelegate;
-    connect(displayModeDelegate, &IDisplayMode::displayModeChanged, this, &OptionsVM::displayModeChanged);
+    connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &OptionsVM::optionsModelChanged);
 }

@@ -1,7 +1,7 @@
 #include "transmittervm.hpp"
 
 TransmitterVM::TransmitterVM(QObject *parent)
-    : IDisplayMode{parent}
+    : IOptionsModelDelegate{parent}
 {
 
 }
@@ -21,23 +21,23 @@ void TransmitterVM::send(QString text)
     uart->writeRead(text.toUtf8(), 0);
 }
 
-IDisplayMode::Enum TransmitterVM::getDisplayMode()
+OptionsModel* TransmitterVM::getOptionsModel()
 {
-    return displayModeDelegate->getDisplayMode();
+    return displayModeDelegate->getOptionsModel();
 }
 
-void TransmitterVM::setDisplayMode(IDisplayMode::Enum newDisplayMode)
+void TransmitterVM::setOptionsModel(OptionsModel *newOptionsModel)
 {
-    displayModeDelegate->setDisplayMode(newDisplayMode);
+    displayModeDelegate->setOptionsModel(newOptionsModel);
 }
 
-IDisplayMode *TransmitterVM::getDisplayModeDelegate() const
+IOptionsModelDelegate *TransmitterVM::getDisplayModeDelegate() const
 {
     return displayModeDelegate;
 }
 
-void TransmitterVM::setDisplayModeDelegate(IDisplayMode *newDisplayModeDelegate)
+void TransmitterVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate)
 {
     displayModeDelegate = newDisplayModeDelegate;
-    connect(displayModeDelegate, &IDisplayMode::displayModeChanged, this, &TransmitterVM::displayModeChanged);
+    connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &TransmitterVM::optionsModelChanged);
 }

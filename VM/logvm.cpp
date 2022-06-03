@@ -1,7 +1,7 @@
 #include "logvm.hpp"
 
 LogVM::LogVM(QObject *parent)
-    : IDisplayMode{parent}
+    : IOptionsModelDelegate{parent}
 {
 
 }
@@ -17,25 +17,25 @@ void LogVM::setUart(UART *newUart)
     connect(uart, &UART::available, this, &LogVM::uartAvailable);
 }
 
-IDisplayMode::Enum LogVM::getDisplayMode()
+OptionsModel* LogVM::getOptionsModel()
 {
-    return displayModeDelegate->getDisplayMode();
+    return displayModeDelegate->getOptionsModel();
 }
 
-void LogVM::setDisplayMode(IDisplayMode::Enum newDisplayMode)
+void LogVM::setOptionsModel(OptionsModel *newOptionsModel)
 {
-    displayModeDelegate->setDisplayMode(newDisplayMode);
+    displayModeDelegate->setOptionsModel(newOptionsModel);
 }
 
-IDisplayMode *LogVM::getDisplayModeDelegate() const
+IOptionsModelDelegate *LogVM::getDisplayModeDelegate() const
 {
     return displayModeDelegate;
 }
 
-void LogVM::setDisplayModeDelegate(IDisplayMode *newDisplayModeDelegate)
+void LogVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate)
 {
     displayModeDelegate = newDisplayModeDelegate;
-    connect(displayModeDelegate, &IDisplayMode::displayModeChanged, this, &LogVM::displayModeChanged);
+    connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &LogVM::optionsModelChanged);
 }
 
 void LogVM::uartAvailable()
@@ -63,8 +63,8 @@ QString LogVM::getLog()
 
 QString LogVM::convertToLog(const UARTPackage* package)
 {
-    switch (getDisplayMode()) {
-        case IDisplayMode::Enum::TEXT:
+    switch (getOptionsModel()->getDisplayMode()) {
+        case OptionsModel::DisplayModeEnum::TEXT:
         return convertPackageAsText(package);
     default:
         return convertPackageAsText(package);

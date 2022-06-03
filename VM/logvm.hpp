@@ -4,10 +4,11 @@
 #include <QObject>
 #include "uart.hpp"
 #include "uartpackage.hpp"
-#include "displaymode.h"
+#include "ioptionsmodeldelegate.hpp"
+#include "ioptionsmodeldelegateholder.hpp"
 
 
-class LogVM : public IDisplayMode
+class LogVM : public IOptionsModelDelegate, IOptionsModelDelegateHolder
 {
     Q_OBJECT
 private:
@@ -15,7 +16,7 @@ private:
 
     QList<UARTPackage*> receivedPackages;
 
-    IDisplayMode* displayModeDelegate = nullptr;
+    IOptionsModelDelegate* displayModeDelegate = nullptr;
 
 public:
     explicit LogVM(QObject *parent = nullptr);
@@ -23,11 +24,11 @@ public:
     UART *getUart() const;
     void setUart(UART *newUart);
 
-    virtual IDisplayMode::Enum getDisplayMode() override;
-    virtual void setDisplayMode(IDisplayMode::Enum newDisplayMode) override;
+    virtual OptionsModel *getOptionsModel() override;
+    virtual void setOptionsModel(OptionsModel *newDisplayMode) override;
 
-    IDisplayMode *getDisplayModeDelegate() const;
-    void setDisplayModeDelegate(IDisplayMode *newDisplayModeDelegate);
+    virtual IOptionsModelDelegate *getDisplayModeDelegate() const override;
+    virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
 
 private slots:
     void uartAvailable();

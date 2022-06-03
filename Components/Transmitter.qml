@@ -93,36 +93,36 @@ RowLayout{
 
         background:
             MouseArea{
-                id: mouse
-                hoverEnabled: true
+            id: mouse
+            hoverEnabled: true
 
-                property bool isPressed: false
+            property bool isPressed: false
 
 
-                onPressed: {
-                    isPressed = true
-                    sendText()
-                }
-                onReleased: {
-                    isPressed = false
-                }
+            onPressed: {
+                isPressed = true
+                sendText()
+            }
+            onReleased: {
+                isPressed = false
+            }
 
-                Rectangle{
-                    anchors.fill: parent
+            Rectangle{
+                anchors.fill: parent
 
-                    color: {
-                        if (mouse.isPressed){
-                            return button_send.color_pressed
-                        }
-                        else{
-                            return mouse.containsMouse ? button_send.color_hovered : button_send.color_default
-                        }
+                color: {
+                    if (mouse.isPressed){
+                        return button_send.color_pressed
                     }
-
-                    border.color: "#26282a"
-                    border.width: 1
-                    radius: 4
+                    else{
+                        return mouse.containsMouse ? button_send.color_hovered : button_send.color_default
+                    }
                 }
+
+                border.color: "#26282a"
+                border.width: 1
+                radius: 4
+            }
         }
     }
 }

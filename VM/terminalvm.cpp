@@ -1,7 +1,7 @@
 #include "terminalvm.hpp"
 
 TerminalVM::TerminalVM(QObject *parent)
-    : IDisplayMode{parent}
+    : IOptionsModelDelegate{parent}
 {
     QSerialPortInfo port;
     auto ports = QSerialPortInfo::availablePorts();
@@ -18,9 +18,13 @@ TerminalVM::TerminalVM(QObject *parent)
     logVM->setUart(uart);
     optionsVM->setUart(uart);
 
-    transmitterVM->setDisplayModeDelegate(this);
-    logVM->setDisplayModeDelegate(this);
-    optionsVM->setDisplayModeDelegate(this);
+    transmitterVM->setOptionsModelDelegate(this);
+    logVM->setOptionsModelDelegate(this);
+    optionsVM->setOptionsModelDelegate(this);
+
+    OptionsModel *optionsModel = new OptionsModel(this);
+    this->optionsModel = optionsModel;
+    emit optionsModelChanged(optionsModel);
 }
 
 TransmitterVM *TerminalVM::getTransmitterVM()
@@ -38,15 +42,13 @@ OptionsVM *TerminalVM::getOptionsVM()
     return optionsVM;
 }
 
-IDisplayMode::Enum TerminalVM::getDisplayMode()
+OptionsModel* TerminalVM::getOptionsModel()
 {
-    return this->displayMode;
+    return this->optionsModel;
 }
 
-void TerminalVM::setDisplayMode(IDisplayMode::Enum newDisplayMode)
+void TerminalVM::setOptionsModel(OptionsModel *newOptionsModel)
 {
-    if (displayMode == newDisplayMode)
-        return;
-    displayMode = newDisplayMode;
-    emit displayModeChanged(newDisplayMode);
+    optionsModel = newOptionsModel;
+    emit optionsModelChanged(newOptionsModel);
 }

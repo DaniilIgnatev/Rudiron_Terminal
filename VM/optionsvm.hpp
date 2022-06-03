@@ -3,16 +3,17 @@
 
 #include <QObject>
 #include "uart.hpp"
-#include "displaymode.h"
+#include "ioptionsmodeldelegate.hpp"
+#include "ioptionsmodeldelegateholder.hpp"
 
 
-class OptionsVM : public IDisplayMode
+class OptionsVM : public IOptionsModelDelegate, IOptionsModelDelegateHolder
 {
     Q_OBJECT
 private:
     UART* uart;
 
-    IDisplayMode* displayModeDelegate = nullptr;
+    IOptionsModelDelegate* displayModeDelegate = nullptr;
 
 public:
     explicit OptionsVM(QObject *parent = nullptr);
@@ -20,11 +21,11 @@ public:
     UART *getUart() const;
     void setUart(UART *newUart);
 
-    virtual IDisplayMode::Enum getDisplayMode() override;
-    virtual void setDisplayMode(IDisplayMode::Enum newDisplayMode) override;
+    virtual OptionsModel *getOptionsModel() override;
+    virtual void setOptionsModel(OptionsModel *newDisplayMode) override;
 
-    IDisplayMode *getDisplayModeDelegate() const;
-    void setDisplayModeDelegate(IDisplayMode *newDisplayModeDelegate);
+    virtual IOptionsModelDelegate *getDisplayModeDelegate() const override;
+    virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
 
 signals:
 

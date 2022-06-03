@@ -13,8 +13,8 @@ Rectangle{
     function initialize(){
         scroll.ScrollBar.vertical.position = 0
         vm.logAppended.connect ((appendedLog) => {
-                                           _text.text += appendedLog
-                                         })
+                                    _text.text += appendedLog
+                                })
     }
 
     color: "#1d2125"

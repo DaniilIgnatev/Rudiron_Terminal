@@ -17,16 +17,14 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<TerminalVM>("com.VM",1, 0,"TerminalVM");
     qmlRegisterType<TransmitterVM>("com.VM",1, 0,"TransmitterVM");
-
     qmlRegisterType<OptionsVM>("com.VM",1, 0,"OptionsVM");
-
     qmlRegisterType<LogVM>("com.VM",1, 0,"LogVM");
-    qmlRegisterType<UARTPackage>("com.VM", 1, 0, "UARTPackage");
 
-    qmlRegisterType<IDisplayMode>("com.VM", 1, 0, "IDisplayMode");
+    qmlRegisterType<UARTPackage>("com.VM", 1, 0, "UARTPackage");
+    qmlRegisterType<OptionsModel>("com.VM", 1, 0, "OptionsModel");
 
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/Terminal.qml"));
+    const QUrl url(QStringLiteral("qrc:/Components/Terminal.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

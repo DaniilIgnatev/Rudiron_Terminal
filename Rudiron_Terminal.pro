@@ -6,6 +6,8 @@ QT += serialport
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Model/ioptionsmodeldelegate.cpp \
+    Model/optionsmodel.cpp \
     UART/uart.cpp \
     UART/uartpackage.cpp \
     VM/logvm.cpp \
@@ -28,10 +30,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Model/ioptionsmodeldelegate.hpp \
+    Model/ioptionsmodeldelegateholder.hpp \
+    Model/optionsmodel.hpp \
     TypeDefs.hpp \
     UART/uart.hpp \
     UART/uartpackage.hpp \
-    VM/DisplayMode/displaymode.h \
     VM/logvm.hpp \
     VM/optionsvm.hpp \
     VM/terminalvm.hpp \
@@ -40,5 +44,4 @@ HEADERS += \
 INCLUDEPATH += \
     UART \
     VM \
-    VM/DisplayMode \
-
+    Model \

@@ -8,7 +8,7 @@
 #include "optionsvm.hpp"
 
 
-class TerminalVM : public IDisplayMode
+class TerminalVM : public IOptionsModelDelegate
 {
     Q_OBJECT
 private:
@@ -20,13 +20,13 @@ private:
 
     OptionsVM* optionsVM = new OptionsVM(this);
 
-    IDisplayMode::Enum displayMode = IDisplayMode::Enum::TEXT;
+    OptionsModel* optionsModel = nullptr;
 
 public:
     explicit TerminalVM(QObject *parent = nullptr);
 
-    virtual IDisplayMode::Enum getDisplayMode() override;
-    virtual void setDisplayMode(IDisplayMode::Enum newDisplayMode) override;
+    virtual OptionsModel* getOptionsModel() override;
+    virtual void setOptionsModel(OptionsModel* newDisplayMode) override;
 
 signals:
 
