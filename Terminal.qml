@@ -11,7 +11,7 @@ Window {
     title: qsTr("Rudiron Terminal")
 
     minimumWidth: 400
-    minimumHeight: 200
+    minimumHeight: 300
 
     color: "#2f363d"
 

@@ -44,11 +44,13 @@ Rectangle{
             selectByMouse: true
 
             color: "#d1d5da"
+            font.letterSpacing: 0.5
             selectionColor: "#0664d3"
             selectedTextColor: "#ffffff"
 
             textFormat: Text.PlainText
             font.family: "Segoe UI"
+
 
             onHeightChanged: {
                 scroll.ScrollBar.vertical.position = 1
