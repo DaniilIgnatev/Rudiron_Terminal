@@ -40,3 +40,19 @@ QStringList OptionsVM::availablePortNames()
 {
     return uart->availablePortNames();
 }
+
+void OptionsVM::onOptionsModelChanged(OptionsModel *newValue)
+{
+    if (newValue->getPortName() == uart->getCurrentPortName()){
+        qDebug() << "Порт " << newValue->getPortName() << " уже открыт!";
+    }
+    else{
+        QSerialPortInfo portInfo = QSerialPortInfo(newValue->getPortName());
+        if (uart->begin(portInfo)){
+            qDebug() << "Открыл порт " << newValue->getPortName();
+        }
+        else{
+            qDebug() << "Ошибка открытия порта " << newValue->getPortName() << "!";
+        }
+    }
+}

@@ -11,6 +11,11 @@ UART::UART(QObject *parent)
 
 }
 
+QString UART::getCurrentPortName()
+{
+    return serial->portName();
+}
+
 bool UART::isOpen()
 {
     return serial->isOpen();
@@ -23,6 +28,7 @@ int UART::getByte(int at)
 
 bool UART::begin(QSerialPortInfo port)
 {
+    end();
     serial = new QSerialPort(port, this);
 
     connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
@@ -57,8 +63,10 @@ bool UART::begin(QSerialPortInfo port)
 
 void UART::end()
 {
-    serial->close();
-    serial->deleteLater();
+    if (serial){
+        serial->close();
+        serial->deleteLater();
+    }
 }
 
 void UART::setBaudRate(qint32 rate)

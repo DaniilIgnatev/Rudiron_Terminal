@@ -10,11 +10,15 @@ class IOptionsModelDelegate : public QObject{
     Q_PROPERTY(OptionsModel* optionsModel READ getOptionsModel WRITE setOptionsModel NOTIFY optionsModelChanged)
 
 public:
-    explicit IOptionsModelDelegate(QObject* parent = nullptr): QObject(parent){};
+    explicit IOptionsModelDelegate(QObject* parent = nullptr);
 
     virtual OptionsModel* getOptionsModel();
     virtual void setOptionsModel(OptionsModel* newModel);
 
+protected slots:
+    virtual void onOptionsModelChanged(OptionsModel* newValue);
+
+public:
 signals:
     void optionsModelChanged(OptionsModel* newValue);
 };

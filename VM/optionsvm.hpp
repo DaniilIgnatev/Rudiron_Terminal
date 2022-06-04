@@ -29,6 +29,9 @@ public:
 
     Q_INVOKABLE QStringList availablePortNames();
 
+protected slots:
+    virtual void onOptionsModelChanged(OptionsModel* newValue) override;
+
 signals:
 
 };

@@ -98,7 +98,7 @@ Rectangle {
     }
 
     onVmChanged: {
-        vm.onOptionsModelChanged.connect((model) => {
+        vm.optionsModelChanged.connect((model) => {
                                              console.log("Options model changed:\n" + model.printable())
                                          })
 

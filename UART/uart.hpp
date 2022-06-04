@@ -21,6 +21,8 @@ private:
 public:
     explicit UART(QObject *parent = nullptr);
 
+    QString getCurrentPortName();
+
     bool isOpen();
 
     int getByte(int at);
