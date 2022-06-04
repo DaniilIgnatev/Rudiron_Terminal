@@ -21,6 +21,8 @@ private:
 public:
     explicit UART(QObject *parent = nullptr);
 
+    bool isOpen();
+
     int getByte(int at);
 
     bool begin(QSerialPortInfo port);

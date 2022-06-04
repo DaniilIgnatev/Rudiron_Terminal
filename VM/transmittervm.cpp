@@ -18,7 +18,12 @@ void TransmitterVM::setUart(UART *newUart)
 
 void TransmitterVM::send(QString text)
 {
-    uart->writeRead(text.toUtf8(), 0);
+    if (uart->isOpen()){
+        uart->writeRead(text.toUtf8(), 0);
+    }
+    else{
+        qDebug() << "Serial is not opened!";
+    }
 }
 
 OptionsModel* TransmitterVM::getOptionsModel()

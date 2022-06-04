@@ -10,8 +10,8 @@ Window {
     visible: true
     title: qsTr("Rudiron Terminal")
 
-    minimumWidth: 400
-    minimumHeight: 300
+    minimumWidth: 600
+    minimumHeight: 350
 
     color: "#2f363d"
 

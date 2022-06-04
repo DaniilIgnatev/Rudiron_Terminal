@@ -11,6 +11,11 @@ UART::UART(QObject *parent)
 
 }
 
+bool UART::isOpen()
+{
+    return serial->isOpen();
+}
+
 int UART::getByte(int at)
 {
     return this->rx_buffer[at];
