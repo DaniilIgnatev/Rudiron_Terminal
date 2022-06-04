@@ -22,7 +22,7 @@ Rectangle {
         id: layout
         anchors.fill: parent
 
-        spacing: 0
+        spacing: 15
 
         RudironComboBox{
             model: ListModel {
@@ -40,13 +40,59 @@ Rectangle {
             }
         }
 
-        CheckBox {
-            id: checkBox
-            text: "Автопрокрутка"
-            tristate: false
-            checkState: Qt.Checked
-            Layout.fillWidth: false
+        RudironComboBox{
+            Layout.preferredWidth: 150
+
+            model: ListModel {
+                ListElement { key: "Автопрокрутка"; value: OptionsModel.TEXT }
+                ListElement { key: "Отметки времени"; value: OptionsModel.HEX }
+            }
+
+            onCurrent_valueChanged: {
+                var current_model = vm.optionsModel
+                current_model.displayMode = current_value
+                vm.optionsModel = current_model
+            }
+        }
+
+        RudironComboBox{
+            Layout.preferredWidth: 150
+
+            model: ListModel {
+                ListElement { key: "Бит в секунду"; value: OptionsModel.TEXT }
+                ListElement { key: "Биты данных"; value: OptionsModel.HEX }
+                ListElement { key: "Четность"; value: OptionsModel.DEC }
+                ListElement { key: "Стоповые биты"; value: OptionsModel.OCT }
+                ListElement { key: "Конец строки"; value: OptionsModel.OCT }
+            }
+
+            onCurrent_valueChanged: {
+                var current_model = vm.optionsModel
+                current_model.displayMode = current_value
+                vm.optionsModel = current_model
+            }
+        }
+
+        RudironComboBox{
+            model: ListModel {
+                ListElement { key: "COM1"; value: OptionsModel.TEXT }
+                ListElement { key: "COM2"; value: OptionsModel.HEX }
+            }
+
+            onCurrent_valueChanged: {
+                var current_model = vm.optionsModel
+                current_model.displayMode = current_value
+                vm.optionsModel = current_model
+            }
+        }
+
+        Item {
+            Layout.fillWidth: true
             Layout.fillHeight: true
+        }
+
+        RudironButton{
+            text: "Очистить"
         }
     }
 
