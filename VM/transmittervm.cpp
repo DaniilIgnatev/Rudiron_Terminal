@@ -1,7 +1,7 @@
 #include "transmittervm.hpp"
 
 TransmitterVM::TransmitterVM(QObject *parent)
-    : IOptionsModelDelegate{parent}
+    : IOptionsModelDelegateHolder{parent}
 {
 
 }

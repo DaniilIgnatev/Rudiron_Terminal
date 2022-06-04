@@ -1,7 +1,7 @@
 #include "logvm.hpp"
 
 LogVM::LogVM(QObject *parent)
-    : IOptionsModelDelegate{parent}
+    : IOptionsModelDelegateHolder{parent}
 {
 
 }

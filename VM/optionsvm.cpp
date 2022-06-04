@@ -1,6 +1,6 @@
 #include "optionsvm.hpp"
 
-OptionsVM::OptionsVM(QObject *parent): IOptionsModelDelegate{parent}
+OptionsVM::OptionsVM(QObject *parent): IOptionsModelDelegateHolder{parent}
 {
 
 }

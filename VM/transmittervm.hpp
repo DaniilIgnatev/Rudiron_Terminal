@@ -7,7 +7,7 @@
 #include "ioptionsmodeldelegateholder.hpp"
 
 
-class TransmitterVM : public IOptionsModelDelegate, IOptionsModelDelegateHolder
+class TransmitterVM : public IOptionsModelDelegateHolder
 {
     Q_OBJECT
 private:

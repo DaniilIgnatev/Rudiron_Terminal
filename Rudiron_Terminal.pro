@@ -32,6 +32,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     Model/ioptionsmodeldelegate.hpp \
     Model/ioptionsmodeldelegateholder.hpp \
+    Model/ioutputdelegate.hpp \
+    Model/ioutputdelegateholder.hpp \
     Model/optionsmodel.hpp \
     TypeDefs.hpp \
     UART/uart.hpp \

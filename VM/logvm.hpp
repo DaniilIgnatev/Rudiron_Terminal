@@ -4,11 +4,11 @@
 #include <QObject>
 #include "uart.hpp"
 #include "uartpackage.hpp"
-#include "ioptionsmodeldelegate.hpp"
 #include "ioptionsmodeldelegateholder.hpp"
+#include "ioutputdelegateholder.hpp"
 
 
-class LogVM : public IOptionsModelDelegate, IOptionsModelDelegateHolder
+class LogVM : public IOptionsModelDelegateHolder
 {
     Q_OBJECT
 private:

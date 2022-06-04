@@ -3,17 +3,6 @@
 TerminalVM::TerminalVM(QObject *parent)
     : IOptionsModelDelegate{parent}
 {
-    QSerialPortInfo port;
-    auto ports = QSerialPortInfo::availablePorts();
-
-    for (auto &p: ports){
-        if (p.productIdentifier() == 60000){
-            port = p;
-            break;
-        }
-    }
-
-    uart->begin(port);
     transmitterVM->setUart(uart);
     logVM->setUart(uart);
     optionsVM->setUart(uart);
