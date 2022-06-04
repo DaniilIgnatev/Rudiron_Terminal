@@ -41,6 +41,8 @@ public:
 
     QByteArray getRXBuffer();
 
+    Q_INVOKABLE QStringList availablePortNames();
+
 signals:
 
     void available();

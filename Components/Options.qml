@@ -25,18 +25,22 @@ Rectangle {
         spacing: 15
 
         RudironComboBox{
-            model: ListModel {
-                ListElement { key: "Строка"; value: OptionsModel.TEXT }
-                ListElement { key: "16-й"; value: OptionsModel.HEX }
-                ListElement { key: "10-й"; value: OptionsModel.DEC }
-                ListElement { key: "8-й"; value: OptionsModel.OCT }
-                ListElement { key: "2-й"; value: OptionsModel.BIN }
-            }
+            id: displayMode_comboBox
 
-            onCurrent_valueChanged: {
-                var current_model = vm.optionsModel
-                current_model.displayMode = current_value
-                vm.optionsModel = current_model
+            model: [
+                "Строка",
+                "16-й",
+                "10-й",
+                "8-й",
+                "2-й",
+            ]
+
+            onCurrent_indexChanged: {
+                if (vm){
+                    var current_model = vm.optionsModel
+                    current_model.displayMode = current_index
+                    vm.optionsModel = current_model
+                }
             }
         }
 
@@ -49,9 +53,7 @@ Rectangle {
             }
 
             onCurrent_valueChanged: {
-                var current_model = vm.optionsModel
-                current_model.displayMode = current_value
-                vm.optionsModel = current_model
+
             }
         }
 
@@ -67,22 +69,21 @@ Rectangle {
             }
 
             onCurrent_valueChanged: {
-                var current_model = vm.optionsModel
-                current_model.displayMode = current_value
-                vm.optionsModel = current_model
+
             }
         }
 
         RudironComboBox{
-            model: ListModel {
-                ListElement { key: "COM1"; value: OptionsModel.TEXT }
-                ListElement { key: "COM2"; value: OptionsModel.HEX }
-            }
+            id: portName_comboBox
+
+            model: []
 
             onCurrent_valueChanged: {
-                var current_model = vm.optionsModel
-                current_model.displayMode = current_value
-                vm.optionsModel = current_model
+                if (vm){
+                    var model = vm.optionsModel
+                    model.portName = current_value
+                    vm.optionsModel = model
+                }
             }
         }
 
@@ -96,14 +97,13 @@ Rectangle {
         }
     }
 
-    Component.onCompleted: {
+    onVmChanged: {
         vm.onOptionsModelChanged.connect((model) => {
                                              console.log("Options model changed:\n" + model.printable())
                                          })
 
-        var current_model = vm.optionsModel
-        current_model.displayMode = OptionsModel.TEXT
-        vm.optionsModel = current_model
+        portName_comboBox.model = vm.availablePortNames()
+        displayMode_comboBox.current_index = vm.optionsModel.displayMode
     }
 }
 

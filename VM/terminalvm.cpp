@@ -23,6 +23,8 @@ TerminalVM::TerminalVM(QObject *parent)
     optionsVM->setOptionsModelDelegate(this);
 
     OptionsModel *optionsModel = new OptionsModel(this);
+    optionsModel->setPortName("");
+    optionsModel->setDisplayMode(OptionsModel::DisplayModeEnum::TEXT);
     this->optionsModel = optionsModel;
     emit optionsModelChanged(optionsModel);
 }

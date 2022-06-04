@@ -27,6 +27,8 @@ public:
     virtual IOptionsModelDelegate *getDisplayModeDelegate() const override;
     virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
 
+    Q_INVOKABLE QStringList availablePortNames();
+
 signals:
 
 };

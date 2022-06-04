@@ -175,3 +175,15 @@ QByteArray UART::getRXBuffer()
     QByteArray array((const char*)rx_buffer);
     return array;
 }
+
+QStringList UART::availablePortNames()
+{
+    QStringList names;
+    auto ports = QSerialPortInfo::availablePorts();
+
+    for(auto port: ports){
+        names.append(port.portName());
+    }
+
+    return names;
+}

@@ -2,6 +2,7 @@
 #define TYPEDEFS_HPP
 
 #include <QString>
+#include <QStringList>
 #include <QByteArray>
 #include <QtDebug>
 #include <QDateTime>

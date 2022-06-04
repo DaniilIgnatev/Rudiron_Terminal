@@ -6,6 +6,16 @@ OptionsModel::OptionsModel(QObject *parent) : QObject(parent)
 
 }
 
+QString OptionsModel::getPortName() const
+{
+    return _portName;
+}
+
+void OptionsModel::setPortName(const QString &value)
+{
+    _portName = value;
+}
+
 OptionsModel::DisplayModeEnum OptionsModel::getDisplayMode() const
 {
     return _displayMode;
@@ -24,6 +34,7 @@ QString OptionsModel::printable()
     QMetaEnum metaEnum = QMetaEnum::fromType<OptionsModel::DisplayModeEnum>();
 
     QString text;
-    text += "Display mode: " + QString(metaEnum.valueToKey(_displayMode));
+    text += "Display mode: " + QString(metaEnum.valueToKey(_displayMode)) + "\n";
+    text += "Port name: " + _portName + "\n";
     return text;
 }

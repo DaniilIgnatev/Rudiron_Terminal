@@ -8,9 +8,9 @@ import com.VM 1.0
 MouseArea{
     id: root_mouse
 
-    property ListModel model
-    property string current_key
-    property int current_value
+    property var model
+    property alias current_index: combobox.currentIndex
+    property var current_value
 
     Layout.fillHeight: true
     Layout.margins: -5
@@ -26,11 +26,11 @@ MouseArea{
         id: combobox
         anchors.fill: parent
 
+        model: root_mouse.model
+
         onCurrentIndexChanged: {
             if (currentIndex >= 0){
-                var object = root_mouse.model.get(currentIndex)
-                current_key = object.key
-                current_value = object.value
+                root_mouse.current_value = root_mouse.model[currentIndex]
             }
         }
 
@@ -164,7 +164,7 @@ MouseArea{
                     anchors.fill: parent
                     padding: 0
 
-                    text: key
+                    text: combobox.model[index]
                     font: combobox.font
 
                     color: delegate_mouse.pressed ? "#d1d5da" : (delegate_mouse.containsMouse ? "white" : "#d1d5da")
@@ -174,9 +174,5 @@ MouseArea{
                 }
             }
         }
-
-        currentIndex: 0
-        textRole: "key"
-        model: root_mouse.model
     }
 }

@@ -35,3 +35,8 @@ void OptionsVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDel
     displayModeDelegate = newDisplayModeDelegate;
     connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &OptionsVM::optionsModelChanged);
 }
+
+QStringList OptionsVM::availablePortNames()
+{
+    return uart->availablePortNames();
+}
