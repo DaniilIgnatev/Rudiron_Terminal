@@ -9,7 +9,7 @@ import "qrc:/Components/Rudiron"
 RowLayout{
     property TransmitterVM vm
 
-    spacing: 2
+    spacing: 5
 
     Rectangle {
         Layout.leftMargin: 2
@@ -37,7 +37,8 @@ RowLayout{
             selectionColor: "#0664d3"
             selectedTextColor: "#ffffff"
 
-            font.pointSize: 9
+            font.pointSize: 10
+            font.letterSpacing: 1.0
             selectByMouse: true
             cursorVisible: true
 
@@ -58,7 +59,8 @@ RowLayout{
                 color: "#d1d5da"
                 visible: !textInput.text
 
-                font.pointSize: 9
+                font.pointSize: 10
+                font.letterSpacing: 1.0
                 selectByMouse: false
                 cursorVisible: false
             }

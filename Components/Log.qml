@@ -49,7 +49,6 @@ Rectangle{
             selectedTextColor: "#ffffff"
 
             textFormat: Text.PlainText
-            font.family: "Segoe UI"
 
 
             onHeightChanged: {

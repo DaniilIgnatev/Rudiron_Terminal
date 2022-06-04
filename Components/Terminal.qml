@@ -22,15 +22,18 @@ Window {
     ColumnLayout{
         anchors.fill: parent
 
-        spacing: 3
+        spacing: 5
 
         Transmitter{
             id: transmitter
 
-            Layout.topMargin: 3
+            Layout.topMargin: 5
+            Layout.leftMargin: 2
+            Layout.rightMargin: 2
+
             Layout.fillHeight: false
             Layout.fillWidth: true
-            Layout.preferredHeight: 20
+            Layout.preferredHeight: 30
         }
 
         Log{
@@ -43,10 +46,13 @@ Window {
         Options{
             id: options
 
-            Layout.bottomMargin: 3
+            Layout.bottomMargin: 5
+            Layout.leftMargin: 4
+            Layout.rightMargin: 2
+
             Layout.fillHeight: false
             Layout.fillWidth: true
-            Layout.preferredHeight: 20
+            Layout.preferredHeight: 30
         }
     }
 

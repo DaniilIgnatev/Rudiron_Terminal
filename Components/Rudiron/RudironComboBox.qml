@@ -27,7 +27,7 @@ MouseArea{
         id: combobox
         anchors.fill: parent
 
-        font.letterSpacing: currentIndex == 0 ? 0.5 : 1.5
+        font.letterSpacing: 1.0
         displayText: current_index >= 0 ? currentText : default_value
         model: root_mouse.model
 
@@ -64,7 +64,7 @@ MouseArea{
 
             id: displayMode_canvas
             x: combobox.width - width - combobox.rightPadding
-            y: combobox.topPadding + (combobox.availableHeight - height) / 2
+            y: combobox.topPadding + (combobox.availableHeight - height) / 2 + 1
             width: 12
             height: 8
             contextType: "2d"

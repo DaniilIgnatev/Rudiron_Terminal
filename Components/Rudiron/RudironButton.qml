@@ -14,14 +14,14 @@ Button{
     property string color_pressed: "#993c00"
 
     text: "Отправить"
-    font.letterSpacing: 0.15
+    font.letterSpacing: 1.0
     font.weight: Font.Light
     font.pointSize: 7
     font.family: "Verdana"
     Layout.rightMargin: 2
     Layout.fillHeight: true
     Layout.fillWidth: false
-    Layout.preferredWidth: 70
+    Layout.preferredWidth: 80
     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
     palette.buttonText: "white"
 
