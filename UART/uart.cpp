@@ -8,7 +8,7 @@
 UART::UART(QObject *parent)
     : QObject{parent}
 {
-
+    serial = new QSerialPort(this);
 }
 
 QString UART::getCurrentPortName()
@@ -29,6 +29,8 @@ int UART::getByte(int at)
 bool UART::begin(QSerialPortInfo port)
 {
     end();
+
+    serial->deleteLater();
     serial = new QSerialPort(port, this);
 
     connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
