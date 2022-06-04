@@ -3,7 +3,7 @@
 
 #include "ioutputdelegate.hpp"
 
-class IOutputDelegateHolder{
+class IOutputDelegateHolder: public IOutputDelegate{
 public:
     virtual IOutputDelegate *getOutputDelegate() const = 0;
     virtual void setOutputDelegate(IOutputDelegate *newOutputDelegate) = 0;

@@ -36,23 +36,53 @@ void OptionsVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDel
     connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &OptionsVM::optionsModelChanged);
 }
 
+void OptionsVM::output(QString message)
+{
+    getOutputDelegate()->output(message);
+}
+
+IOutputDelegate *OptionsVM::getOutputDelegate() const
+{
+    return outputDelegate;
+}
+
+void OptionsVM::setOutputDelegate(IOutputDelegate *newOutputDelegate)
+{
+    outputDelegate = newOutputDelegate;
+}
+
 QStringList OptionsVM::availablePortNames()
 {
-    return uart->availablePortNames();
+    QStringList defaultValue("Отключен");
+    QStringList available = uart->availablePortNames();
+    defaultValue.append(available);
+    return defaultValue;
 }
 
 void OptionsVM::onOptionsModelChanged(OptionsModel *newValue)
 {
-    if (newValue->getPortName() == uart->getCurrentPortName()){
-        qDebug() << "Порт " << newValue->getPortName() << " уже открыт!";
+    QSerialPortInfo portInfo = QSerialPortInfo(newValue->getPortName());
+    bool containsPort = !portInfo.isNull();
+
+    if (containsPort){
+        if (newValue->getPortName() != uart->getCurrentPortName()){
+            if (uart->getCurrentPortName() != ""){
+                uart->end();
+                output("Закрыл порт " + uart->getCurrentPortName());
+            }
+
+            if (uart->begin(portInfo)){
+                output("Открыл порт " + newValue->getPortName());
+            }
+            else{
+                output("Ошибка открытия порта " + newValue->getPortName() + "!");
+            }
+        }
     }
     else{
-        QSerialPortInfo portInfo = QSerialPortInfo(newValue->getPortName());
-        if (uart->begin(portInfo)){
-            qDebug() << "Открыл порт " << newValue->getPortName();
-        }
-        else{
-            qDebug() << "Ошибка открытия порта " << newValue->getPortName() << "!";
+        if (uart->getCurrentPortName() != ""){
+            uart->end();
+            output("Закрыл порт " + uart->getCurrentPortName());
         }
     }
 }

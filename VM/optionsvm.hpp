@@ -1,19 +1,22 @@
 #ifndef OPTIONSVM_HPP
 #define OPTIONSVM_HPP
 
-#include <QObject>
+#include "TypeDefs.hpp"
 #include "uart.hpp"
 #include "ioptionsmodeldelegate.hpp"
 #include "ioptionsmodeldelegateholder.hpp"
+#include "ioutputdelegateholder.hpp"
 
 
-class OptionsVM : public IOptionsModelDelegateHolder
+class OptionsVM : public IOptionsModelDelegateHolder, IOutputDelegateHolder
 {
     Q_OBJECT
 private:
     UART* uart;
 
     IOptionsModelDelegate* displayModeDelegate = nullptr;
+
+    IOutputDelegate* outputDelegate = nullptr;
 
 public:
     explicit OptionsVM(QObject *parent = nullptr);
@@ -26,6 +29,10 @@ public:
 
     virtual IOptionsModelDelegate *getDisplayModeDelegate() const override;
     virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
+
+    virtual void output(QString message) override;
+    virtual IOutputDelegate *getOutputDelegate() const override;
+    virtual void setOutputDelegate(IOutputDelegate *newOutputDelegate) override;
 
     Q_INVOKABLE QStringList availablePortNames();
 

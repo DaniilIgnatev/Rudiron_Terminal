@@ -38,6 +38,16 @@ void LogVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegat
     connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &LogVM::optionsModelChanged);
 }
 
+void LogVM::output(QString message)
+{
+    qDebug() << message;
+    emit logAppended(message);
+    if (!message.endsWith('\n')){
+        qDebug() << "\n";
+        emit logAppended("\n");
+    }
+}
+
 void LogVM::uartAvailable()
 {
     UARTPackage* package = new UARTPackage();

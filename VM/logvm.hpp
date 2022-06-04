@@ -8,7 +8,7 @@
 #include "ioutputdelegateholder.hpp"
 
 
-class LogVM : public IOptionsModelDelegateHolder
+class LogVM : public IOptionsModelDelegateHolder, IOutputDelegate
 {
     Q_OBJECT
 private:
@@ -29,6 +29,8 @@ public:
 
     virtual IOptionsModelDelegate *getDisplayModeDelegate() const override;
     virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
+
+    virtual void output(QString message) override;
 
 private slots:
     void uartAvailable();

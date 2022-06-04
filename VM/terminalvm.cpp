@@ -10,6 +10,7 @@ TerminalVM::TerminalVM(QObject *parent)
     transmitterVM->setOptionsModelDelegate(this);
     logVM->setOptionsModelDelegate(this);
     optionsVM->setOptionsModelDelegate(this);
+    optionsVM->setOutputDelegate((IOutputDelegate*)logVM);
 
     OptionsModel *optionsModel = new OptionsModel(this);
     optionsModel->setPortName("");

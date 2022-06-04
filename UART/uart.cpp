@@ -67,7 +67,6 @@ void UART::end()
 {
     if (serial){
         serial->close();
-        serial->deleteLater();
     }
 }
 

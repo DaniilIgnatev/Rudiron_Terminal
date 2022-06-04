@@ -109,7 +109,6 @@ Rectangle {
                                        })
 
         portName_comboBox.model = vm.availablePortNames()
-        portName_comboBox.current_index = -1
         displayMode_comboBox.current_index = vm.optionsModel.displayMode
     }
 }
