@@ -11,6 +11,7 @@ MouseArea{
     property var model
     property alias current_index: combobox.currentIndex
     property var current_value
+    property string default_value: "Не выбрано"
 
     Layout.fillHeight: true
     Layout.margins: -5
@@ -26,15 +27,18 @@ MouseArea{
         id: combobox
         anchors.fill: parent
 
+        font.letterSpacing: currentIndex == 0 ? 0.5 : 1.5
+        displayText: current_index >= 0 ? currentText : default_value
         model: root_mouse.model
 
         onCurrentIndexChanged: {
             if (currentIndex >= 0){
                 root_mouse.current_value = root_mouse.model[currentIndex]
             }
+            else{
+                root_mouse.current_value = null
+            }
         }
-
-        font.letterSpacing: currentIndex == 0 ? 0.5 : 1.5
 
         background: Rectangle {
             color: "#1d2125"
@@ -42,8 +46,7 @@ MouseArea{
             border.width: parent.visualFocus ? 2 : 1
         }
 
-        contentItem:
-            Text {
+        contentItem: Text {
             padding: 0
 
             text: parent.displayText

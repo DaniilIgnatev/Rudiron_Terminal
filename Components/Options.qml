@@ -26,6 +26,7 @@ Rectangle {
 
         RudironComboBox{
             id: displayMode_comboBox
+            Layout.alignment: Qt.AlignLeft
 
             model: [
                 "Строка",
@@ -46,11 +47,12 @@ Rectangle {
 
         RudironComboBox{
             Layout.preferredWidth: 150
+            Layout.alignment: Qt.AlignLeft
 
-            model: ListModel {
-                ListElement { key: "Автопрокрутка"; value: OptionsModel.TEXT }
-                ListElement { key: "Отметки времени"; value: OptionsModel.HEX }
-            }
+            model: [
+                "Автопрокрутка",
+                "Отметки времени"
+            ]
 
             onCurrent_valueChanged: {
 
@@ -59,14 +61,15 @@ Rectangle {
 
         RudironComboBox{
             Layout.preferredWidth: 150
+            Layout.alignment: Qt.AlignLeft
 
-            model: ListModel {
-                ListElement { key: "Бит в секунду"; value: OptionsModel.TEXT }
-                ListElement { key: "Биты данных"; value: OptionsModel.HEX }
-                ListElement { key: "Четность"; value: OptionsModel.DEC }
-                ListElement { key: "Стоповые биты"; value: OptionsModel.OCT }
-                ListElement { key: "Конец строки"; value: OptionsModel.OCT }
-            }
+            model: [
+                "Бит в секунду",
+                "Биты данных",
+                "Четность",
+                "Стоповые биты",
+                "Конец строки"
+            ]
 
             onCurrent_valueChanged: {
 
@@ -75,7 +78,10 @@ Rectangle {
 
         RudironComboBox{
             id: portName_comboBox
+            Layout.preferredWidth: 150
+            Layout.alignment: Qt.AlignLeft
 
+            default_value: "Отключен"
             model: []
 
             onCurrent_valueChanged: {
@@ -89,20 +95,21 @@ Rectangle {
 
         Item {
             Layout.fillWidth: true
-            Layout.fillHeight: true
         }
 
         RudironButton{
+            Layout.alignment: Qt.AlignRight
             text: "Очистить"
         }
     }
 
     onVmChanged: {
         vm.optionsModelChanged.connect((model) => {
-                                             console.log("Options model changed:\n" + model.printable())
-                                         })
+                                           console.log("Options model changed:\n" + model.printable())
+                                       })
 
         portName_comboBox.model = vm.availablePortNames()
+        portName_comboBox.current_index = -1
         displayMode_comboBox.current_index = vm.optionsModel.displayMode
     }
 }
