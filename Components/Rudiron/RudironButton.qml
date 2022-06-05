@@ -14,9 +14,9 @@ Button{
     property string color_pressed: "#993c00"
 
     text: "Отправить"
-    font.letterSpacing: 1.0
+    font.letterSpacing: 0.5
     font.weight: Font.Light
-    font.pointSize: 7
+    font.pointSize: 10
     font.family: "Verdana"
     Layout.rightMargin: 2
     Layout.fillHeight: true

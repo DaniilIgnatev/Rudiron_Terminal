@@ -34,7 +34,7 @@ Rectangle {
                 ListModel {
 
                 ListElement {
-                    name: "Автопрокрутка:"
+                    name: "Прокрутка:"
                     values_available: [
                         ListElement{
                             value: "Выкл."
@@ -46,7 +46,7 @@ Rectangle {
                     values_index: 0
                 }
                 ListElement {
-                    name: "Отметки времени:"
+                    name: "Время:"
                     values_available: [
                         ListElement{
                             value: "Выкл."
@@ -58,7 +58,7 @@ Rectangle {
                     values_index: 0
                 }
                 ListElement {
-                    name: "Отображение:"
+                    name: "Режим:"
                     values_available: [
                         ListElement{
                             value: "Строка"
@@ -116,7 +116,7 @@ Rectangle {
 
         RudironComboBox{
             id: portName_comboBox
-            Layout.preferredWidth: 150
+            Layout.preferredWidth: 200
             Layout.alignment: Qt.AlignLeft
 
             default_value: "Порт отключен"

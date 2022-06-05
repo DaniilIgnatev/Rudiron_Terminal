@@ -37,8 +37,8 @@ RowLayout{
             selectionColor: "#0664d3"
             selectedTextColor: "#ffffff"
 
-            font.pointSize: 10
-            font.letterSpacing: 1.0
+            font.pointSize: 12
+            font.letterSpacing: 0.5
             selectByMouse: true
             cursorVisible: true
 
@@ -59,8 +59,8 @@ RowLayout{
                 color: "#d1d5da"
                 visible: !textInput.text
 
-                font.pointSize: 10
-                font.letterSpacing: 1.0
+                font.pointSize: 12
+                font.letterSpacing: 0.5
                 selectByMouse: false
                 cursorVisible: false
             }

@@ -22,7 +22,7 @@ Window {
     ColumnLayout{
         anchors.fill: parent
 
-        spacing: 5
+        spacing: 4
 
         Transmitter{
             id: transmitter
@@ -46,7 +46,7 @@ Window {
         Options{
             id: options
 
-            Layout.bottomMargin: 5
+            Layout.bottomMargin: 4
             Layout.leftMargin: 4
             Layout.rightMargin: 2
 

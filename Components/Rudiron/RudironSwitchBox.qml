@@ -28,7 +28,7 @@ MouseArea{
         id: combobox
         anchors.fill: parent
 
-        font.letterSpacing: 1.0
+        font.letterSpacing: 0.5
         displayText: default_value
         model: root_mouse.model
 
@@ -39,8 +39,6 @@ MouseArea{
         }
 
         contentItem: Text {
-            padding: 0
-
             text: parent.displayText
             font: parent.font
 
@@ -143,7 +141,7 @@ MouseArea{
             height: 30
             hoverEnabled: true
 
-            onClicked:{
+            onClicked: {
                 combobox.currentIndex = index
 
                 var values_available = model.values_available
@@ -172,27 +170,29 @@ MouseArea{
                     spacing: 0
 
                     Text {
-                        padding: 0
-
+                        Layout.leftMargin: 5
                         text: model.name
                         font: combobox.font
 
                         color: delegate_mouse.pressed ? "#d1d5da" : (delegate_mouse.containsMouse ? "white" : "#d1d5da")
-                        horizontalAlignment: Text.AlignHCenter
+                        horizontalAlignment: Text.left
                         verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideMiddle
+                        elide: Text.ElideLeft
+                    }
+
+                    Item{
+                        Layout.fillWidth: true
                     }
 
                     Text {
-                        padding: 0
-
+                        Layout.rightMargin: 5
                         text: model.values_available.get(model.values_index).value
                         font: combobox.font
 
                         color: delegate_mouse.pressed ? "#d1d5da" : (delegate_mouse.containsMouse ? "white" : "#d1d5da")
-                        horizontalAlignment: Text.AlignHCenter
+                        horizontalAlignment: Text.right
                         verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideMiddle
+                        elide: Text.ElideRight
                     }
                 }
             }

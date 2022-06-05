@@ -27,7 +27,7 @@ MouseArea{
         id: combobox
         anchors.fill: parent
 
-        font.letterSpacing: 1.0
+        font.letterSpacing: 0.5
         displayText: current_index >= 0 ? currentText : default_value
         model: root_mouse.model
 
