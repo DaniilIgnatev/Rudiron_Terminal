@@ -40,12 +40,19 @@ void LogVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegat
 
 void LogVM::output(QString message)
 {
-    qDebug() << message;
-    emit logAppended(message);
     if (!message.endsWith('\n')){
-        qDebug() << "\n";
-        emit logAppended("\n");
+        message.append("\n");
     }
+    qDebug() << message;
+
+    UARTPackage* package = new UARTPackage();
+    package->setData(message.toUtf8());
+    package->setDateTime(QDateTime::currentDateTime());
+    package->setIsLogOutput(true);
+    receivedPackages.append(package);
+
+    QString appendedLog = convertToLog(package);
+    emit logAppended(appendedLog);
 }
 
 void LogVM::clear()
@@ -101,15 +108,20 @@ QString LogVM::convertToLog(const UARTPackage* package)
 QString LogVM::convertPackageAsText(const UARTPackage* package)
 {
     QString text;
-    if (getOptionsModel()->getShowTimeStamps()){
-        text.append(QString::number(package->getDateTime().time().hour()));
-        text.append(":");
-        text.append(QString::number(package->getDateTime().time().minute()));
-        text.append(":");
-        text.append(QString::number(package->getDateTime().time().second()));
-        text.append(":");
-        text.append(QString::number(package->getDateTime().time().msec()));
-        text.append(" -> ");
+    if (package->getIsLogOutput()){
+        text.append("Терминал -> ");
+    }
+    else{
+        if (getOptionsModel()->getShowTimeStamps()){
+            text.append(QString::number(package->getDateTime().time().hour()));
+            text.append(":");
+            text.append(QString::number(package->getDateTime().time().minute()));
+            text.append(":");
+            text.append(QString::number(package->getDateTime().time().second()));
+            text.append(":");
+            text.append(QString::number(package->getDateTime().time().msec()));
+            text.append(" -> ");
+        }
     }
 
     text.append(package->getData());

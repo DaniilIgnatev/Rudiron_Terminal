@@ -31,7 +31,7 @@ public:
     virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
 
     virtual void output(QString message) override;
-    virtual void clear() override;
+    Q_INVOKABLE virtual void clear() override;
     virtual IOutputDelegate *getOutputDelegate() const override;
     virtual void setOutputDelegate(IOutputDelegate *newOutputDelegate) override;
 

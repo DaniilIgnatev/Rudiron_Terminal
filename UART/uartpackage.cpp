@@ -2,7 +2,7 @@
 
 UARTPackage::UARTPackage(QObject *parent) : QObject(parent)
 {
-
+    
 }
 
 const QDateTime &UARTPackage::getDateTime() const
@@ -29,4 +29,17 @@ void UARTPackage::setData(const QByteArray &newData)
         return;
     _data = newData;
     emit dataChanged();
+}
+
+bool UARTPackage::getIsLogOutput() const
+{
+    return _isLogOutput;
+}
+
+void UARTPackage::setIsLogOutput(bool value)
+{
+    if (_isLogOutput == value)
+        return;
+    _isLogOutput = value;
+    emit logOutputChanged();
 }
