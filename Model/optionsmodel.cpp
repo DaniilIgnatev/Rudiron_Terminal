@@ -6,6 +6,32 @@ OptionsModel::OptionsModel(QObject *parent) : QObject(parent)
 
 }
 
+bool OptionsModel::getAutoScroll() const
+{
+    return _autoScroll;
+}
+
+void OptionsModel::setAutoScroll(bool value)
+{
+    if (_autoScroll == value)
+        return;
+    _autoScroll = value;
+    emit autoScrollChanged();
+}
+
+bool OptionsModel::getShowTimeStamps() const
+{
+    return _showTimeStamps;
+}
+
+void OptionsModel::setShowTimeStamps(bool value)
+{
+    if (_showTimeStamps == value)
+        return;
+    _showTimeStamps = value;
+    emit showTimeStampsChanged();
+}
+
 QString OptionsModel::getPortName() const
 {
     return _portName;
@@ -13,7 +39,10 @@ QString OptionsModel::getPortName() const
 
 void OptionsModel::setPortName(const QString &value)
 {
+    if (_portName == value)
+        return;
     _portName = value;
+    emit portNameChanged();
 }
 
 OptionsModel::DisplayModeEnum OptionsModel::getDisplayMode() const
@@ -21,11 +50,11 @@ OptionsModel::DisplayModeEnum OptionsModel::getDisplayMode() const
     return _displayMode;
 }
 
-void OptionsModel::setDisplayMode(DisplayModeEnum newDisplayMode)
+void OptionsModel::setDisplayMode(DisplayModeEnum value)
 {
-    if (_displayMode == newDisplayMode)
+    if (_displayMode == value)
         return;
-    _displayMode = newDisplayMode;
+    _displayMode = value;
     emit displayModeChanged();
 }
 
