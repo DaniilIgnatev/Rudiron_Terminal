@@ -43,7 +43,7 @@ RowLayout{
             cursorVisible: true
 
             onAccepted: {
-                sendText()
+                vm.send(textInput.text)
             }
 
             TextInput {
