@@ -45,36 +45,68 @@ Rectangle {
             }
         }
 
-        RudironComboBox{
+        RudironSwitchBox{
             Layout.preferredWidth: 150
             Layout.alignment: Qt.AlignLeft
 
-            model: [
-                "Автопрокрутка",
-                "Отметки времени"
-            ]
+            default_value: "Журнал"
+            model:
+                ListModel {
+                id: fruitModel
 
-            onCurrent_valueChanged: {
+                ListElement {
+                    name: "Автопрокрутка"
+                    values_available: [
+                        ListElement{
+                            value: "Выкл."
+                        },
+                        ListElement{
+                            value: "Вкл."
+                        }
+                    ]
+                    values_index: 1
+                }
+                ListElement {
+                    name: "Отметки времени"
+                    values_available: [
+                        ListElement{
+                            value: "Выкл."
+                        },
+                        ListElement{
+                            value: "Вкл."
+                        }
+                    ]
+                    values_index: 1
+                }
+            }
 
+            onModelChanged: {
+                var delegate_model = model.get(current_index)
+
+                console.log(delegate_model.values_index)
+                console.log(delegate_model.values_available.get(delegate_model.values_index).value)
+
+                switch (current_index){
+                case 0:
+                    break
+                case 1:
+                    break
+                }
             }
         }
 
-        RudironComboBox{
-            Layout.preferredWidth: 150
-            Layout.alignment: Qt.AlignLeft
+//        RudironSwitchBox{
+//            Layout.preferredWidth: 150
+//            Layout.alignment: Qt.AlignLeft
 
-            model: [
-                "Бит в секунду",
-                "Биты данных",
-                "Четность",
-                "Стоповые биты",
-                "Конец строки"
-            ]
-
-            onCurrent_valueChanged: {
-
-            }
-        }
+//            model: [
+//                "Бит в секунду",
+//                "Биты данных",
+//                "Четность",
+//                "Стоповые биты",
+//                "Конец строки"
+//            ]
+//        }
 
         RudironComboBox{
             id: portName_comboBox
