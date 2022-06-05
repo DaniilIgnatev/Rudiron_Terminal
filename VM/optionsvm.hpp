@@ -14,7 +14,7 @@ class OptionsVM : public IOptionsModelDelegateHolder, IOutputDelegateHolder
 private:
     UART* uart;
 
-    IOptionsModelDelegate* displayModeDelegate = nullptr;
+    IOptionsModelDelegate* optionsModelDelegate = nullptr;
 
     IOutputDelegate* outputDelegate = nullptr;
 
@@ -27,11 +27,11 @@ public:
     virtual OptionsModel *getOptionsModel() override;
     virtual void setOptionsModel(OptionsModel *newDisplayMode) override;
 
-    virtual IOptionsModelDelegate *getDisplayModeDelegate() const override;
+    virtual IOptionsModelDelegate *getOptionsModelDelegate() const override;
     virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
 
     virtual void output(QString message) override;
-    Q_INVOKABLE virtual void clear() override;
+    virtual void clear() override;
     virtual IOutputDelegate *getOutputDelegate() const override;
     virtual void setOutputDelegate(IOutputDelegate *newOutputDelegate) override;
 

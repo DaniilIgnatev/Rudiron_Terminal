@@ -59,7 +59,6 @@ Window {
     Component.onCompleted: {
         transmitter.vm =vm.getTransmitterVM()
         log.vm = vm.getLogVM()
-        log.initialize()
         options.vm = vm.getOptionsVM()
     }
 }

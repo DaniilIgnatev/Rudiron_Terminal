@@ -16,7 +16,13 @@ private:
 
     QList<UARTPackage*> receivedPackages;
 
-    IOptionsModelDelegate* displayModeDelegate = nullptr;
+    IOptionsModelDelegate* optionsModelDelegate = nullptr;
+
+    OptionsModel::DisplayModeEnum _lastDisplayMode = OptionsModel::DisplayModeEnum::TEXT;
+
+    bool _logReplaced = false;
+
+    bool _lastShowTimeStamps = false;
 
 public:
     explicit LogVM(QObject *parent = nullptr);
@@ -27,7 +33,7 @@ public:
     virtual OptionsModel *getOptionsModel() override;
     virtual void setOptionsModel(OptionsModel *newDisplayMode) override;
 
-    virtual IOptionsModelDelegate *getDisplayModeDelegate() const override;
+    virtual IOptionsModelDelegate *getOptionsModelDelegate() const override;
     virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
 
     virtual void output(QString message) override;
@@ -38,17 +44,23 @@ private slots:
 
 signals:
     void logAppended(QString appendedLog);
-    void logCleared();
+    void logReplaced(QString newlog);
 
 public slots:
 
     QString getLog();
+
+    bool getLogReplaced() const;
+
+    void setLogReplaced(bool newValue);
 
 private:
     QString convertToLog(const UARTPackage* package);
 
     QString convertPackageAsText(const UARTPackage* package);
 
+protected slots:
+    virtual void onOptionsModelChanged(OptionsModel* newValue) override;
 };
 
 #endif // LOGVM_H

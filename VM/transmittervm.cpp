@@ -22,27 +22,47 @@ void TransmitterVM::send(QString text)
         uart->writeRead(text.toUtf8(), 0);
     }
     else{
-        qDebug() << "Serial is not opened!";
+        output("Выберите последовательный порт!");
     }
 }
 
 OptionsModel* TransmitterVM::getOptionsModel()
 {
-    return displayModeDelegate->getOptionsModel();
+    return optionsModelDelegate->getOptionsModel();
 }
 
 void TransmitterVM::setOptionsModel(OptionsModel *newOptionsModel)
 {
-    displayModeDelegate->setOptionsModel(newOptionsModel);
+    optionsModelDelegate->setOptionsModel(newOptionsModel);
 }
 
-IOptionsModelDelegate *TransmitterVM::getDisplayModeDelegate() const
+IOptionsModelDelegate *TransmitterVM::getOptionsModelDelegate() const
 {
-    return displayModeDelegate;
+    return optionsModelDelegate;
 }
 
 void TransmitterVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate)
 {
-    displayModeDelegate = newDisplayModeDelegate;
-    connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &TransmitterVM::optionsModelChanged);
+    optionsModelDelegate = newDisplayModeDelegate;
+    connect(optionsModelDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &TransmitterVM::optionsModelChanged);
+}
+
+void TransmitterVM::output(QString message)
+{
+    getOutputDelegate()->output(message);
+}
+
+void TransmitterVM::clear()
+{
+    getOutputDelegate()->clear();
+}
+
+IOutputDelegate *TransmitterVM::getOutputDelegate() const
+{
+    return outputDelegate;
+}
+
+void TransmitterVM::setOutputDelegate(IOutputDelegate *newOutputDelegate)
+{
+    outputDelegate = newOutputDelegate;
 }

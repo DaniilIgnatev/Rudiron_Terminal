@@ -10,14 +10,15 @@ Rectangle{
     id: root
     property LogVM vm
 
-    function initialize(){
+    onVmChanged: {
         scroll.ScrollBar.vertical.position = 0
         vm.logAppended.connect ((appendedLog) => {
                                     textEdit.text += appendedLog
                                 })
-        vm.logCleared.connect (() => {
-                                   textEdit.text = ""
-                               })
+
+        vm.logReplaced.connect ((newLog) => {
+                                    textEdit.text = newLog
+                                })
     }
 
     color: "#1d2125"
@@ -55,7 +56,9 @@ Rectangle{
 
 
             onHeightChanged: {
-                scroll.ScrollBar.vertical.position = 1
+                if (root.vm && root.vm.optionsModel.autoScroll){
+                    scroll.ScrollBar.vertical.position = 1
+                }
             }
         }
     }

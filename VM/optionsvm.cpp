@@ -17,23 +17,23 @@ void OptionsVM::setUart(UART *newUart)
 
 OptionsModel* OptionsVM::getOptionsModel()
 {
-    return displayModeDelegate->getOptionsModel();
+    return optionsModelDelegate->getOptionsModel();
 }
 
 void OptionsVM::setOptionsModel(OptionsModel *newOptionsModel)
 {
-    displayModeDelegate->setOptionsModel(newOptionsModel);
+    optionsModelDelegate->setOptionsModel(newOptionsModel);
 }
 
-IOptionsModelDelegate *OptionsVM::getDisplayModeDelegate() const
+IOptionsModelDelegate *OptionsVM::getOptionsModelDelegate() const
 {
-    return displayModeDelegate;
+    return optionsModelDelegate;
 }
 
 void OptionsVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate)
 {
-    displayModeDelegate = newDisplayModeDelegate;
-    connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &OptionsVM::optionsModelChanged);
+    optionsModelDelegate = newDisplayModeDelegate;
+    connect(optionsModelDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &OptionsVM::optionsModelChanged);
 }
 
 void OptionsVM::output(QString message)
@@ -70,8 +70,8 @@ void OptionsVM::onOptionsModelChanged(OptionsModel *newValue)
     bool containsPort = !portInfo.isNull();
 
     if (containsPort){
-        if (newValue->getPortName() != uart->getCurrentPortName()){
-            if (uart->getCurrentPortName() != ""){
+        if (newValue->getPortName() != uart->getCurrentPortName() || !uart->isOpen()){
+            if (uart->isOpen()){
                 uart->end();
                 output("Закрыл порт " + uart->getCurrentPortName());
             }
@@ -85,7 +85,7 @@ void OptionsVM::onOptionsModelChanged(OptionsModel *newValue)
         }
     }
     else{
-        if (uart->getCurrentPortName() != ""){
+        if (uart->isOpen()){
             uart->end();
             output("Закрыл порт " + uart->getCurrentPortName());
         }

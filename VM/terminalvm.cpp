@@ -8,6 +8,7 @@ TerminalVM::TerminalVM(QObject *parent)
     optionsVM->setUart(uart);
 
     transmitterVM->setOptionsModelDelegate(this);
+    transmitterVM->setOutputDelegate((IOutputDelegate*)logVM);
     logVM->setOptionsModelDelegate(this);
     optionsVM->setOptionsModelDelegate(this);
     optionsVM->setOutputDelegate((IOutputDelegate*)logVM);

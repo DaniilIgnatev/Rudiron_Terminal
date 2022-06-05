@@ -19,23 +19,23 @@ void LogVM::setUart(UART *newUart)
 
 OptionsModel* LogVM::getOptionsModel()
 {
-    return displayModeDelegate->getOptionsModel();
+    return optionsModelDelegate->getOptionsModel();
 }
 
 void LogVM::setOptionsModel(OptionsModel *newOptionsModel)
 {
-    displayModeDelegate->setOptionsModel(newOptionsModel);
+    optionsModelDelegate->setOptionsModel(newOptionsModel);
 }
 
-IOptionsModelDelegate *LogVM::getDisplayModeDelegate() const
+IOptionsModelDelegate *LogVM::getOptionsModelDelegate() const
 {
-    return displayModeDelegate;
+    return optionsModelDelegate;
 }
 
 void LogVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate)
 {
-    displayModeDelegate = newDisplayModeDelegate;
-    connect(displayModeDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &LogVM::optionsModelChanged);
+    optionsModelDelegate = newDisplayModeDelegate;
+    connect(optionsModelDelegate, &IOptionsModelDelegate::optionsModelChanged, this, &LogVM::optionsModelChanged);
 }
 
 void LogVM::output(QString message)
@@ -50,7 +50,9 @@ void LogVM::output(QString message)
 
 void LogVM::clear()
 {
-    emit logCleared();
+    receivedPackages.clear();
+    _logReplaced = true;
+    emit logReplaced(getLog());
 }
 
 void LogVM::uartAvailable()
@@ -76,6 +78,16 @@ QString LogVM::getLog()
     return log;
 }
 
+bool LogVM::getLogReplaced() const
+{
+    return _logReplaced;
+}
+
+void LogVM::setLogReplaced(bool newValue)
+{
+    _logReplaced = newValue;
+}
+
 QString LogVM::convertToLog(const UARTPackage* package)
 {
     switch (getOptionsModel()->getDisplayMode()) {
@@ -89,14 +101,26 @@ QString LogVM::convertToLog(const UARTPackage* package)
 QString LogVM::convertPackageAsText(const UARTPackage* package)
 {
     QString text;
-    text.append(QString::number(package->getDateTime().time().hour()));
-    text.append(":");
-    text.append(QString::number(package->getDateTime().time().minute()));
-    text.append(":");
-    text.append(QString::number(package->getDateTime().time().second()));
-    text.append(":");
-    text.append(QString::number(package->getDateTime().time().msec()));
-    text.append(" -> ");
+    if (getOptionsModel()->getShowTimeStamps()){
+        text.append(QString::number(package->getDateTime().time().hour()));
+        text.append(":");
+        text.append(QString::number(package->getDateTime().time().minute()));
+        text.append(":");
+        text.append(QString::number(package->getDateTime().time().second()));
+        text.append(":");
+        text.append(QString::number(package->getDateTime().time().msec()));
+        text.append(" -> ");
+    }
+
     text.append(package->getData());
     return text;
+}
+
+void LogVM::onOptionsModelChanged(OptionsModel *newValue)
+{
+    if (_lastDisplayMode != newValue->getDisplayMode() || _lastShowTimeStamps != newValue->getShowTimeStamps()){
+        _lastDisplayMode = newValue->getDisplayMode();
+        _lastShowTimeStamps = newValue->getShowTimeStamps();
+        emit logReplaced(getLog());
+    }
 }
