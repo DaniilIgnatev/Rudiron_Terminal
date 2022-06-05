@@ -45,17 +45,17 @@ void OptionsModel::setPortName(const QString &value)
     emit portNameChanged();
 }
 
-OptionsModel::DisplayModeEnum OptionsModel::getDisplayMode() const
+OptionsModel::DisplayModeEnum OptionsModel::getOutputMode() const
 {
-    return _displayMode;
+    return _outputMode;
 }
 
-void OptionsModel::setDisplayMode(DisplayModeEnum value)
+void OptionsModel::setOutputMode(DisplayModeEnum value)
 {
-    if (_displayMode == value)
+    if (_outputMode == value)
         return;
-    _displayMode = value;
-    emit displayModeChanged();
+    _outputMode = value;
+    emit outputModeChanged();
 }
 
 QString OptionsModel::printable()
@@ -63,7 +63,7 @@ QString OptionsModel::printable()
     QMetaEnum metaEnum = QMetaEnum::fromType<OptionsModel::DisplayModeEnum>();
 
     QString text;
-    text += "Display mode: " + QString(metaEnum.valueToKey(_displayMode)) + "\n";
+    text += "Output mode: " + QString(metaEnum.valueToKey(_outputMode)) + "\n";
     text += "Port name: " + _portName + "\n";
     text += "AutoScroll: " + QString(_autoScroll ? "true" : "false") + "\n";
     text += "ShowTimeStamps: " + QString(_showTimeStamps ? "true" : "false") + "\n";

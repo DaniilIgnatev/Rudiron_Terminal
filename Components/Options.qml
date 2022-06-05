@@ -93,7 +93,7 @@ Rectangle {
                     optionsModel.showTimeStamps = Boolean(selected_value_index)
                     break
                 case 2:
-                    optionsModel.displayMode = selected_value_index
+                    optionsModel.outputMode = selected_value_index
                     break
                 }
 
@@ -152,7 +152,7 @@ Rectangle {
 
         logSwitchBox.model.get(0).values_index = vm.optionsModel.autoScroll ? 1 : 0
         logSwitchBox.model.get(1).values_index = vm.optionsModel.showTimeStamps ? 1 : 0
-        logSwitchBox.model.get(2).values_index = vm.optionsModel.displayMode
+        logSwitchBox.model.get(2).values_index = vm.optionsModel.outputMode
         portName_comboBox.model = vm.getAvailablePortNames()
     }
 }

@@ -9,7 +9,7 @@
 class OptionsModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(DisplayModeEnum displayMode READ getDisplayMode WRITE setDisplayMode NOTIFY displayModeChanged)
+    Q_PROPERTY(DisplayModeEnum outputMode READ getOutputMode WRITE setOutputMode NOTIFY outputModeChanged)
     Q_PROPERTY(QString portName READ getPortName WRITE setPortName NOTIFY portNameChanged)
     Q_PROPERTY(bool autoScroll READ getAutoScroll WRITE setAutoScroll NOTIFY autoScrollChanged)
     Q_PROPERTY(bool showTimeStamps READ getShowTimeStamps WRITE setShowTimeStamps NOTIFY showTimeStampsChanged)
@@ -27,7 +27,7 @@ public:
     Q_ENUM(DisplayModeEnum)
 
 private:
-    DisplayModeEnum _displayMode;
+    DisplayModeEnum _outputMode;
 
     QString _portName;
 
@@ -36,8 +36,8 @@ private:
     bool _showTimeStamps;
 
 public:
-    DisplayModeEnum getDisplayMode() const;
-    void setDisplayMode(DisplayModeEnum newDisplayMode);
+    DisplayModeEnum getOutputMode() const;
+    void setOutputMode(DisplayModeEnum newDisplayMode);
 
     Q_INVOKABLE QString printable();
 
@@ -52,7 +52,7 @@ public:
     void setShowTimeStamps(bool value);
 
 signals:
-    void displayModeChanged();
+    void outputModeChanged();
     void portNameChanged();
     void autoScrollChanged();
     void showTimeStampsChanged();

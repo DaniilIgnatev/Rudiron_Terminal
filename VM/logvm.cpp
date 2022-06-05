@@ -97,7 +97,7 @@ void LogVM::setLogReplaced(bool newValue)
 
 QString LogVM::convertToLog(const UARTPackage* package)
 {
-    switch (getOptionsModel()->getDisplayMode()) {
+    switch (getOptionsModel()->getOutputMode()) {
         case OptionsModel::DisplayModeEnum::TEXT:
         return convertPackageAsText(package);
     default:
@@ -130,8 +130,8 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
 
 void LogVM::onOptionsModelChanged(OptionsModel *newValue)
 {
-    if (_lastDisplayMode != newValue->getDisplayMode() || _lastShowTimeStamps != newValue->getShowTimeStamps()){
-        _lastDisplayMode = newValue->getDisplayMode();
+    if (_lastDisplayMode != newValue->getOutputMode() || _lastShowTimeStamps != newValue->getShowTimeStamps()){
+        _lastDisplayMode = newValue->getOutputMode();
         _lastShowTimeStamps = newValue->getShowTimeStamps();
         emit logReplaced(getLog());
     }
