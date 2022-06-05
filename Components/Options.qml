@@ -24,27 +24,6 @@ Rectangle {
 
         spacing: 15
 
-        RudironComboBox{
-            id: displayMode_comboBox
-            Layout.alignment: Qt.AlignLeft
-
-            model: [
-                "Строка",
-                "16-й",
-                "10-й",
-                "8-й",
-                "2-й",
-            ]
-
-            onCurrent_indexChanged: {
-                if (vm){
-                    var current_model = vm.optionsModel
-                    current_model.displayMode = current_index
-                    vm.optionsModel = current_model
-                }
-            }
-        }
-
         RudironSwitchBox{
             id: logSwitchBox
             Layout.preferredWidth: 150
@@ -55,7 +34,7 @@ Rectangle {
                 ListModel {
 
                 ListElement {
-                    name: "Автопрокрутка"
+                    name: "Автопрокрутка:"
                     values_available: [
                         ListElement{
                             value: "Выкл."
@@ -67,13 +46,34 @@ Rectangle {
                     values_index: 0
                 }
                 ListElement {
-                    name: "Отметки времени"
+                    name: "Отметки времени:"
                     values_available: [
                         ListElement{
                             value: "Выкл."
                         },
                         ListElement{
                             value: "Вкл."
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
+                    name: "Отображение:"
+                    values_available: [
+                        ListElement{
+                            value: "Строка"
+                        },
+                        ListElement{
+                            value: "16-й"
+                        },
+                        ListElement{
+                            value: "10-й"
+                        },
+                        ListElement{
+                            value: "8-й"
+                        },
+                        ListElement{
+                            value: "2-й"
                         }
                     ]
                     values_index: 0
@@ -92,24 +92,27 @@ Rectangle {
                 case 1:
                     optionsModel.showTimeStamps = Boolean(selected_value_index)
                     break
+                case 2:
+                    optionsModel.displayMode = selected_value_index
+                    break
                 }
 
                 vm.optionsModel = optionsModel
             }
         }
 
-//        RudironSwitchBox{
-//            Layout.preferredWidth: 150
-//            Layout.alignment: Qt.AlignLeft
+        //        RudironSwitchBox{
+        //            Layout.preferredWidth: 150
+        //            Layout.alignment: Qt.AlignLeft
 
-//            model: [
-//                "Бит в секунду",
-//                "Биты данных",
-//                "Четность",
-//                "Стоповые биты",
-//                "Конец строки"
-//            ]
-//        }
+        //            model: [
+        //                "Бит в секунду",
+        //                "Биты данных",
+        //                "Четность",
+        //                "Стоповые биты",
+        //                "Конец строки"
+        //            ]
+        //        }
 
         RudironComboBox{
             id: portName_comboBox
@@ -147,10 +150,9 @@ Rectangle {
                                            console.log("Options model changed:\n" + model.printable())
                                        })
 
-
-        displayMode_comboBox.current_index = vm.optionsModel.displayMode
         logSwitchBox.model.get(0).values_index = vm.optionsModel.autoScroll ? 1 : 0
         logSwitchBox.model.get(1).values_index = vm.optionsModel.showTimeStamps ? 1 : 0
+        logSwitchBox.model.get(2).values_index = vm.optionsModel.displayMode
         portName_comboBox.model = vm.getAvailablePortNames()
     }
 }
