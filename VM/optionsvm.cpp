@@ -86,6 +86,7 @@ void OptionsVM::onOptionsModelChanged(OptionsModel *newValue)
             }
             else{
                 output("Ошибка открытия порта " + newValue->getPortName() + "!");
+                emit openPortFailure(newValue->getPortName());
             }
         }
     }

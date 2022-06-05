@@ -42,7 +42,7 @@ protected slots:
     virtual void onOptionsModelChanged(OptionsModel* newValue) override;
 
 signals:
-
+    void openPortFailure(QString portName);
 };
 
 #endif // OPTIONSVM_HPP

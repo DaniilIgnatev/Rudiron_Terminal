@@ -150,6 +150,10 @@ Rectangle {
                                            console.log("Options model changed:\n" + model.printable())
                                        })
 
+        vm.openPortFailure.connect((portName) => {
+                                       portName_comboBox.current_index = 0
+                                   })
+
         logSwitchBox.model.get(0).values_index = vm.optionsModel.autoScroll ? 1 : 0
         logSwitchBox.model.get(1).values_index = vm.optionsModel.showTimeStamps ? 1 : 0
         logSwitchBox.model.get(2).values_index = vm.optionsModel.outputMode
