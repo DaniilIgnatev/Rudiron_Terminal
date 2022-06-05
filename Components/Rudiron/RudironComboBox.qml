@@ -13,6 +13,8 @@ MouseArea{
     property var current_value
     property string default_value: "Не выбрано"
 
+    signal opened
+
     Layout.fillHeight: true
     Layout.margins: -5
     Layout.preferredWidth: 100
@@ -139,6 +141,10 @@ MouseArea{
             background: Rectangle{
                 border.width: 1
                 border.color: "#2f363d"
+            }
+
+            onOpened: {
+                root_mouse.opened()
             }
         }
 
