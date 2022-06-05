@@ -65,5 +65,7 @@ QString OptionsModel::printable()
     QString text;
     text += "Display mode: " + QString(metaEnum.valueToKey(_displayMode)) + "\n";
     text += "Port name: " + _portName + "\n";
+    text += "AutoScroll: " + QString(_autoScroll ? "true" : "false") + "\n";
+    text += "ShowTimeStamps: " + QString(_showTimeStamps ? "true" : "false") + "\n";
     return text;
 }

@@ -46,13 +46,13 @@ Rectangle {
         }
 
         RudironSwitchBox{
+            id: logSwitchBox
             Layout.preferredWidth: 150
             Layout.alignment: Qt.AlignLeft
 
             default_value: "Журнал"
             model:
                 ListModel {
-                id: fruitModel
 
                 ListElement {
                     name: "Автопрокрутка"
@@ -64,7 +64,7 @@ Rectangle {
                             value: "Вкл."
                         }
                     ]
-                    values_index: 1
+                    values_index: 0
                 }
                 ListElement {
                     name: "Отметки времени"
@@ -76,22 +76,25 @@ Rectangle {
                             value: "Вкл."
                         }
                     ]
-                    values_index: 1
+                    values_index: 0
                 }
             }
 
             onModelChanged: {
+                var optionsModel = vm.optionsModel
                 var delegate_model = model.get(current_index)
-
-                console.log(delegate_model.values_index)
-                console.log(delegate_model.values_available.get(delegate_model.values_index).value)
+                var selected_value_index = delegate_model.values_index
 
                 switch (current_index){
                 case 0:
+                    optionsModel.autoScroll = Boolean(selected_value_index)
                     break
                 case 1:
+                    optionsModel.showTimeStamps = Boolean(selected_value_index)
                     break
                 }
+
+                vm.optionsModel = optionsModel
             }
         }
 
@@ -144,8 +147,11 @@ Rectangle {
                                            console.log("Options model changed:\n" + model.printable())
                                        })
 
-        portName_comboBox.model = vm.availablePortNames()
+
         displayMode_comboBox.current_index = vm.optionsModel.displayMode
+        logSwitchBox.model.get(0).values_index = vm.optionsModel.autoScroll ? 1 : 0
+        logSwitchBox.model.get(1).values_index = vm.optionsModel.showTimeStamps ? 1 : 0
+        portName_comboBox.model = vm.availablePortNames()
     }
 }
 

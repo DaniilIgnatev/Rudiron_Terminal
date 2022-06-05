@@ -15,6 +15,9 @@ TerminalVM::TerminalVM(QObject *parent)
     OptionsModel *optionsModel = new OptionsModel(this);
     optionsModel->setPortName("");
     optionsModel->setDisplayMode(OptionsModel::DisplayModeEnum::TEXT);
+    optionsModel->setAutoScroll(true);
+    optionsModel->setShowTimeStamps(true);
+
     this->optionsModel = optionsModel;
     emit optionsModelChanged(optionsModel);
 }
