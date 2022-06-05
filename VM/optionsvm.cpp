@@ -56,9 +56,14 @@ void OptionsVM::setOutputDelegate(IOutputDelegate *newOutputDelegate)
     outputDelegate = newOutputDelegate;
 }
 
-QStringList OptionsVM::availablePortNames()
+QString OptionsVM::getDefaultPortName()
 {
-    QStringList defaultValue("Отключен");
+    return "Порт отключен";
+}
+
+QStringList OptionsVM::getAvailablePortNames()
+{
+    QStringList defaultValue("Порт отключен");
     QStringList available = uart->availablePortNames();
     defaultValue.append(available);
     return defaultValue;

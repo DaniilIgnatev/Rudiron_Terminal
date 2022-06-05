@@ -50,7 +50,7 @@ Rectangle {
             Layout.preferredWidth: 150
             Layout.alignment: Qt.AlignLeft
 
-            default_value: "Журнал"
+            default_value: "Вывод"
             model:
                 ListModel {
 
@@ -116,7 +116,7 @@ Rectangle {
             Layout.preferredWidth: 150
             Layout.alignment: Qt.AlignLeft
 
-            default_value: "Отключен"
+            default_value: "Порт отключен"
             model: []
 
             onCurrent_valueChanged: {
@@ -151,7 +151,7 @@ Rectangle {
         displayMode_comboBox.current_index = vm.optionsModel.displayMode
         logSwitchBox.model.get(0).values_index = vm.optionsModel.autoScroll ? 1 : 0
         logSwitchBox.model.get(1).values_index = vm.optionsModel.showTimeStamps ? 1 : 0
-        portName_comboBox.model = vm.availablePortNames()
+        portName_comboBox.model = vm.getAvailablePortNames()
     }
 }
 

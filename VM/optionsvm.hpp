@@ -35,7 +35,8 @@ public:
     virtual IOutputDelegate *getOutputDelegate() const override;
     virtual void setOutputDelegate(IOutputDelegate *newOutputDelegate) override;
 
-    Q_INVOKABLE QStringList availablePortNames();
+    Q_INVOKABLE QString getDefaultPortName();
+    Q_INVOKABLE QStringList getAvailablePortNames();
 
 protected slots:
     virtual void onOptionsModelChanged(OptionsModel* newValue) override;
