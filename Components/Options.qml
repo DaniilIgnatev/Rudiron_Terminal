@@ -100,6 +100,10 @@ Rectangle {
         RudironButton{
             Layout.alignment: Qt.AlignRight
             text: "Очистить"
+
+            onClicked: {
+                vm.clear()
+            }
         }
     }
 

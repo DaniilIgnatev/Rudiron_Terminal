@@ -6,6 +6,8 @@
 class IOutputDelegate{
 public:
     virtual void output(QString message) = 0;
+
+    virtual void clear() = 0;
 };
 
 #endif // IOUTPUTDELEGATE_H

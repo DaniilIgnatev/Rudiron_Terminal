@@ -48,6 +48,11 @@ void LogVM::output(QString message)
     }
 }
 
+void LogVM::clear()
+{
+    emit logCleared();
+}
+
 void LogVM::uartAvailable()
 {
     UARTPackage* package = new UARTPackage();

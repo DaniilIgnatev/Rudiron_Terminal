@@ -13,8 +13,11 @@ Rectangle{
     function initialize(){
         scroll.ScrollBar.vertical.position = 0
         vm.logAppended.connect ((appendedLog) => {
-                                    _text.text += appendedLog
+                                    textEdit.text += appendedLog
                                 })
+        vm.logCleared.connect (() => {
+                                   textEdit.text = ""
+                               })
     }
 
     color: "#1d2125"
@@ -30,7 +33,7 @@ Rectangle{
         ScrollBar.horizontal.policy: ScrollBar.AsNeeded
 
         TextEdit {
-            id: _text
+            id: textEdit
 
             leftPadding: 5
             topPadding: 5

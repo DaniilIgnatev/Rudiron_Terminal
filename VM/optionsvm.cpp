@@ -41,6 +41,11 @@ void OptionsVM::output(QString message)
     getOutputDelegate()->output(message);
 }
 
+void OptionsVM::clear()
+{
+    getOutputDelegate()->clear();
+}
+
 IOutputDelegate *OptionsVM::getOutputDelegate() const
 {
     return outputDelegate;
