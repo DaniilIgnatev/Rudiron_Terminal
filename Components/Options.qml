@@ -175,28 +175,46 @@ Rectangle {
                             value: "500000"
                         }
                     ]
-                    values_index: 0
+                    values_index: 8
                 }
                 ListElement {
                     name: "Биты данных:"
                     values_available: [
                         ListElement{
-                            value: "Выкл."
+                            value: "4"
                         },
                         ListElement{
-                            value: "Вкл."
+                            value: "5"
+                        },
+                        ListElement{
+                            value: "6"
+                        },
+                        ListElement{
+                            value: "7"
+                        },
+                        ListElement{
+                            value: "8"
                         }
                     ]
-                    values_index: 0
+                    values_index: 4
                 }
                 ListElement {
                     name: "Четность:"
                     values_available: [
                         ListElement{
-                            value: "Выкл."
+                            value: "Нет"
                         },
                         ListElement{
-                            value: "Вкл."
+                            value: "Чет"
+                        },
+                        ListElement{
+                            value: "Нечет"
+                        },
+                        ListElement{
+                            value: "Маркер"
+                        },
+                        ListElement{
+                            value: "Пробел"
                         }
                     ]
                     values_index: 0
@@ -205,10 +223,13 @@ Rectangle {
                     name: "Стоповые биты:"
                     values_available: [
                         ListElement{
-                            value: "Выкл."
+                            value: "1"
                         },
                         ListElement{
-                            value: "Вкл."
+                            value: "1.5"
+                        },
+                        ListElement{
+                            value: "2"
                         }
                     ]
                     values_index: 0
@@ -217,10 +238,16 @@ Rectangle {
                     name: "Конец строки:"
                     values_available: [
                         ListElement{
-                            value: "Выкл."
+                            value: "Нет"
                         },
                         ListElement{
-                            value: "Вкл."
+                            value: "NL"
+                        },
+                        ListElement{
+                            value: "CR"
+                        },
+                        ListElement{
+                            value: "NL & CR"
                         }
                     ]
                     values_index: 0
