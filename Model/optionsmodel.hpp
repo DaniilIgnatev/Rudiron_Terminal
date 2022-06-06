@@ -19,10 +19,10 @@ public:
 
     enum DisplayModeEnum{
         TEXT,
-        HEX,
-        DEC,
+        BIN,
         OCT,
-        BIN
+        DEC,
+        HEX
     };
     Q_ENUM(DisplayModeEnum)
 

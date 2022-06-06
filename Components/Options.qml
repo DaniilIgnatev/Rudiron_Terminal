@@ -26,7 +26,7 @@ Rectangle {
         spacing: 15
 
         RudironSwitchBox{
-            id: logSwitchBox
+            id: outputSwitchBox
             Layout.preferredWidth: 150
             Layout.alignment: Qt.AlignLeft
 
@@ -65,16 +65,16 @@ Rectangle {
                             value: "Строка"
                         },
                         ListElement{
-                            value: "16-й"
-                        },
-                        ListElement{
-                            value: "10-й"
+                            value: "2-й"
                         },
                         ListElement{
                             value: "8-й"
                         },
                         ListElement{
-                            value: "2-й"
+                            value: "10-й"
+                        },
+                        ListElement{
+                            value: "16-й"
                         }
                     ]
                     values_index: 0
@@ -83,37 +83,27 @@ Rectangle {
 
             onModelChanged: {
                 var optionsModel = vm.optionsModel
-                var delegate_model = model.get(current_index)
-                var selected_value_index = delegate_model.values_index
 
-                switch (current_index){
-                case 0:
-                    optionsModel.autoScroll = Boolean(selected_value_index)
-                    break
-                case 1:
-                    optionsModel.showTimeStamps = Boolean(selected_value_index)
-                    break
-                case 2:
-                    optionsModel.outputMode = selected_value_index
-                    break
-                }
+                changed_indexes.forEach(model_index => {
+                                                  var delegate_model = model.get(model_index)
+                                                  var selected_value_index = delegate_model.values_index
+
+                                                  switch (model_index){
+                                                  case 0:
+                                                      optionsModel.autoScroll = Boolean(selected_value_index)
+                                                      break
+                                                  case 1:
+                                                      optionsModel.showTimeStamps = Boolean(selected_value_index)
+                                                      break
+                                                  case 2:
+                                                      optionsModel.outputMode = selected_value_index
+                                                      break
+                                                  }
+                                              });
 
                 vm.optionsModel = optionsModel
             }
         }
-
-        //        RudironSwitchBox{
-        //            Layout.preferredWidth: 150
-        //            Layout.alignment: Qt.AlignLeft
-
-        //            model: [
-        //                "Бит в секунду",
-        //                "Биты данных",
-        //                "Четность",
-        //                "Стоповые биты",
-        //                "Конец строки"
-        //            ]
-        //        }
 
         RudironComboBox{
             id: portName_comboBox
@@ -133,6 +123,129 @@ Rectangle {
 
             onOpened: {
                 model = vm.getAvailablePortNames()
+            }
+        }
+
+        RudironSwitchBox{
+            id: inputSwitchBox
+            Layout.preferredWidth: 150
+            Layout.alignment: Qt.AlignLeft
+
+            default_value: "Ввод"
+            model:
+                ListModel {
+
+                ListElement {
+                    name: "Бит в секунду:"
+                    values_available: [
+                        ListElement{
+                            value: "300"
+                        },
+                        ListElement{
+                            value: "1200"
+                        },
+                        ListElement{
+                            value: "2400"
+                        },
+                        ListElement{
+                            value: "4800"
+                        },
+                        ListElement{
+                            value: "9600"
+                        },
+                        ListElement{
+                            value: "19200"
+                        },
+                        ListElement{
+                            value: "38400"
+                        },
+                        ListElement{
+                            value: "57600"
+                        },
+                        ListElement{
+                            value: "115200"
+                        },
+                        ListElement{
+                            value: "230400"
+                        },
+                        ListElement{
+                            value: "250000"
+                        },
+                        ListElement{
+                            value: "500000"
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
+                    name: "Биты данных:"
+                    values_available: [
+                        ListElement{
+                            value: "Выкл."
+                        },
+                        ListElement{
+                            value: "Вкл."
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
+                    name: "Четность:"
+                    values_available: [
+                        ListElement{
+                            value: "Выкл."
+                        },
+                        ListElement{
+                            value: "Вкл."
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
+                    name: "Стоповые биты:"
+                    values_available: [
+                        ListElement{
+                            value: "Выкл."
+                        },
+                        ListElement{
+                            value: "Вкл."
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
+                    name: "Конец строки:"
+                    values_available: [
+                        ListElement{
+                            value: "Выкл."
+                        },
+                        ListElement{
+                            value: "Вкл."
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
+                    name: "Режим:"
+                    values_available: [
+                        ListElement{
+                            value: "Строка"
+                        },
+                        ListElement{
+                            value: "2-й"
+                        },
+                        ListElement{
+                            value: "8-й"
+                        },
+                        ListElement{
+                            value: "10-й"
+                        },
+                        ListElement{
+                            value: "16-й"
+                        }
+                    ]
+                    values_index: 0
+                }
             }
         }
 
@@ -159,9 +272,9 @@ Rectangle {
                                        portName_comboBox.current_index = 0
                                    })
 
-        logSwitchBox.model.get(0).values_index = vm.optionsModel.autoScroll ? 1 : 0
-        logSwitchBox.model.get(1).values_index = vm.optionsModel.showTimeStamps ? 1 : 0
-        logSwitchBox.model.get(2).values_index = vm.optionsModel.outputMode
+        outputSwitchBox.model.get(0).values_index = vm.optionsModel.autoScroll ? 1 : 0
+        outputSwitchBox.model.get(1).values_index = vm.optionsModel.showTimeStamps ? 1 : 0
+        outputSwitchBox.model.get(2).values_index = vm.optionsModel.outputMode
     }
 }
 

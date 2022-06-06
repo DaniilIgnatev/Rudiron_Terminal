@@ -14,6 +14,8 @@ MouseArea{
     property alias current_index: combobox.currentIndex
     property string default_value: "Не выбрано"
 
+    property var changed_indexes: []
+
     Layout.fillHeight: true
     Layout.margins: -5
     Layout.preferredWidth: 100
@@ -130,6 +132,11 @@ MouseArea{
                 border.width: 1
                 border.color: "#2f363d"
             }
+
+            onClosed: {
+                root_mouse.modelChanged()
+                changed_indexes = []
+            }
         }
 
         delegate:
@@ -141,7 +148,27 @@ MouseArea{
             height: 30
             hoverEnabled: true
 
-            onClicked: {
+            function choosePreviousValue(){
+                combobox.currentIndex = index
+
+                var values_available = model.values_available
+                var values_index = model.values_index
+
+                if (values_index - 1 >= 0){
+                    values_index -= 1
+                }
+                else{
+                    values_index = values_available.count - 1
+                }
+
+                model.values_index = values_index
+
+                if (!changed_indexes.includes(indexOfThisDelegate)){
+                    changed_indexes.push(indexOfThisDelegate)
+                }
+            }
+
+            function chooseNextValue(){
                 combobox.currentIndex = index
 
                 var values_available = model.values_available
@@ -155,8 +182,24 @@ MouseArea{
                 }
 
                 model.values_index = values_index
-                root_mouse.modelChanged()
+
+                if (!changed_indexes.includes(indexOfThisDelegate)){
+                    changed_indexes.push(indexOfThisDelegate)
+                }
             }
+
+            onClicked: {
+                chooseNextValue()
+            }
+
+            onWheel: (event) => {
+                         if (event.angleDelta.y > 0){
+                             chooseNextValue()
+                         }
+                         else{
+                             choosePreviousValue()
+                         }
+                     }
 
             Rectangle
             {
