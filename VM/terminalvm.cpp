@@ -13,11 +13,9 @@ TerminalVM::TerminalVM(QObject *parent)
     optionsVM->setOptionsModelDelegate(this);
     optionsVM->setOutputDelegate((IOutputDelegate*)logVM);
 
-    OptionsModel *optionsModel = new OptionsModel(this);
-    optionsModel->setPortName("");
-    optionsModel->setOutputMode(OptionsModel::DisplayModeEnum::TEXT);
-    optionsModel->setAutoScroll(true);
-    optionsModel->setShowTimeStamps(true);
+    OptionsOutputModel* optionsOutputModel = new OptionsOutputModel(true, true, IOModeEnum::TEXT);
+    OptionsModel *optionsModel = new OptionsModel(optionsOutputModel, "", this);
+    connect(this, &TerminalVM::optionsModelChanged, this, &TerminalVM::onOptionsModelChanged);
 
     this->optionsModel = optionsModel;
     emit optionsModelChanged(optionsModel);

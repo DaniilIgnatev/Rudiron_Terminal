@@ -1,35 +1,30 @@
 #include "optionsmodel.hpp"
 
 
-OptionsModel::OptionsModel(QObject *parent) : QObject(parent)
+OptionsModel::OptionsModel(QObject *parent) : IObservable(parent)
 {
-
+    connect(this, &OptionsModel::outputModelChanged, this, &OptionsModel::objectHasChanged);
+    connect(this, &OptionsModel::portNameChanged, this, &OptionsModel::objectHasChanged);
 }
 
-bool OptionsModel::getAutoScroll() const
+OptionsModel::OptionsModel(OptionsOutputModel* outputModel, QString portName, QObject *parent) : OptionsModel(parent)
 {
-    return _autoScroll;
+    _outputModel = outputModel;
+    _outputModel->setParent(this);
+    _portName = portName;
 }
 
-void OptionsModel::setAutoScroll(bool value)
+OptionsOutputModel *OptionsModel::getOutputModel() const
 {
-    if (_autoScroll == value)
+    return _outputModel;
+}
+
+void OptionsModel::setOutputModel(OptionsOutputModel *newOutputModel)
+{
+    if (_outputModel == newOutputModel)
         return;
-    _autoScroll = value;
-    emit autoScrollChanged();
-}
-
-bool OptionsModel::getShowTimeStamps() const
-{
-    return _showTimeStamps;
-}
-
-void OptionsModel::setShowTimeStamps(bool value)
-{
-    if (_showTimeStamps == value)
-        return;
-    _showTimeStamps = value;
-    emit showTimeStampsChanged();
+    _outputModel = newOutputModel;
+    emit outputModelChanged();
 }
 
 QString OptionsModel::getPortName() const
@@ -45,27 +40,11 @@ void OptionsModel::setPortName(const QString &value)
     emit portNameChanged();
 }
 
-OptionsModel::DisplayModeEnum OptionsModel::getOutputMode() const
-{
-    return _outputMode;
-}
-
-void OptionsModel::setOutputMode(DisplayModeEnum value)
-{
-    if (_outputMode == value)
-        return;
-    _outputMode = value;
-    emit outputModeChanged();
-}
-
 QString OptionsModel::printable()
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<OptionsModel::DisplayModeEnum>();
-
     QString text;
-    text += "Output mode: " + QString(metaEnum.valueToKey(_outputMode)) + "\n";
+    text += getOutputModel()->printable();
     text += "Port name: " + _portName + "\n";
-    text += "AutoScroll: " + QString(_autoScroll ? "true" : "false") + "\n";
-    text += "ShowTimeStamps: " + QString(_showTimeStamps ? "true" : "false") + "\n";
+
     return text;
 }

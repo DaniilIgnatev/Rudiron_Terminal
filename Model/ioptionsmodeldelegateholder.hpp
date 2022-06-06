@@ -4,7 +4,7 @@
 #include "ioptionsmodeldelegate.hpp"
 
 
-class IOptionsModelDelegateHolder: public IOptionsModelDelegate{
+class IOptionsModelDelegateHolder: public IOptionsModelDelegate {
 public:
     IOptionsModelDelegateHolder(QObject* parent = nullptr): IOptionsModelDelegate(parent){}
 

@@ -2,7 +2,7 @@
 
 IOptionsModelDelegate::IOptionsModelDelegate(QObject *parent): QObject(parent)
 {
-    connect(this, &IOptionsModelDelegate::optionsModelChanged, this, &IOptionsModelDelegate::onOptionsModelChanged);
+
 }
 
 OptionsModel* IOptionsModelDelegate::getOptionsModel()

@@ -2,7 +2,7 @@
 
 OptionsVM::OptionsVM(QObject *parent): IOptionsModelDelegateHolder{parent}
 {
-
+    connect(this, &OptionsVM::optionsModelChanged, this, &OptionsVM::onOptionsModelChanged);
 }
 
 UART *OptionsVM::getUart() const

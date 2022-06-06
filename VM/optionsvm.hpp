@@ -6,9 +6,10 @@
 #include "ioptionsmodeldelegate.hpp"
 #include "ioptionsmodeldelegateholder.hpp"
 #include "ioutputdelegateholder.hpp"
+#include "iobservable.hpp"
 
 
-class OptionsVM : public IOptionsModelDelegateHolder, IOutputDelegateHolder
+class OptionsVM : public IOptionsModelDelegateHolder, public IOutputDelegateHolder
 {
     Q_OBJECT
 private:

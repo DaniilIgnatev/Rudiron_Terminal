@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<UARTPackage>("com.VM", 1, 0, "UARTPackage");
     qmlRegisterType<OptionsModel>("com.VM", 1, 0, "OptionsModel");
+    qmlRegisterType<OptionsOutputModel>("com.VM", 1, 0, "OptionsOutputModel");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Components/Terminal.qml"));

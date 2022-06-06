@@ -3,7 +3,7 @@
 TransmitterVM::TransmitterVM(QObject *parent)
     : IOptionsModelDelegateHolder{parent}
 {
-
+    connect(this, &TransmitterVM::optionsModelChanged, this, &TransmitterVM::onOptionsModelChanged);
 }
 
 UART *TransmitterVM::getUart() const

@@ -18,11 +18,9 @@ private:
 
     IOptionsModelDelegate* optionsModelDelegate = nullptr;
 
-    OptionsModel::DisplayModeEnum _lastDisplayMode = OptionsModel::DisplayModeEnum::TEXT;
+    IOModeEnum _lastDisplayMode;
 
-    bool _logReplaced = false;
-
-    bool _lastShowTimeStamps = false;
+    bool _lastShowTimeStamps;
 
 public:
     explicit LogVM(QObject *parent = nullptr);
@@ -49,10 +47,6 @@ signals:
 public slots:
 
     QString getLog();
-
-    bool getLogReplaced() const;
-
-    void setLogReplaced(bool newValue);
 
 private:
     QString convertToLog(const UARTPackage* package);

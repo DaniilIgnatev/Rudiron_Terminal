@@ -3,7 +3,7 @@
 
 #include "TypeDefs.hpp"
 
-class IOutputDelegate{
+class IOutputDelegate {
 public:
     Q_INVOKABLE virtual void output(QString message) = 0;
 

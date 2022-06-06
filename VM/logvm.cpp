@@ -3,7 +3,7 @@
 LogVM::LogVM(QObject *parent)
     : IOptionsModelDelegateHolder{parent}
 {
-
+    connect(this, &LogVM::optionsModelChanged, this, &LogVM::onOptionsModelChanged);
 }
 
 UART *LogVM::getUart() const
@@ -58,7 +58,6 @@ void LogVM::output(QString message)
 void LogVM::clear()
 {
     receivedPackages.clear();
-    _logReplaced = true;
     emit logReplaced(getLog());
 }
 
@@ -85,20 +84,10 @@ QString LogVM::getLog()
     return log;
 }
 
-bool LogVM::getLogReplaced() const
-{
-    return _logReplaced;
-}
-
-void LogVM::setLogReplaced(bool newValue)
-{
-    _logReplaced = newValue;
-}
-
 QString LogVM::convertToLog(const UARTPackage* package)
 {
-    switch (getOptionsModel()->getOutputMode()) {
-        case OptionsModel::DisplayModeEnum::TEXT:
+    switch (getOptionsModel()->getOutputModel()->getMode()) {
+        case IOModeEnum::TEXT:
         return convertPackageAsText(package);
     default:
         return convertPackageAsText(package);
@@ -112,7 +101,7 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
         text.append("Терминал -> ");
     }
     else{
-        if (getOptionsModel()->getShowTimeStamps()){
+        if (getOptionsModel()->getOutputModel()->getShowTimeStamps()){
             text.append(QString::number(package->getDateTime().time().hour()));
             text.append(":");
             text.append(QString::number(package->getDateTime().time().minute()));
@@ -130,9 +119,9 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
 
 void LogVM::onOptionsModelChanged(OptionsModel *newValue)
 {
-    if (_lastDisplayMode != newValue->getOutputMode() || _lastShowTimeStamps != newValue->getShowTimeStamps()){
-        _lastDisplayMode = newValue->getOutputMode();
-        _lastShowTimeStamps = newValue->getShowTimeStamps();
+    if (_lastDisplayMode != newValue->getOutputModel()->getMode() || _lastShowTimeStamps != newValue->getOutputModel()->getShowTimeStamps()){
+        _lastDisplayMode = newValue->getOutputModel()->getMode();
+        _lastShowTimeStamps = newValue->getOutputModel()->getShowTimeStamps();
         emit logReplaced(getLog());
     }
 }

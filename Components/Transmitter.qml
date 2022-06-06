@@ -44,6 +44,7 @@ RowLayout{
 
             onAccepted: {
                 vm.send(textInput.text)
+                textInput.text = ""
             }
 
             TextInput {
