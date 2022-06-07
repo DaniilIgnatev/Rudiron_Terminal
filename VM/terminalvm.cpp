@@ -14,7 +14,7 @@ TerminalVM::TerminalVM(QObject *parent)
     optionsVM->setOutputDelegate((IOutputDelegate*)logVM);
 
     OptionsOutputModel* optionsOutputModel = new OptionsOutputModel(true, true, IOModeEnum::TEXT);
-    OptionsInputModel* optionsInputModel = new OptionsInputModel();
+    OptionsInputModel* optionsInputModel = new OptionsInputModel(115200, 8, QSerialPort::Parity::NoParity, QSerialPort::StopBits::OneStop, QSerialPort::FlowControl::NoFlowControl, "\n", IOModeEnum::TEXT);
 
     OptionsModel *optionsModel = new OptionsModel(optionsOutputModel, "", optionsInputModel, this);
     connect(optionsModel, &OptionsModel::objectHasChanged, this, &TerminalVM::optionsModelChanged);

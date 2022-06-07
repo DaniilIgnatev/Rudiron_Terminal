@@ -11,6 +11,24 @@ OptionsInputModel::OptionsInputModel(QObject *parent) : ObservableQObject(parent
     connect(this, &OptionsInputModel::modeChanged, this, &OptionsInputModel::objectHasChanged);
 }
 
+OptionsInputModel::OptionsInputModel(int baudRate,
+                                     int dataBits,
+                                     QSerialPort::Parity parity,
+                                     QSerialPort::StopBits stopBits,
+                                     QSerialPort::FlowControl flowControl,
+                                     QString stringEnd,
+                                     IOModeEnum mode,
+                                     QObject *parent) : OptionsInputModel(parent)
+{
+    this->_baudRate = baudRate;
+    this->_dataBits = dataBits;
+    this->_parity = parity;
+    this->_stopBits = stopBits;
+    this->_flowControl = flowControl;
+    this->_stringEnd = stringEnd;
+    this->_mode = mode;
+}
+
 int OptionsInputModel::getBaudRate() const
 {
     return _baudRate;

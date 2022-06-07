@@ -29,6 +29,15 @@ private:
 public:
     explicit OptionsInputModel(QObject *parent = nullptr);
 
+    explicit OptionsInputModel(int baudRate,
+                               int dataBits,
+                               QSerialPort::Parity parity,
+                               QSerialPort::StopBits stopBits,
+                               QSerialPort::FlowControl flowControl,
+                               QString stringEnd,
+                               IOModeEnum mode,
+                               QObject *parent = nullptr);
+
     int getBaudRate() const;
     void setBaudRate(int baudRate);
 
