@@ -66,3 +66,8 @@ void TransmitterVM::setOutputDelegate(IOutputDelegate *newOutputDelegate)
 {
     outputDelegate = newOutputDelegate;
 }
+
+void TransmitterVM::onOptionsModelChanged()
+{
+
+}

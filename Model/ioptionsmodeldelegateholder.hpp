@@ -5,11 +5,12 @@
 
 
 class IOptionsModelDelegateHolder: public IOptionsModelDelegate {
+    Q_OBJECT
 public:
-    IOptionsModelDelegateHolder(QObject* parent = nullptr): IOptionsModelDelegate(parent){}
+    IOptionsModelDelegateHolder(QObject* parent = nullptr);
 
-    virtual IOptionsModelDelegate *getOptionsModelDelegate() const = 0;
-    virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) = 0;
+    virtual IOptionsModelDelegate *getOptionsModelDelegate() const;
+    virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate);
 };
 
 #endif // IOPTIONSMODELDELEGATEHOLDERHPP_H

@@ -3,9 +3,10 @@
 
 #include <QObject>
 #include "optionsmodel.hpp"
+#include "observableqobject.hpp"
 
 
-class IOptionsModelDelegate : public QObject {
+class IOptionsModelDelegate : public ObservableQObject {
     Q_OBJECT
     Q_PROPERTY(OptionsModel* optionsModel READ getOptionsModel WRITE setOptionsModel NOTIFY optionsModelChanged)
 
@@ -18,7 +19,6 @@ public:
 protected slots:
     virtual void onOptionsModelChanged();
 
-public:
 signals:
     void optionsModelChanged();
 };

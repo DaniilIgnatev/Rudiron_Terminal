@@ -49,3 +49,8 @@ void TerminalVM::setOptionsModel(OptionsModel *newOptionsModel)
     optionsModel = newOptionsModel;
     emit optionsModelChanged();
 }
+
+void TerminalVM::onOptionsModelChanged()
+{
+
+}

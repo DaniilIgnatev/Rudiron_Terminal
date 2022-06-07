@@ -30,6 +30,8 @@ public:
 
 signals:
 
+protected slots:
+    virtual void onOptionsModelChanged() override;
 
 public slots:
    TransmitterVM *getTransmitterVM();

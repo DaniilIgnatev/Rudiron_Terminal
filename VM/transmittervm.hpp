@@ -36,6 +36,9 @@ public:
 
 signals:
 
+protected slots:
+    virtual void onOptionsModelChanged() override;
+
 public slots:
     void send(QString text);
 };

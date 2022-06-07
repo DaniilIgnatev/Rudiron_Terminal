@@ -1,6 +1,6 @@
 #include "ioptionsmodeldelegate.hpp"
 
-IOptionsModelDelegate::IOptionsModelDelegate(QObject *parent): QObject(parent)
+IOptionsModelDelegate::IOptionsModelDelegate(QObject *parent): ObservableQObject(parent)
 {
 
 }

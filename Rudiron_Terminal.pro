@@ -8,6 +8,7 @@ QT += serialport
 SOURCES += \
     Model/iomode.cpp \
     Model/ioptionsmodeldelegate.cpp \
+    Model/ioptionsmodeldelegateholder.cpp \
     Model/optionsinputmodel.cpp \
     Model/optionsmodel.cpp \
     Model/optionsoutputmodel.cpp \
