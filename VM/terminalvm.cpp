@@ -14,13 +14,14 @@ TerminalVM::TerminalVM(QObject *parent)
     optionsVM->setOutputDelegate((IOutputDelegate*)logVM);
 
     OptionsOutputModel* optionsOutputModel = new OptionsOutputModel(true, true, IOModeEnum::TEXT);
-    OptionsModel *optionsModel = new OptionsModel(optionsOutputModel, "", this);
+    OptionsInputModel* optionsInputModel = new OptionsInputModel();
+
+    OptionsModel *optionsModel = new OptionsModel(optionsOutputModel, "", optionsInputModel, this);
     connect(optionsModel, &OptionsModel::objectHasChanged, this, &TerminalVM::optionsModelChanged);
     connect(this, &TerminalVM::optionsModelChanged, this, &TerminalVM::onOptionsModelChanged);
 
     this->optionsModel = optionsModel;
     emit optionsModelChanged();
-
 }
 
 TransmitterVM *TerminalVM::getTransmitterVM()

@@ -86,21 +86,21 @@ Rectangle {
                 var outputModel = optionsModel.outputModel
 
                 changed_indexes.forEach(model_index => {
-                                                  var delegate_model = model.get(model_index)
-                                                  var selected_value_index = delegate_model.values_index
+                                            var delegate_model = model.get(model_index)
+                                            var selected_value_index = delegate_model.values_index
 
-                                                  switch (model_index){
-                                                  case 0:
-                                                      outputModel.autoScroll = Boolean(selected_value_index)
-                                                      break
-                                                  case 1:
-                                                      outputModel.showTimeStamps = Boolean(selected_value_index)
-                                                      break
-                                                  case 2:
-                                                      outputModel.mode = selected_value_index
-                                                      break
-                                                  }
-                                              });
+                                            switch (model_index){
+                                                case 0:
+                                                outputModel.autoScroll = Boolean(selected_value_index)
+                                                break
+                                                case 1:
+                                                outputModel.showTimeStamps = Boolean(selected_value_index)
+                                                break
+                                                case 2:
+                                                outputModel.mode = selected_value_index
+                                                break
+                                            }
+                                        });
 
                 optionsModel.outputModel = outputModel
             }
@@ -292,10 +292,6 @@ Rectangle {
     }
 
     onVmChanged: {
-        vm.optionsModelChanged.connect(() => {
-                                           console.log("Options model changed:\n" + vm.optionsModel.printable())
-                                       })
-
         vm.openPortFailure.connect((portName) => {
                                        portName_comboBox.current_index = 0
                                    })

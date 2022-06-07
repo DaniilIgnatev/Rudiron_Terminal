@@ -3,10 +3,9 @@
 
 #include "iomode.hpp"
 #include "iprintable.hpp"
-#include "iobservable.hpp"
+#include "observableqobject.hpp"
 
-
-class OptionsOutputModel : public IObservable, public IPrintable
+class OptionsOutputModel : public ObservableQObject, public IPrintable
 {
     Q_OBJECT
     Q_PROPERTY(bool autoScroll READ getAutoScroll WRITE setAutoScroll NOTIFY autoScrollChanged)

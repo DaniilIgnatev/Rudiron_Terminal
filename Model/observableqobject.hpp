@@ -4,10 +4,10 @@
 #include "TypeDefs.hpp"
 
 
-class IObservable: public QObject {
+class ObservableQObject: public QObject {
     Q_OBJECT
 public:
-    explicit IObservable(QObject* parent = nullptr): QObject(parent){};
+    explicit ObservableQObject(QObject* parent = nullptr): QObject(parent){};
 signals:
     void objectHasChanged();
 };

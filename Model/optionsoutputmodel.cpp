@@ -1,6 +1,6 @@
 #include "optionsoutputmodel.hpp"
 
-OptionsOutputModel::OptionsOutputModel(QObject *parent): IObservable{parent}
+OptionsOutputModel::OptionsOutputModel(QObject *parent): ObservableQObject{parent}
 {
     connect(this, &OptionsOutputModel::autoScrollChanged, this, &OptionsOutputModel::objectHasChanged);
     connect(this, &OptionsOutputModel::showTimeStampsChanged, this, &OptionsOutputModel::objectHasChanged);
@@ -56,11 +56,13 @@ void OptionsOutputModel::setMode(IOModeEnum value)
 
 QString OptionsOutputModel::printable()
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<IOModeEnum>();
+    QMetaEnum modeEnum = QMetaEnum::fromType<IOModeEnum>();
 
     QString text;
-    text += "Mode: " + QString(metaEnum.valueToKey(_mode)) + "\n";
+
     text += "AutoScroll: " + QString(_autoScroll ? "true" : "false") + "\n";
     text += "ShowTimeStamps: " + QString(_showTimeStamps ? "true" : "false") + "\n";
+    text += "Mode: " + QString(modeEnum.valueToKey(_mode)) + "\n";
+
     return text;
 }

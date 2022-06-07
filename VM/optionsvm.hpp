@@ -6,7 +6,7 @@
 #include "ioptionsmodeldelegate.hpp"
 #include "ioptionsmodeldelegateholder.hpp"
 #include "ioutputdelegateholder.hpp"
-#include "iobservable.hpp"
+#include "observableqobject.hpp"
 
 
 class OptionsVM : public IOptionsModelDelegateHolder, public IOutputDelegateHolder

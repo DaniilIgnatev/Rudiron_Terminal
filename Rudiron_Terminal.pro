@@ -8,6 +8,7 @@ QT += serialport
 SOURCES += \
     Model/iomode.cpp \
     Model/ioptionsmodeldelegate.cpp \
+    Model/optionsinputmodel.cpp \
     Model/optionsmodel.cpp \
     Model/optionsoutputmodel.cpp \
     UART/uart.cpp \
@@ -32,13 +33,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    Model/iobservable.hpp \
     Model/iomode.hpp \
     Model/ioptionsmodeldelegate.hpp \
     Model/ioptionsmodeldelegateholder.hpp \
     Model/ioutputdelegate.hpp \
     Model/ioutputdelegateholder.hpp \
     Model/iprintable.hpp \
+    Model/observableqobject.hpp \
+    Model/optionsinputmodel.hpp \
     Model/optionsmodel.hpp \
     Model/optionsoutputmodel.hpp \
     TypeDefs.hpp \
