@@ -8,18 +8,18 @@ class IOMode : public QObject
 {
     Q_OBJECT
 public:
-    enum Enum{
+    enum IOModeEnum{
         TEXT,
         BIN,
         OCT,
         DEC,
         HEX
     };
-    Q_ENUM(IOMode::Enum)
+    Q_ENUM(IOModeEnum)
 
     explicit IOMode(QObject *parent = nullptr);
 };
 
-typedef IOMode::Enum IOModeEnum;
+typedef IOMode::IOModeEnum IOModeEnum;
 
 #endif // IOMODE_HPP

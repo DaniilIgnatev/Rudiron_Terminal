@@ -21,8 +21,8 @@ OptionsOutputModel *OptionsModel::getOutputModel() const
 
 void OptionsModel::setOutputModel(OptionsOutputModel *newOutputModel)
 {
-    if (_outputModel == newOutputModel)
-        return;
+//    if (_outputModel == newOutputModel)
+//        return;
     _outputModel = newOutputModel;
     emit outputModelChanged();
 }
@@ -43,6 +43,7 @@ void OptionsModel::setPortName(const QString &value)
 QString OptionsModel::printable()
 {
     QString text;
+    text += "[Output model]\n";
     text += getOutputModel()->printable();
     text += "Port name: " + _portName + "\n";
 

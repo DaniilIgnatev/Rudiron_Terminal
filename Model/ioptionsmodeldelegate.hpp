@@ -16,11 +16,11 @@ public:
     virtual void setOptionsModel(OptionsModel* newModel);
 
 protected slots:
-    virtual void onOptionsModelChanged(OptionsModel* newValue);
+    virtual void onOptionsModelChanged();
 
 public:
 signals:
-    void optionsModelChanged(OptionsModel* newValue);
+    void optionsModelChanged();
 };
 
 #endif // IOPTIONSMODELDELEGATE_H

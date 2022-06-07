@@ -69,8 +69,9 @@ QStringList OptionsVM::getAvailablePortNames()
     return defaultValue;
 }
 
-void OptionsVM::onOptionsModelChanged(OptionsModel *newValue)
+void OptionsVM::onOptionsModelChanged()
 {
+    OptionsModel* newValue = getOptionsModel();
     QSerialPortInfo portInfo = QSerialPortInfo(newValue->getPortName());
     bool containsPort = !portInfo.isNull();
 

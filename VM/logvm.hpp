@@ -54,7 +54,7 @@ private:
     QString convertPackageAsText(const UARTPackage* package);
 
 protected slots:
-    virtual void onOptionsModelChanged(OptionsModel* newValue) override;
+    virtual void onOptionsModelChanged() override;
 };
 
 #endif // LOGVM_H

@@ -83,6 +83,7 @@ Rectangle {
 
             onModelChanged: {
                 var optionsModel = vm.optionsModel
+                var outputModel = optionsModel.outputModel
 
                 changed_indexes.forEach(model_index => {
                                                   var delegate_model = model.get(model_index)
@@ -90,18 +91,18 @@ Rectangle {
 
                                                   switch (model_index){
                                                   case 0:
-                                                      optionsModel.autoScroll = Boolean(selected_value_index)
+                                                      outputModel.autoScroll = Boolean(selected_value_index)
                                                       break
                                                   case 1:
-                                                      optionsModel.showTimeStamps = Boolean(selected_value_index)
+                                                      outputModel.showTimeStamps = Boolean(selected_value_index)
                                                       break
                                                   case 2:
-                                                      optionsModel.outputMode = selected_value_index
+                                                      outputModel.mode = selected_value_index
                                                       break
                                                   }
                                               });
 
-                vm.optionsModel = optionsModel
+                optionsModel.outputModel = outputModel
             }
         }
 
@@ -291,8 +292,8 @@ Rectangle {
     }
 
     onVmChanged: {
-        vm.optionsModelChanged.connect((model) => {
-                                           console.log("Options model changed:\n" + model.printable())
+        vm.optionsModelChanged.connect(() => {
+                                           console.log("Options model changed:\n" + vm.optionsModel.printable())
                                        })
 
         vm.openPortFailure.connect((portName) => {

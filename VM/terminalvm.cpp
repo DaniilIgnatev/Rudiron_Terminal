@@ -15,10 +15,12 @@ TerminalVM::TerminalVM(QObject *parent)
 
     OptionsOutputModel* optionsOutputModel = new OptionsOutputModel(true, true, IOModeEnum::TEXT);
     OptionsModel *optionsModel = new OptionsModel(optionsOutputModel, "", this);
+    connect(optionsModel, &OptionsModel::objectHasChanged, this, &TerminalVM::optionsModelChanged);
     connect(this, &TerminalVM::optionsModelChanged, this, &TerminalVM::onOptionsModelChanged);
 
     this->optionsModel = optionsModel;
-    emit optionsModelChanged(optionsModel);
+    emit optionsModelChanged();
+
 }
 
 TransmitterVM *TerminalVM::getTransmitterVM()
@@ -44,5 +46,5 @@ OptionsModel* TerminalVM::getOptionsModel()
 void TerminalVM::setOptionsModel(OptionsModel *newOptionsModel)
 {
     optionsModel = newOptionsModel;
-    emit optionsModelChanged(newOptionsModel);
+    emit optionsModelChanged();
 }

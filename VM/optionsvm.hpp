@@ -40,7 +40,7 @@ public:
     Q_INVOKABLE QStringList getAvailablePortNames();
 
 protected slots:
-    virtual void onOptionsModelChanged(OptionsModel* newValue) override;
+    virtual void onOptionsModelChanged() override;
 
 signals:
     void openPortFailure(QString portName);

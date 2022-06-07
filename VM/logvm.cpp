@@ -117,8 +117,9 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
     return text;
 }
 
-void LogVM::onOptionsModelChanged(OptionsModel *newValue)
+void LogVM::onOptionsModelChanged()
 {
+    OptionsModel* newValue = getOptionsModel();
     if (_lastDisplayMode != newValue->getOutputModel()->getMode() || _lastShowTimeStamps != newValue->getOutputModel()->getShowTimeStamps()){
         _lastDisplayMode = newValue->getOutputModel()->getMode();
         _lastShowTimeStamps = newValue->getOutputModel()->getShowTimeStamps();

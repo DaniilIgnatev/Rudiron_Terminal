@@ -15,7 +15,7 @@ void IOptionsModelDelegate::setOptionsModel(OptionsModel* newModel)
     Q_UNUSED(newModel)
 }
 
-void IOptionsModelDelegate::onOptionsModelChanged(OptionsModel *newValue)
+void IOptionsModelDelegate::onOptionsModelChanged()
 {
-    Q_UNUSED(newValue)
+
 }
