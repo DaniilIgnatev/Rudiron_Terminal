@@ -42,10 +42,10 @@ bool UART::begin(QSerialPortInfo port)
     if (!serial->setDataBits(QSerialPort::Data8)){
         return false;
     }
-    if (!serial->setStopBits(QSerialPort::OneStop)){
+    if (!serial->setParity(QSerialPort::NoParity)){
         return false;
     }
-    if (!serial->setParity(QSerialPort::NoParity)){
+    if (!serial->setStopBits(QSerialPort::OneStop)){
         return false;
     }
     if (!serial->setFlowControl(QSerialPort::FlowControl::NoFlowControl)){

@@ -206,16 +206,16 @@ Rectangle {
                             value: "Нет"
                         },
                         ListElement{
-                            value: "Чет"
+                            value: "Чётный"
                         },
                         ListElement{
-                            value: "Нечет"
-                        },
-                        ListElement{
-                            value: "Маркер"
+                            value: "Нечетный"
                         },
                         ListElement{
                             value: "Пробел"
+                        },
+                        ListElement{
+                            value: "Маркер"
                         }
                     ]
                     values_index: 0
@@ -236,6 +236,21 @@ Rectangle {
                     values_index: 0
                 }
                 ListElement {
+                    name: "Управление:"
+                    values_available: [
+                        ListElement{
+                            value: "Нет"
+                        },
+                        ListElement{
+                            value: "Аппаратное"
+                        },
+                        ListElement{
+                            value: "Xon / Xoff"
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
                     name: "Конец строки:"
                     values_available: [
                         ListElement{
@@ -248,7 +263,7 @@ Rectangle {
                             value: "CR"
                         },
                         ListElement{
-                            value: "NL & CR"
+                            value: "CR & NL"
                         }
                     ]
                     values_index: 0
@@ -274,6 +289,70 @@ Rectangle {
                     ]
                     values_index: 0
                 }
+            }
+
+            onModelChanged: {
+                var optionsModel = vm.optionsModel
+                var inputModel = optionsModel.inputModel
+
+                changed_indexes.forEach(model_index => {
+                                            var delegate_model = model.get(model_index)
+                                            var selected_value_index = delegate_model.values_index
+
+                                            switch (model_index){
+                                                case 0:
+                                                inputModel.baudRate = delegate_model.values_available.get(selected_value_index).value
+                                                break
+                                                case 1:
+                                                inputModel.dataBits = Number(delegate_model.values_available.get(selected_value_index).value)
+                                                break
+                                                case 2:
+                                                if (selected_value_index === 0){
+                                                    inputModel.parity = selected_value_index
+                                                }
+                                                else{
+                                                    inputModel.parity = selected_value_index + 1
+                                                }
+                                                break
+                                                case 3:
+                                                switch(selected_value_index){
+                                                    case 0:
+                                                    inputModel.stopBits = 1
+                                                    break
+                                                    case 1:
+                                                    inputModel.stopBits = 3
+                                                    break
+                                                    case 2:
+                                                    inputModel.stopBits = 2
+                                                    break
+                                                }
+                                                break
+                                                case 4:
+                                                inputModel.flowControl = selected_value_index
+                                                break
+                                                case 5:
+                                                switch(selected_value_index){
+                                                    case 0:
+                                                    inputModel.stringEnd = ""
+                                                    break
+                                                    case 1:
+                                                    inputModel.stringEnd = "\n"
+                                                    break
+                                                    case 2:
+                                                    inputModel.stringEnd = "\r"
+                                                    break
+                                                    case 3:
+                                                    inputModel.stringEnd = "\r\n"
+                                                    break
+                                                }
+                                                break
+                                                case 6:
+                                                inputModel.mode = selected_value_index
+                                                break
+                                            }
+                                        });
+
+                optionsModel.inputModel = inputModel
             }
         }
 

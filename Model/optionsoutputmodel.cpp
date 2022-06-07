@@ -60,9 +60,9 @@ QString OptionsOutputModel::printable()
 
     QString text;
 
-    text += "AutoScroll: " + QString(_autoScroll ? "true" : "false") + "\n";
-    text += "ShowTimeStamps: " + QString(_showTimeStamps ? "true" : "false") + "\n";
-    text += "Mode: " + QString(modeEnum.valueToKey(_mode)) + "\n";
+    text += "AutoScroll: " + QString(_autoScroll ? "true" : "false") + '\n';
+    text += "ShowTimeStamps: " + QString(_showTimeStamps ? "true" : "false") + '\n';
+    text += "Mode: " + QString(modeEnum.valueToKey(_mode)) + '\n';
 
     return text;
 }

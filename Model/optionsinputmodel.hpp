@@ -15,7 +15,7 @@ class OptionsInputModel : public ObservableQObject, public IPrintable
     Q_PROPERTY(QSerialPort::StopBits stopBits READ getStopBits WRITE setStopBits NOTIFY stopBitsChanged)
     Q_PROPERTY(QSerialPort::FlowControl flowControl READ getFlowControl WRITE setFlowControl NOTIFY flowControlChanged)
     Q_PROPERTY(QString stringEnd READ getStringEnd WRITE setStringEnd NOTIFY stringEndChanged)
-    Q_PROPERTY(IOModeEnum mode READ getMode WRITE setMode NOTIFY modeChanged)
+    Q_PROPERTY(IOMode::IOModeEnum mode READ getMode WRITE setMode NOTIFY modeChanged)
 
 private:
     int _baudRate;
