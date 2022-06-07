@@ -14,6 +14,7 @@ MouseArea{
     property string default_value: "Не выбрано"
 
     signal opened
+    signal closed
 
     Layout.fillHeight: true
     Layout.margins: -5
@@ -145,6 +146,10 @@ MouseArea{
 
             onOpened: {
                 root_mouse.opened()
+            }
+
+            onClosed: {
+                root_mouse.closed()
             }
         }
 

@@ -11,6 +11,12 @@ RowLayout{
 
     spacing: 5
 
+    signal forceInputFocus
+
+    onForceInputFocus: {
+        textInput.focus = true
+    }
+
     Rectangle {
         Layout.leftMargin: 2
         Layout.rightMargin: 2

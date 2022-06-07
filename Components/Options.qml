@@ -16,6 +16,8 @@ Rectangle {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
+    signal finishedInteraction
+
     clip: true
     color: "#2f363d"
 
@@ -25,7 +27,7 @@ Rectangle {
 
         spacing: 15
 
-        RudironSwitchBox{
+        RudironOptionsBox{
             id: outputSwitchBox
             Layout.preferredWidth: 150
             Layout.alignment: Qt.AlignLeft
@@ -106,6 +108,8 @@ Rectangle {
                     optionsModel.outputModel = outputModel
                     vm.onFinishedOutputModelEditing()
                 }
+
+                finishedInteraction()
             }
         }
 
@@ -129,9 +133,13 @@ Rectangle {
             onOpened: {
                 model = vm.getAvailablePortNames()
             }
+
+            onClosed: {
+                finishedInteraction()
+            }
         }
 
-        RudironSwitchBox{
+        RudironOptionsBox{
             id: inputSwitchBox
             Layout.preferredWidth: 150
             Layout.alignment: Qt.AlignLeft
@@ -360,6 +368,8 @@ Rectangle {
                     optionsModel.inputModel = inputModel
                     vm.onFinishedInputModelEditing()
                 }
+
+                finishedInteraction()
             }
         }
 

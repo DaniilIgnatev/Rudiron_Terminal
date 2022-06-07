@@ -33,7 +33,8 @@ Window {
 
             Layout.fillHeight: false
             Layout.fillWidth: true
-            Layout.preferredHeight: 30
+            Layout.minimumHeight: 30
+            Layout.maximumHeight: 30
         }
 
         Log{
@@ -52,7 +53,12 @@ Window {
 
             Layout.fillHeight: false
             Layout.fillWidth: true
-            Layout.preferredHeight: 30
+            Layout.minimumHeight: 30
+            Layout.maximumHeight: 30
+
+            onFinishedInteraction: {
+                transmitter.forceInputFocus()
+            }
         }
     }
 
