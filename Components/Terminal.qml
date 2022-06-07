@@ -8,7 +8,7 @@ import com.VM 1.0
 
 Window {
     visible: true
-    title: qsTr("Rudiron Terminal")
+    title: "Рудирон Терминал"
 
     minimumWidth: 700
     minimumHeight: 350

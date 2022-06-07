@@ -147,6 +147,7 @@ MouseArea{
             width: combobox.width
             height: 30
             hoverEnabled: true
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             function choosePreviousValue(){
                 combobox.currentIndex = index
@@ -188,9 +189,16 @@ MouseArea{
                 }
             }
 
-            onClicked: {
-                chooseNextValue()
-            }
+            onClicked: (event) => {
+                           if (event.button === Qt.LeftButton){
+                               chooseNextValue()
+                           }
+                           else{
+                               if (event.button === Qt.RightButton){
+                                   choosePreviousValue()
+                               }
+                           }
+                       }
 
             onWheel: (event) => {
                          if (event.angleDelta.y > 0){
