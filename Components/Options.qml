@@ -378,13 +378,71 @@ Rectangle {
     }
 
     onVmChanged: {
+        initializeFromOutputModel()
+        initializeFromSerialPort()
+        initializeFromInputModel()
+    }
+
+    function initializeFromOutputModel(){
+        outputSwitchBox.model.get(0).values_index = vm.optionsModel.outputModel.autoScroll ? 1 : 0
+        outputSwitchBox.model.get(1).values_index = vm.optionsModel.outputModel.showTimeStamps ? 1 : 0
+        outputSwitchBox.model.get(2).values_index = vm.optionsModel.outputModel.mode
+    }
+
+    function initializeFromSerialPort(){
         vm.openPortFailure.connect((portName) => {
                                        portName_comboBox.current_index = 0
                                    })
+    }
 
-        outputSwitchBox.model.get(0).values_index = vm.optionsModel.autoScroll ? 1 : 0
-        outputSwitchBox.model.get(1).values_index = vm.optionsModel.showTimeStamps ? 1 : 0
-        outputSwitchBox.model.get(2).values_index = vm.optionsModel.outputMode
+    function initializeFromInputModel(){
+        var baudRate_index = 0
+        for(var i = 0; i < inputSwitchBox.model.get(0).values_available.count; i++){
+            if (inputSwitchBox.model.get(0).values_available.get(i).value === String(vm.optionsModel.inputModel.baudRate)){
+                baudRate_index = i
+                break
+            }
+        }
+
+        inputSwitchBox.model.get(0).values_index = baudRate_index
+        inputSwitchBox.model.get(1).values_index = vm.optionsModel.inputModel.dataBits - 4
+        if (vm.optionsModel.inputModel.parity === 0){
+            inputSwitchBox.model.get(2).values_index = vm.optionsModel.inputModel.parity
+        }
+        else{
+            inputSwitchBox.model.get(2).values_index = vm.optionsModel.inputModel.parity - 1
+        }
+
+        switch(vm.optionsModel.inputModel.stopBits){
+        case 1:
+            inputSwitchBox.model.get(3).values_index = 0
+            break
+        case 3:
+            inputSwitchBox.model.get(3).values_index = 1
+            break
+        case 2:
+            inputSwitchBox.model.get(3).values_index = 2
+            break
+        }
+
+        inputSwitchBox.model.get(4).values_index = vm.optionsModel.inputModel.flowControl
+
+        switch(vm.optionsModel.inputModel.stringEnd){
+        case "":
+            inputSwitchBox.model.get(5).values_index = 0
+            break
+        case "\n":
+            inputSwitchBox.model.get(5).values_index = 1
+            break
+        case "\r":
+            inputSwitchBox.model.get(5).values_index = 2
+            break
+        case "\r\n":
+            inputSwitchBox.model.get(5).values_index = 3
+            break
+        }
+
+        inputSwitchBox.model.get(6).values_index = vm.optionsModel.inputModel.mode
     }
 }
 
