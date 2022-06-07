@@ -3,7 +3,6 @@
 
 #include "TypeDefs.hpp"
 
-
 class ObservableQObject: public QObject {
     Q_OBJECT
 public:

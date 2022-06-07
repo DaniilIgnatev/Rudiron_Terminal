@@ -5,7 +5,6 @@
 #include "optionsmodel.hpp"
 #include "observableqobject.hpp"
 
-
 class IOptionsModelDelegate : public ObservableQObject {
     Q_OBJECT
     Q_PROPERTY(OptionsModel* optionsModel READ getOptionsModel WRITE setOptionsModel NOTIFY optionsModelChanged)

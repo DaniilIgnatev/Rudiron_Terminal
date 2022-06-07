@@ -34,12 +34,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Interfaces/ioutputdelegate.hpp \
+    Interfaces/ioutputdelegateholder.hpp \
+    Interfaces/iprintable.hpp \
     Model/iomode.hpp \
     Model/ioptionsmodeldelegate.hpp \
     Model/ioptionsmodeldelegateholder.hpp \
-    Model/ioutputdelegate.hpp \
-    Model/ioutputdelegateholder.hpp \
-    Model/iprintable.hpp \
     Model/observableqobject.hpp \
     Model/optionsinputmodel.hpp \
     Model/optionsmodel.hpp \
@@ -56,3 +56,4 @@ INCLUDEPATH += \
     UART \
     VM \
     Model \
+    Interfaces \

@@ -3,7 +3,6 @@
 
 #include "ioptionsmodeldelegate.hpp"
 
-
 class IOptionsModelDelegateHolder: public IOptionsModelDelegate {
     Q_OBJECT
 public:
