@@ -7,7 +7,6 @@
 #include "ioptionsmodeldelegateholder.hpp"
 #include "ioutputdelegateholder.hpp"
 
-
 class LogVM : public IOptionsModelDelegateHolder, IOutputDelegate
 {
     Q_OBJECT

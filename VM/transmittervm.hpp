@@ -6,7 +6,6 @@
 #include "ioptionsmodeldelegateholder.hpp"
 #include "ioutputdelegateholder.hpp"
 
-
 class TransmitterVM : public IOptionsModelDelegateHolder, public IOutputDelegateHolder
 {
     Q_OBJECT

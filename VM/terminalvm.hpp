@@ -7,7 +7,6 @@
 #include "logvm.hpp"
 #include "optionsvm.hpp"
 
-
 class TerminalVM : public IOptionsModelDelegate
 {
     Q_OBJECT

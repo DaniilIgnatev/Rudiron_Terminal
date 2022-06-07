@@ -8,7 +8,6 @@
 #include "ioutputdelegateholder.hpp"
 #include "observableqobject.hpp"
 
-
 class OptionsVM : public IOptionsModelDelegateHolder, public IOutputDelegateHolder
 {
     Q_OBJECT

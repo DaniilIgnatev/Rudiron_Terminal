@@ -79,7 +79,7 @@ void OptionsVM::onOptionsModelChanged()
 
 void OptionsVM::onFinishedOutputModelEditing()
 {
-    output("Изменены настройки вывода.");
+    qDebug("Изменены настройки вывода.");
 }
 
 void OptionsVM::onSelectedSerialPort()
@@ -92,11 +92,11 @@ void OptionsVM::onSelectedSerialPort()
         if (newValue->getPortName() != uart->getCurrentPortName() || !uart->isOpen()){
             if (uart->isOpen()){
                 uart->end();
-                output("Закрыл порт " + uart->getCurrentPortName());
+                //output("Закрыл порт " + uart->getCurrentPortName());
             }
 
             if (uart->begin(portInfo)){
-                output("Открыл порт " + newValue->getPortName());
+                //output("Открыл порт " + newValue->getPortName());
             }
             else{
                 output("Ошибка открытия порта " + newValue->getPortName() + "!");
@@ -107,12 +107,12 @@ void OptionsVM::onSelectedSerialPort()
     else{
         if (uart->isOpen()){
             uart->end();
-            output("Закрыл порт " + uart->getCurrentPortName());
+            //output("Закрыл порт " + uart->getCurrentPortName());
         }
     }
 }
 
 void OptionsVM::onFinishedInputModelEditing()
 {
-    output("Изменены настройки ввода.");
+    qDebug("Изменены настройки ввода.");
 }

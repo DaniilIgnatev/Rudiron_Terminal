@@ -19,6 +19,7 @@ void TransmitterVM::setUart(UART *newUart)
 void TransmitterVM::send(QString text)
 {
     if (uart->isOpen()){
+        text.append(getOptionsModel()->getInputModel()->getStringEnd());
         uart->writeRead(text.toUtf8(), 0);
     }
     else{

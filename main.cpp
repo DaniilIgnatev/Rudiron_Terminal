@@ -25,6 +25,13 @@ int main(int argc, char *argv[])
     qmlRegisterType<OptionsOutputModel>("com.VM", 1, 0, "OptionsOutputModel");
     qmlRegisterType<IOMode>("com.VM", 1, 0, "IOMode");
 
+    //Не реализованые фичи
+    //Режим ввода текста
+    //Режим вывода текста
+    //Кодировка отправляемого текста
+    //Кодировка читаемого текста
+    //Открыть порт только для чтения
+
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Components/Terminal.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include "optionsinputmodel.hpp"
 
 class UART : public QObject
 {
@@ -28,6 +29,8 @@ public:
     int getByte(int at);
 
     bool begin(QSerialPortInfo port);
+
+    bool begin(OptionsInputModel* model, QSerialPortInfo port);
 
     void end();
 

@@ -54,7 +54,6 @@ Rectangle{
 
             textFormat: Text.PlainText
 
-
             onHeightChanged: {
                 if (root.vm && root.vm.optionsModel.autoScroll){
                     scroll.ScrollBar.vertical.position = 1

@@ -97,20 +97,24 @@ QString LogVM::convertToLog(const UARTPackage* package)
 QString LogVM::convertPackageAsText(const UARTPackage* package)
 {
     QString text;
+
+    if (getOptionsModel()->getOutputModel()->getShowTimeStamps()){
+        text.append(QString::number(package->getDateTime().time().hour()));
+        text.append(":");
+        text.append(QString::number(package->getDateTime().time().minute()));
+        text.append(":");
+        text.append(QString::number(package->getDateTime().time().second()));
+        text.append(":");
+        text.append(QString::number(package->getDateTime().time().msec()));
+        text.append(" ");
+    }
+
     if (package->getIsLogOutput()){
         text.append("Терминал -> ");
     }
     else{
-        if (getOptionsModel()->getOutputModel()->getShowTimeStamps()){
-            text.append(QString::number(package->getDateTime().time().hour()));
-            text.append(":");
-            text.append(QString::number(package->getDateTime().time().minute()));
-            text.append(":");
-            text.append(QString::number(package->getDateTime().time().second()));
-            text.append(":");
-            text.append(QString::number(package->getDateTime().time().msec()));
-            text.append(" -> ");
-        }
+        text.append(getOptionsModel()->getPortName());
+        text.append(" -> ");
     }
 
     text.append(package->getData());

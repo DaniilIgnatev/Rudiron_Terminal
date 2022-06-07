@@ -63,6 +63,43 @@ bool UART::begin(QSerialPortInfo port)
     return true;
 }
 
+bool UART::begin(OptionsInputModel *model, QSerialPortInfo port)
+{
+    end();
+
+    serial->deleteLater();
+    serial = new QSerialPort(port, this);
+
+    connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
+    connect(serial, &QSerialPort::readyRead, this, &UART::readyReadSlot);
+
+    if (!serial->setBaudRate(model->getBaudRate(), QSerialPort::AllDirections)){
+        return false;
+    }
+    if (!serial->setDataBits((QSerialPort::DataBits)model->getDataBits())){
+        return false;
+    }
+    if (!serial->setParity(model->getParity())){
+        return false;
+    }
+    if (!serial->setStopBits(model->getStopBits())){
+        return false;
+    }
+    if (!serial->setFlowControl(model->getFlowControl())){
+        return false;
+    }
+
+    if (!serial->open(QIODevice::ReadWrite)) {
+        return false;
+    }
+
+    while(!serial->isOpen()){
+        QThread::currentThread()->msleep(5);
+    }
+
+    return true;
+}
+
 void UART::end()
 {
     if (serial){

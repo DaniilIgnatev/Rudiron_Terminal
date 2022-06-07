@@ -269,13 +269,13 @@ Rectangle {
                             value: "Нет"
                         },
                         ListElement{
-                            value: "NL"
+                            value: "\\n"
                         },
                         ListElement{
-                            value: "CR"
+                            value: "\\r"
                         },
                         ListElement{
-                            value: "CR & NL"
+                            value: "\\r\\n"
                         }
                     ]
                     values_index: 0
