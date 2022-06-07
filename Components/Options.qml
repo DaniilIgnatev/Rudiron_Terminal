@@ -82,27 +82,30 @@ Rectangle {
             }
 
             onModelChanged: {
-                var optionsModel = vm.optionsModel
-                var outputModel = optionsModel.outputModel
+                if (changed_indexes.length > 0){
+                    var optionsModel = vm.optionsModel
+                    var outputModel = optionsModel.outputModel
 
-                changed_indexes.forEach(model_index => {
-                                            var delegate_model = model.get(model_index)
-                                            var selected_value_index = delegate_model.values_index
+                    changed_indexes.forEach(model_index => {
+                                                var delegate_model = model.get(model_index)
+                                                var selected_value_index = delegate_model.values_index
 
-                                            switch (model_index){
-                                                case 0:
-                                                outputModel.autoScroll = Boolean(selected_value_index)
-                                                break
-                                                case 1:
-                                                outputModel.showTimeStamps = Boolean(selected_value_index)
-                                                break
-                                                case 2:
-                                                outputModel.mode = selected_value_index
-                                                break
-                                            }
-                                        });
+                                                switch (model_index){
+                                                    case 0:
+                                                    outputModel.autoScroll = Boolean(selected_value_index)
+                                                    break
+                                                    case 1:
+                                                    outputModel.showTimeStamps = Boolean(selected_value_index)
+                                                    break
+                                                    case 2:
+                                                    outputModel.mode = selected_value_index
+                                                    break
+                                                }
+                                            });
 
-                optionsModel.outputModel = outputModel
+                    optionsModel.outputModel = outputModel
+                    vm.onFinishedOutputModelEditing()
+                }
             }
         }
 
@@ -119,6 +122,7 @@ Rectangle {
                     var model = vm.optionsModel
                     model.portName = current_value
                     vm.optionsModel = model
+                    vm.onSelectedSerialPort()
                 }
             }
 
@@ -292,67 +296,70 @@ Rectangle {
             }
 
             onModelChanged: {
-                var optionsModel = vm.optionsModel
-                var inputModel = optionsModel.inputModel
+                if (changed_indexes.length > 0){
+                    var optionsModel = vm.optionsModel
+                    var inputModel = optionsModel.inputModel
 
-                changed_indexes.forEach(model_index => {
-                                            var delegate_model = model.get(model_index)
-                                            var selected_value_index = delegate_model.values_index
+                    changed_indexes.forEach(model_index => {
+                                                var delegate_model = model.get(model_index)
+                                                var selected_value_index = delegate_model.values_index
 
-                                            switch (model_index){
-                                                case 0:
-                                                inputModel.baudRate = delegate_model.values_available.get(selected_value_index).value
-                                                break
-                                                case 1:
-                                                inputModel.dataBits = Number(delegate_model.values_available.get(selected_value_index).value)
-                                                break
-                                                case 2:
-                                                if (selected_value_index === 0){
-                                                    inputModel.parity = selected_value_index
-                                                }
-                                                else{
-                                                    inputModel.parity = selected_value_index + 1
-                                                }
-                                                break
-                                                case 3:
-                                                switch(selected_value_index){
+                                                switch (model_index){
                                                     case 0:
-                                                    inputModel.stopBits = 1
+                                                    inputModel.baudRate = delegate_model.values_available.get(selected_value_index).value
                                                     break
                                                     case 1:
-                                                    inputModel.stopBits = 3
+                                                    inputModel.dataBits = Number(delegate_model.values_available.get(selected_value_index).value)
                                                     break
                                                     case 2:
-                                                    inputModel.stopBits = 2
-                                                    break
-                                                }
-                                                break
-                                                case 4:
-                                                inputModel.flowControl = selected_value_index
-                                                break
-                                                case 5:
-                                                switch(selected_value_index){
-                                                    case 0:
-                                                    inputModel.stringEnd = ""
-                                                    break
-                                                    case 1:
-                                                    inputModel.stringEnd = "\n"
-                                                    break
-                                                    case 2:
-                                                    inputModel.stringEnd = "\r"
+                                                    if (selected_value_index === 0){
+                                                        inputModel.parity = selected_value_index
+                                                    }
+                                                    else{
+                                                        inputModel.parity = selected_value_index + 1
+                                                    }
                                                     break
                                                     case 3:
-                                                    inputModel.stringEnd = "\r\n"
+                                                    switch(selected_value_index){
+                                                        case 0:
+                                                        inputModel.stopBits = 1
+                                                        break
+                                                        case 1:
+                                                        inputModel.stopBits = 3
+                                                        break
+                                                        case 2:
+                                                        inputModel.stopBits = 2
+                                                        break
+                                                    }
+                                                    break
+                                                    case 4:
+                                                    inputModel.flowControl = selected_value_index
+                                                    break
+                                                    case 5:
+                                                    switch(selected_value_index){
+                                                        case 0:
+                                                        inputModel.stringEnd = ""
+                                                        break
+                                                        case 1:
+                                                        inputModel.stringEnd = "\n"
+                                                        break
+                                                        case 2:
+                                                        inputModel.stringEnd = "\r"
+                                                        break
+                                                        case 3:
+                                                        inputModel.stringEnd = "\r\n"
+                                                        break
+                                                    }
+                                                    break
+                                                    case 6:
+                                                    inputModel.mode = selected_value_index
                                                     break
                                                 }
-                                                break
-                                                case 6:
-                                                inputModel.mode = selected_value_index
-                                                break
-                                            }
-                                        });
+                                            });
 
-                optionsModel.inputModel = inputModel
+                    optionsModel.inputModel = inputModel
+                    vm.onFinishedInputModelEditing()
+                }
             }
         }
 

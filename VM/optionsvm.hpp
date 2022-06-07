@@ -42,6 +42,11 @@ public:
 protected slots:
     virtual void onOptionsModelChanged() override;
 
+public slots:
+    void onFinishedOutputModelEditing();
+    void onSelectedSerialPort();
+    void onFinishedInputModelEditing();
+
 signals:
     void openPortFailure(QString portName);
 };

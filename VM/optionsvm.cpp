@@ -74,6 +74,16 @@ QStringList OptionsVM::getAvailablePortNames()
 
 void OptionsVM::onOptionsModelChanged()
 {
+
+}
+
+void OptionsVM::onFinishedOutputModelEditing()
+{
+    output("Изменены настройки вывода.");
+}
+
+void OptionsVM::onSelectedSerialPort()
+{
     OptionsModel* newValue = getOptionsModel();
     QSerialPortInfo portInfo = QSerialPortInfo(newValue->getPortName());
     bool containsPort = !portInfo.isNull();
@@ -100,4 +110,9 @@ void OptionsVM::onOptionsModelChanged()
             output("Закрыл порт " + uart->getCurrentPortName());
         }
     }
+}
+
+void OptionsVM::onFinishedInputModelEditing()
+{
+    output("Изменены настройки ввода.");
 }
