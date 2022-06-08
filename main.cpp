@@ -29,13 +29,14 @@ int main(int argc, char *argv[])
     qmlRegisterType<OptionsOutputModel>("com.VM", 1, 0, "OptionsOutputModel");
     qmlRegisterType<IOMode>("com.VM", 1, 0, "IOMode");
 
-    //Не реализованые фичи
-    //Перенести выбор порта в модель ввода
-    //Режим ввода текста
-    //Режим вывода текста
+    //Не реализованые фичи:
+    //Доделать режим ввода текста
+    //Доделать режим вывода текста
+    //Сохранять последние настройки
+    //Загружать последние настройки
     //Кодировка отправляемого текста
     //Кодировка читаемого текста
-    //Открыть порт только для чтения
+    //Открывать порт только для чтения
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Components/Terminal.qml"));

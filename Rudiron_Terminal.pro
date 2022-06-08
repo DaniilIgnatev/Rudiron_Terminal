@@ -9,6 +9,8 @@ macx{
     CONFIG += app_bundle
 }
 
+RC_ICONS = icon.ico
+
 SOURCES += \
     Model/iomode.cpp \
     Model/ioptionsmodeldelegate.cpp \
