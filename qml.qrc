@@ -7,5 +7,6 @@
         <file>Components/Rudiron/RudironComboBox.qml</file>
         <file>Components/Rudiron/RudironButton.qml</file>
         <file>Components/Rudiron/RudironOptionsBox.qml</file>
+        <file>icon.ico</file>
     </qresource>
 </RCC>

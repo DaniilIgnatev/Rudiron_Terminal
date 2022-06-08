@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/icon.ico"));
 
     qmlRegisterType<TerminalVM>("com.VM",1, 0,"TerminalVM");
     qmlRegisterType<TransmitterVM>("com.VM",1, 0,"TransmitterVM");
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<IOMode>("com.VM", 1, 0, "IOMode");
 
     //Не реализованые фичи
+    //Перенести выбор порта в модель ввода
     //Режим ввода текста
     //Режим вывода текста
     //Кодировка отправляемого текста
