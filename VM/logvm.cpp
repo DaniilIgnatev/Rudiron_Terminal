@@ -40,9 +40,6 @@ void LogVM::setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegat
 
 void LogVM::output(QString message)
 {
-    if (!message.endsWith('\n')){
-        message.append("\n");
-    }
     qDebug() << message;
 
     UARTPackage* package = new UARTPackage();
@@ -51,7 +48,7 @@ void LogVM::output(QString message)
     package->setIsLogOutput(true);
     receivedPackages.append(package);
 
-    QString appendedLog = convertToLog(package);
+    QString appendedLog = convertToLog(package) + "\n";
     emit logAppended(appendedLog);
 }
 
@@ -79,7 +76,7 @@ QString LogVM::getLog()
     QString log;
     for(int i = 0; i < receivedPackages.count(); i++){
         auto package = receivedPackages.at(i);
-        log += convertToLog(package);
+        log += convertToLog(package) + "\n";
     }
 
     return log;

@@ -28,123 +28,11 @@ Rectangle {
         spacing: 15
 
         RudironOptionsBox{
-            id: outputSwitchBox
-            Layout.preferredWidth: 140
-            Layout.alignment: Qt.AlignLeft
-
-            default_value: "Вывод"
-            model:
-                ListModel {
-
-                ListElement {
-                    name: "Прокрутка:"
-                    values_available: [
-                        ListElement{
-                            value: "выкл."
-                        },
-                        ListElement{
-                            value: "вкл."
-                        }
-                    ]
-                    values_index: 0
-                }
-                ListElement {
-                    name: "Время:"
-                    values_available: [
-                        ListElement{
-                            value: "выкл."
-                        },
-                        ListElement{
-                            value: "вкл."
-                        }
-                    ]
-                    values_index: 0
-                }
-                ListElement {
-                    name: "Режим:"
-                    values_available: [
-                        ListElement{
-                            value: "строка"
-                        },
-                        ListElement{
-                            value: "2-й"
-                        },
-                        ListElement{
-                            value: "8-й"
-                        },
-                        ListElement{
-                            value: "10-й"
-                        },
-                        ListElement{
-                            value: "16-й"
-                        }
-                    ]
-                    values_index: 0
-                }
-            }
-
-            onModelChanged: {
-                if (changed_indexes.length > 0){
-                    var optionsModel = vm.optionsModel
-                    var outputModel = optionsModel.outputModel
-
-                    changed_indexes.forEach(model_index => {
-                                                var delegate_model = model.get(model_index)
-                                                var selected_value_index = delegate_model.values_index
-
-                                                switch (model_index){
-                                                    case 0:
-                                                    outputModel.autoScroll = Boolean(selected_value_index)
-                                                    break
-                                                    case 1:
-                                                    outputModel.showTimeStamps = Boolean(selected_value_index)
-                                                    break
-                                                    case 2:
-                                                    outputModel.mode = selected_value_index
-                                                    break
-                                                }
-                                            });
-
-                    optionsModel.outputModel = outputModel
-                    vm.onFinishedOutputModelEditing()
-                }
-
-                finishedInteraction()
-            }
-        }
-
-        //        RudironComboBox{
-        //            id: portName_comboBox
-        //            Layout.preferredWidth: 250
-        //            Layout.alignment: Qt.AlignLeft
-
-        //            default_value: "Порт отключен"
-        //            model: []
-
-        //            onCurrent_valueChanged: {
-        //                if (vm){
-        //                    var model = vm.optionsModel
-        //                    model.portName = current_value
-        //                    vm.optionsModel = model
-        //                    vm.onSelectedSerialPort()
-        //                }
-        //            }
-
-        //            onOpened: {
-        //                model = vm.getAvailablePortNames()
-        //            }
-
-        //            onClosed: {
-        //                finishedInteraction()
-        //            }
-        //        }
-
-        RudironOptionsBox{
             id: inputSwitchBox
-            Layout.preferredWidth: 180
+            Layout.preferredWidth: 200
             Layout.alignment: Qt.AlignLeft
 
-            default_value: "Ввод"
+            default_value: "Передатчик"
             model:
                 ListModel {
 
@@ -403,6 +291,92 @@ Rectangle {
             }
         }
 
+        RudironOptionsBox{
+            id: outputSwitchBox
+            Layout.preferredWidth: 100
+            Layout.alignment: Qt.AlignLeft
+
+            default_value: "Приемник"
+            model:
+                ListModel {
+
+                ListElement {
+                    name: "Прокрутка:"
+                    values_available: [
+                        ListElement{
+                            value: "выкл."
+                        },
+                        ListElement{
+                            value: "вкл."
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
+                    name: "Время:"
+                    values_available: [
+                        ListElement{
+                            value: "выкл."
+                        },
+                        ListElement{
+                            value: "вкл."
+                        }
+                    ]
+                    values_index: 0
+                }
+                ListElement {
+                    name: "Режим:"
+                    values_available: [
+                        ListElement{
+                            value: "строка"
+                        },
+                        ListElement{
+                            value: "2-й"
+                        },
+                        ListElement{
+                            value: "8-й"
+                        },
+                        ListElement{
+                            value: "10-й"
+                        },
+                        ListElement{
+                            value: "16-й"
+                        }
+                    ]
+                    values_index: 0
+                }
+            }
+
+            onModelChanged: {
+                if (changed_indexes.length > 0){
+                    var optionsModel = vm.optionsModel
+                    var outputModel = optionsModel.outputModel
+
+                    changed_indexes.forEach(model_index => {
+                                                var delegate_model = model.get(model_index)
+                                                var selected_value_index = delegate_model.values_index
+
+                                                switch (model_index){
+                                                    case 0:
+                                                    outputModel.autoScroll = Boolean(selected_value_index)
+                                                    break
+                                                    case 1:
+                                                    outputModel.showTimeStamps = Boolean(selected_value_index)
+                                                    break
+                                                    case 2:
+                                                    outputModel.mode = selected_value_index
+                                                    break
+                                                }
+                                            });
+
+                    optionsModel.outputModel = outputModel
+                    vm.onFinishedOutputModelEditing()
+                }
+
+                finishedInteraction()
+            }
+        }
+
         Item {
             Layout.fillWidth: true
         }
@@ -430,7 +404,7 @@ Rectangle {
 
     function initializeFromInputModel(){
         var baudRate_index = 0
-        for(var i = 0; i < inputSwitchBox.model.get(0).values_available.count; i++){
+        for(var i = 0; i < inputSwitchBox.model.get(1).values_available.count; i++){
             if (inputSwitchBox.model.get(1).values_available.get(i).value === String(vm.optionsModel.inputModel.baudRate)){
                 baudRate_index = i
                 break

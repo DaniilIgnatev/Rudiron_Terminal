@@ -10,7 +10,7 @@ Window {
     visible: true
     title: "Рудирон Терминал"
 
-    minimumWidth: 700
+    minimumWidth: 600
     minimumHeight: 350
 
     color: "#2f363d"
