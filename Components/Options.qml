@@ -29,7 +29,7 @@ Rectangle {
 
         RudironOptionsBox{
             id: outputSwitchBox
-            Layout.preferredWidth: 150
+            Layout.preferredWidth: 140
             Layout.alignment: Qt.AlignLeft
 
             default_value: "Вывод"
@@ -40,10 +40,10 @@ Rectangle {
                     name: "Прокрутка:"
                     values_available: [
                         ListElement{
-                            value: "Выкл."
+                            value: "выкл."
                         },
                         ListElement{
-                            value: "Вкл."
+                            value: "вкл."
                         }
                     ]
                     values_index: 0
@@ -52,10 +52,10 @@ Rectangle {
                     name: "Время:"
                     values_available: [
                         ListElement{
-                            value: "Выкл."
+                            value: "выкл."
                         },
                         ListElement{
-                            value: "Вкл."
+                            value: "вкл."
                         }
                     ]
                     values_index: 0
@@ -64,7 +64,7 @@ Rectangle {
                     name: "Режим:"
                     values_available: [
                         ListElement{
-                            value: "Строка"
+                            value: "строка"
                         },
                         ListElement{
                             value: "2-й"
@@ -115,7 +115,7 @@ Rectangle {
 
         RudironComboBox{
             id: portName_comboBox
-            Layout.preferredWidth: 200
+            Layout.preferredWidth: 250
             Layout.alignment: Qt.AlignLeft
 
             default_value: "Порт отключен"
@@ -141,7 +141,7 @@ Rectangle {
 
         RudironOptionsBox{
             id: inputSwitchBox
-            Layout.preferredWidth: 150
+            Layout.preferredWidth: 180
             Layout.alignment: Qt.AlignLeft
 
             default_value: "Ввод"
@@ -215,19 +215,19 @@ Rectangle {
                     name: "Четность:"
                     values_available: [
                         ListElement{
-                            value: "Нет"
+                            value: "нет"
                         },
                         ListElement{
-                            value: "Чётный"
+                            value: "чётный"
                         },
                         ListElement{
-                            value: "Нечетный"
+                            value: "нечетный"
                         },
                         ListElement{
-                            value: "Пробел"
+                            value: "пробел"
                         },
                         ListElement{
-                            value: "Маркер"
+                            value: "маркер"
                         }
                     ]
                     values_index: 0
@@ -251,13 +251,13 @@ Rectangle {
                     name: "Управление:"
                     values_available: [
                         ListElement{
-                            value: "Нет"
+                            value: "нет"
                         },
                         ListElement{
-                            value: "Аппаратное"
+                            value: "аппаратное"
                         },
                         ListElement{
-                            value: "Xon / Xoff"
+                            value: "xon / xoff"
                         }
                     ]
                     values_index: 0
@@ -266,7 +266,7 @@ Rectangle {
                     name: "Конец строки:"
                     values_available: [
                         ListElement{
-                            value: "Нет"
+                            value: "нет"
                         },
                         ListElement{
                             value: "\\n"
@@ -284,7 +284,7 @@ Rectangle {
                     name: "Режим:"
                     values_available: [
                         ListElement{
-                            value: "Строка"
+                            value: "строка"
                         },
                         ListElement{
                             value: "2-й"
