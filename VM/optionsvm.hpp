@@ -43,11 +43,7 @@ protected slots:
 
 public slots:
     void onFinishedOutputModelEditing();
-    void onSelectedSerialPort();
     void onFinishedInputModelEditing();
-
-signals:
-    void openPortFailure(QString portName);
 };
 
 #endif // OPTIONSVM_HPP

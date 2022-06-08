@@ -63,12 +63,13 @@ bool UART::begin(QSerialPortInfo port)
     return true;
 }
 
-bool UART::begin(OptionsInputModel *model, QSerialPortInfo port)
+bool UART::begin(OptionsInputModel *model)
 {
     end();
 
     serial->deleteLater();
-    serial = new QSerialPort(port, this);
+    QString portName = model->getPortName();
+    serial = new QSerialPort(portName);
 
     connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
     connect(serial, &QSerialPort::readyRead, this, &UART::readyReadSlot);
@@ -105,8 +106,9 @@ bool UART::begin(OptionsInputModel *model, QSerialPortInfo port)
 void UART::end()
 {
     if (serial){
-        serial->close();
+        serial->clear();
         serial->clearError();
+        serial->close();
     }
 }
 
@@ -124,21 +126,12 @@ void UART::errorSlot(QSerialPort::SerialPortError error){
     if (error != QSerialPort::NoError && error != QSerialPort::TimeoutError){
         QMetaEnum metaEnum = QMetaEnum::fromType<QSerialPort::SerialPortError>();
         QString error_str = metaEnum.valueToKey(error);
-        qDebug() << "Serial error: " << error_str;
-        qDebug() << serial->errorString();
+//        qDebug() << "Serial error: " << error_str;
+//        qDebug() << serial->errorString();
     }
 }
 
 #ifdef _WIN32
-void UART::writeSync()
-{
-    for (int i = 0; i < 15; i++){
-        serial->write(QByteArray(1, 0));
-    }
-
-    serial->waitForBytesWritten();
-}
-
 void UART::writeRead(QByteArray buffer, int waitRXBytes)
 {
     int count_target = this->rx_buffer.count() + waitRXBytes;
@@ -156,14 +149,7 @@ void UART::writeRead(QByteArray buffer, int waitRXBytes)
         }
     }
 }
-
 #else
-void UART::writeSync()
-{
-    serial->write(QByteArray(1, 0));
-    serial->waitForReadyRead(1);
-}
-
 void UART::writeRead(QByteArray buffer, int waitRXBytes)
 {
     if (waitRXBytes > 0){

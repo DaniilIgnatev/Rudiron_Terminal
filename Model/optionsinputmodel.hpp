@@ -9,6 +9,7 @@
 class OptionsInputModel : public ObservableQObject, public IPrintable
 {
     Q_OBJECT
+    Q_PROPERTY(QString portName READ getPortName WRITE setPortName NOTIFY portNameChanged)
     Q_PROPERTY(int baudRate READ getBaudRate WRITE setBaudRate NOTIFY baudRateChanged)
     Q_PROPERTY(int dataBits READ getDataBits WRITE setDataBits NOTIFY dataBitsChanged)
     Q_PROPERTY(QSerialPort::Parity parity READ getParity WRITE setParity NOTIFY parityChanged)
@@ -18,6 +19,7 @@ class OptionsInputModel : public ObservableQObject, public IPrintable
     Q_PROPERTY(IOMode::IOModeEnum mode READ getMode WRITE setMode NOTIFY modeChanged)
 
 private:
+    QString _portName;
     int _baudRate;
     int _dataBits;
     QSerialPort::Parity _parity;
@@ -37,6 +39,9 @@ public:
                                QString stringEnd,
                                IOModeEnum mode,
                                QObject *parent = nullptr);
+
+    QString getPortName() const;
+    void setPortName(const QString &value);
 
     int getBaudRate() const;
     void setBaudRate(int baudRate);
@@ -62,6 +67,7 @@ public:
     Q_INVOKABLE virtual QString printable() override;
 
 signals:
+    void portNameChanged();
     void baudRateChanged();
     void dataBitsChanged();
     void parityChanged();

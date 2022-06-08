@@ -22,7 +22,7 @@ TerminalVM::TerminalVM(QObject *parent)
                                                                  "\r\n",
                                                                  IOModeEnum::TEXT);
 
-    OptionsModel *optionsModel = new OptionsModel(optionsOutputModel, "", optionsInputModel, this);
+    OptionsModel *optionsModel = new OptionsModel(optionsOutputModel, optionsInputModel, this);
     connect(optionsModel, &OptionsModel::objectHasChanged, this, &TerminalVM::optionsModelChanged);
     connect(this, &TerminalVM::optionsModelChanged, this, &TerminalVM::onOptionsModelChanged);
 

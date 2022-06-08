@@ -30,13 +30,11 @@ public:
 
     bool begin(QSerialPortInfo port);
 
-    bool begin(OptionsInputModel* model, QSerialPortInfo port);
+    bool begin(OptionsInputModel* model);
 
     void end();
 
     void setBaudRate(qint32 rate);
-
-    void writeSync();
 
     void writeRead(QByteArray buffer, int readBytes);
 

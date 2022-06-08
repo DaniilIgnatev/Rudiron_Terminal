@@ -61,12 +61,12 @@ void OptionsVM::setOutputDelegate(IOutputDelegate *newOutputDelegate)
 
 QString OptionsVM::getDefaultPortName()
 {
-    return "Порт отключен";
+    return "отключен";
 }
 
 QStringList OptionsVM::getAvailablePortNames()
 {
-    QStringList defaultValue("Порт отключен");
+    QStringList defaultValue(getDefaultPortName());
     QStringList available = uart->availablePortNames();
     defaultValue.append(available);
     return defaultValue;
@@ -82,43 +82,26 @@ void OptionsVM::onFinishedOutputModelEditing()
     qDebug("Изменены настройки вывода.");
 }
 
-void OptionsVM::onSelectedSerialPort()
-{
-    OptionsModel* newValue = getOptionsModel();
-    QSerialPortInfo portInfo = QSerialPortInfo(newValue->getPortName());
-
-    if (!portInfo.isNull()){
-        if (newValue->getPortName() != uart->getCurrentPortName() || !uart->isOpen()){
-            if (uart->isOpen()){
-                uart->end();
-                //output("Закрыл порт " + uart->getCurrentPortName());
-            }
-
-            if (uart->begin(getOptionsModel()->getInputModel(), portInfo)){
-                //output("Открыл порт " + newValue->getPortName());
-            }
-            else{
-                output("Ошибка открытия порта " + newValue->getPortName() + "!");
-                emit openPortFailure(newValue->getPortName());
-            }
-        }
-    }
-    else{
-        if (uart->isOpen()){
-            uart->end();
-            //output("Закрыл порт " + uart->getCurrentPortName());
-        }
-    }
-}
-
 void OptionsVM::onFinishedInputModelEditing()
 {
-    qDebug("Изменены настройки ввода.");
-    QSerialPortInfo portInfo = QSerialPortInfo(getOptionsModel()->getPortName());
-    if (!portInfo.isNull()){
-        if (!uart->begin(getOptionsModel()->getInputModel(), QSerialPortInfo(uart->getCurrentPortName()))){
-            output("Ошибка открытия порта " + getOptionsModel()->getPortName() + "!");
-            emit openPortFailure(getOptionsModel()->getPortName());
+    QString portName = getOptionsModel()->getInputModel()->getPortName();
+    bool contains = false;
+
+    auto availablePorts = QSerialPortInfo::availablePorts();
+    for(auto port: availablePorts){
+        if (port.portName() == portName){
+            contains = true;
+            break;
+        }
+    }
+
+    if (contains){
+        if (!uart->begin(getOptionsModel()->getInputModel())){
+            output("Ошибка открытия порта " + getOptionsModel()->getInputModel()->getPortName() + "!");
+            getOptionsModel()->getInputModel()->setPortName("");
+        }
+        else{
+            output("Новые настройки порта " + getOptionsModel()->getInputModel()->getPortName() + ".");
         }
     }
 }

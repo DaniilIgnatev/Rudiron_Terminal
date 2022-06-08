@@ -2,6 +2,7 @@
 
 OptionsInputModel::OptionsInputModel(QObject *parent) : ObservableQObject(parent)
 {
+    connect(this, &OptionsInputModel::portNameChanged, this, &OptionsInputModel::objectHasChanged);
     connect(this, &OptionsInputModel::baudRateChanged, this, &OptionsInputModel::objectHasChanged);
     connect(this, &OptionsInputModel::dataBitsChanged, this, &OptionsInputModel::objectHasChanged);
     connect(this, &OptionsInputModel::parityChanged, this, &OptionsInputModel::objectHasChanged);
@@ -27,6 +28,19 @@ OptionsInputModel::OptionsInputModel(int baudRate,
     this->_flowControl = flowControl;
     this->_stringEnd = stringEnd;
     this->_mode = mode;
+}
+
+QString OptionsInputModel::getPortName() const
+{
+    return _portName;
+}
+
+void OptionsInputModel::setPortName(const QString &value)
+{
+    if (_portName == value)
+        return;
+    _portName = value;
+    emit portNameChanged();
 }
 
 int OptionsInputModel::getBaudRate() const
@@ -114,6 +128,7 @@ QString OptionsInputModel::printable()
     QMetaEnum modeEnum = QMetaEnum::fromType<IOModeEnum>();
 
     QString text;
+    text += "PortName: " + _portName + "\n";
     text += "BaudRate: " + QString::number(_baudRate) + "\n";
     text += "DataBits: " + QString::number(_dataBits) + "\n";
     text += "Parity: " + QString(parityEnum.valueToKey(_parity)) + "\n";

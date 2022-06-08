@@ -113,31 +113,31 @@ Rectangle {
             }
         }
 
-        RudironComboBox{
-            id: portName_comboBox
-            Layout.preferredWidth: 250
-            Layout.alignment: Qt.AlignLeft
+        //        RudironComboBox{
+        //            id: portName_comboBox
+        //            Layout.preferredWidth: 250
+        //            Layout.alignment: Qt.AlignLeft
 
-            default_value: "Порт отключен"
-            model: []
+        //            default_value: "Порт отключен"
+        //            model: []
 
-            onCurrent_valueChanged: {
-                if (vm){
-                    var model = vm.optionsModel
-                    model.portName = current_value
-                    vm.optionsModel = model
-                    vm.onSelectedSerialPort()
-                }
-            }
+        //            onCurrent_valueChanged: {
+        //                if (vm){
+        //                    var model = vm.optionsModel
+        //                    model.portName = current_value
+        //                    vm.optionsModel = model
+        //                    vm.onSelectedSerialPort()
+        //                }
+        //            }
 
-            onOpened: {
-                model = vm.getAvailablePortNames()
-            }
+        //            onOpened: {
+        //                model = vm.getAvailablePortNames()
+        //            }
 
-            onClosed: {
-                finishedInteraction()
-            }
-        }
+        //            onClosed: {
+        //                finishedInteraction()
+        //            }
+        //        }
 
         RudironOptionsBox{
             id: inputSwitchBox
@@ -148,6 +148,15 @@ Rectangle {
             model:
                 ListModel {
 
+                ListElement {
+                    name: "Порт:"
+                    values_available: [
+                        ListElement{
+                            value: "отключен"
+                        }
+                    ]
+                    values_index: 0
+                }
                 ListElement {
                     name: "Бит в секунду:"
                     values_available: [
@@ -300,6 +309,27 @@ Rectangle {
                 }
             }
 
+            onOpened: {
+                var portNames = vm.getAvailablePortNames()
+
+                model.get(0).values_available.clear()
+
+                var values_index = 0
+
+                for(var i = 0; i < portNames.length; i++){
+                    console.log(portNames[i])
+                    model.get(0).values_available.append({
+                                                             value: portNames[i]
+                                                         })
+
+                    if (vm.optionsModel.inputModel.portName === portNames[i]){
+                        values_index = i
+                    }
+                }
+
+                model.get(0).values_index = values_index
+            }
+
             onModelChanged: {
                 if (changed_indexes.length > 0){
                     var optionsModel = vm.optionsModel
@@ -311,12 +341,15 @@ Rectangle {
 
                                                 switch (model_index){
                                                     case 0:
-                                                    inputModel.baudRate = delegate_model.values_available.get(selected_value_index).value
+                                                    inputModel.portName = delegate_model.values_available.get(selected_value_index).value
                                                     break
                                                     case 1:
-                                                    inputModel.dataBits = Number(delegate_model.values_available.get(selected_value_index).value)
+                                                    inputModel.baudRate = delegate_model.values_available.get(selected_value_index).value
                                                     break
                                                     case 2:
+                                                    inputModel.dataBits = Number(delegate_model.values_available.get(selected_value_index).value)
+                                                    break
+                                                    case 3:
                                                     if (selected_value_index === 0){
                                                         inputModel.parity = selected_value_index
                                                     }
@@ -324,7 +357,7 @@ Rectangle {
                                                         inputModel.parity = selected_value_index + 1
                                                     }
                                                     break
-                                                    case 3:
+                                                    case 4:
                                                     switch(selected_value_index){
                                                         case 0:
                                                         inputModel.stopBits = 1
@@ -337,10 +370,10 @@ Rectangle {
                                                         break
                                                     }
                                                     break
-                                                    case 4:
+                                                    case 5:
                                                     inputModel.flowControl = selected_value_index
                                                     break
-                                                    case 5:
+                                                    case 6:
                                                     switch(selected_value_index){
                                                         case 0:
                                                         inputModel.stringEnd = ""
@@ -356,7 +389,7 @@ Rectangle {
                                                         break
                                                     }
                                                     break
-                                                    case 6:
+                                                    case 7:
                                                     inputModel.mode = selected_value_index
                                                     break
                                                 }
@@ -386,7 +419,6 @@ Rectangle {
 
     onVmChanged: {
         initializeFromOutputModel()
-        initializeFromSerialPort()
         initializeFromInputModel()
     }
 
@@ -396,60 +428,55 @@ Rectangle {
         outputSwitchBox.model.get(2).values_index = vm.optionsModel.outputModel.mode
     }
 
-    function initializeFromSerialPort(){
-        vm.openPortFailure.connect((portName) => {
-                                       portName_comboBox.current_index = 0
-                                   })
-    }
-
     function initializeFromInputModel(){
         var baudRate_index = 0
         for(var i = 0; i < inputSwitchBox.model.get(0).values_available.count; i++){
-            if (inputSwitchBox.model.get(0).values_available.get(i).value === String(vm.optionsModel.inputModel.baudRate)){
+            if (inputSwitchBox.model.get(1).values_available.get(i).value === String(vm.optionsModel.inputModel.baudRate)){
                 baudRate_index = i
                 break
             }
         }
+        inputSwitchBox.model.get(1).values_index = baudRate_index
 
-        inputSwitchBox.model.get(0).values_index = baudRate_index
-        inputSwitchBox.model.get(1).values_index = vm.optionsModel.inputModel.dataBits - 5
+        inputSwitchBox.model.get(2).values_index = vm.optionsModel.inputModel.dataBits - 5
+
         if (vm.optionsModel.inputModel.parity === 0){
-            inputSwitchBox.model.get(2).values_index = vm.optionsModel.inputModel.parity
+            inputSwitchBox.model.get(3).values_index = vm.optionsModel.inputModel.parity
         }
         else{
-            inputSwitchBox.model.get(2).values_index = vm.optionsModel.inputModel.parity - 1
+            inputSwitchBox.model.get(3).values_index = vm.optionsModel.inputModel.parity - 1
         }
 
         switch(vm.optionsModel.inputModel.stopBits){
         case 1:
-            inputSwitchBox.model.get(3).values_index = 0
+            inputSwitchBox.model.get(4).values_index = 0
             break
         case 3:
-            inputSwitchBox.model.get(3).values_index = 1
+            inputSwitchBox.model.get(4).values_index = 1
             break
         case 2:
-            inputSwitchBox.model.get(3).values_index = 2
+            inputSwitchBox.model.get(4).values_index = 2
             break
         }
 
-        inputSwitchBox.model.get(4).values_index = vm.optionsModel.inputModel.flowControl
+        inputSwitchBox.model.get(5).values_index = vm.optionsModel.inputModel.flowControl
 
         switch(vm.optionsModel.inputModel.stringEnd){
         case "":
-            inputSwitchBox.model.get(5).values_index = 0
+            inputSwitchBox.model.get(6).values_index = 0
             break
         case "\n":
-            inputSwitchBox.model.get(5).values_index = 1
+            inputSwitchBox.model.get(6).values_index = 1
             break
         case "\r":
-            inputSwitchBox.model.get(5).values_index = 2
+            inputSwitchBox.model.get(6).values_index = 2
             break
         case "\r\n":
-            inputSwitchBox.model.get(5).values_index = 3
+            inputSwitchBox.model.get(6).values_index = 3
             break
         }
 
-        inputSwitchBox.model.get(6).values_index = vm.optionsModel.inputModel.mode
+        inputSwitchBox.model.get(7).values_index = vm.optionsModel.inputModel.mode
     }
 }
 

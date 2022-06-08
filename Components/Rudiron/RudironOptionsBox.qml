@@ -16,6 +16,9 @@ MouseArea{
 
     property var changed_indexes: []
 
+    signal opened
+    signal closed
+
     Layout.fillHeight: true
     Layout.margins: -5
     Layout.preferredWidth: 100
@@ -133,7 +136,12 @@ MouseArea{
                 border.color: "#2f363d"
             }
 
+            onOpened: {
+                root_mouse.opened()
+            }
+
             onClosed: {
+                root_mouse.closed()
                 root_mouse.modelChanged()
                 changed_indexes = []
             }
