@@ -31,6 +31,17 @@ void UARTPackage::setData(const QByteArray &newData)
     emit dataChanged();
 }
 
+QString UARTPackage::getPortName() const
+{
+    return _portName;
+}
+
+void UARTPackage::setPortName(const QString &value)
+{
+    _portName = value;
+    emit portNameChanged();
+}
+
 bool UARTPackage::getIsLogOutput() const
 {
     return _isLogOutput;

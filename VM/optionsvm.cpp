@@ -86,16 +86,15 @@ void OptionsVM::onSelectedSerialPort()
 {
     OptionsModel* newValue = getOptionsModel();
     QSerialPortInfo portInfo = QSerialPortInfo(newValue->getPortName());
-    bool containsPort = !portInfo.isNull();
 
-    if (containsPort){
+    if (!portInfo.isNull()){
         if (newValue->getPortName() != uart->getCurrentPortName() || !uart->isOpen()){
             if (uart->isOpen()){
                 uart->end();
                 //output("Закрыл порт " + uart->getCurrentPortName());
             }
 
-            if (uart->begin(portInfo)){
+            if (uart->begin(getOptionsModel()->getInputModel(), portInfo)){
                 //output("Открыл порт " + newValue->getPortName());
             }
             else{
@@ -115,4 +114,11 @@ void OptionsVM::onSelectedSerialPort()
 void OptionsVM::onFinishedInputModelEditing()
 {
     qDebug("Изменены настройки ввода.");
+    QSerialPortInfo portInfo = QSerialPortInfo(getOptionsModel()->getPortName());
+    if (!portInfo.isNull()){
+        if (!uart->begin(getOptionsModel()->getInputModel(), QSerialPortInfo(uart->getCurrentPortName()))){
+            output("Ошибка открытия порта " + getOptionsModel()->getPortName() + "!");
+            emit openPortFailure(getOptionsModel()->getPortName());
+        }
+    }
 }

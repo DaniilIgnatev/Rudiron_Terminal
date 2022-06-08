@@ -66,6 +66,7 @@ void LogVM::uartAvailable()
     UARTPackage* package = new UARTPackage();
     package->setData(uart->getRXBuffer());
     package->setDateTime(QDateTime::currentDateTime());
+    package->setPortName(uart->getCurrentPortName());
     uart->clearRXBuffer();
     receivedPackages.append(package);
 
@@ -113,7 +114,7 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
         text.append("Терминал -> ");
     }
     else{
-        text.append(getOptionsModel()->getPortName());
+        text.append(package->getPortName());
         text.append(" -> ");
     }
 

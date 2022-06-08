@@ -194,9 +194,6 @@ Rectangle {
                     name: "Биты данных:"
                     values_available: [
                         ListElement{
-                            value: "4"
-                        },
-                        ListElement{
                             value: "5"
                         },
                         ListElement{
@@ -209,7 +206,7 @@ Rectangle {
                             value: "8"
                         }
                     ]
-                    values_index: 4
+                    values_index: 3
                 }
                 ListElement {
                     name: "Четность:"
@@ -415,7 +412,7 @@ Rectangle {
         }
 
         inputSwitchBox.model.get(0).values_index = baudRate_index
-        inputSwitchBox.model.get(1).values_index = vm.optionsModel.inputModel.dataBits - 4
+        inputSwitchBox.model.get(1).values_index = vm.optionsModel.inputModel.dataBits - 5
         if (vm.optionsModel.inputModel.parity === 0){
             inputSwitchBox.model.get(2).values_index = vm.optionsModel.inputModel.parity
         }

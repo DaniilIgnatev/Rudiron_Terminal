@@ -9,10 +9,12 @@ class UARTPackage : public QObject{
     Q_PROPERTY(QByteArray data READ getData WRITE setData NOTIFY dataChanged)
     Q_PROPERTY(QDateTime dateTime READ getDateTime WRITE setDateTime NOTIFY dateTimeChanged)
     Q_PROPERTY(bool isLogOutput READ getIsLogOutput WRITE setIsLogOutput NOTIFY logOutputChanged)
+    Q_PROPERTY(QString portName READ getPortName WRITE setPortName NOTIFY portNameChanged)
 
 private:
     QByteArray _data;
     QDateTime _dateTime;
+    QString _portName;
     bool _isLogOutput = false;
 
 public:
@@ -27,10 +29,14 @@ public:
     bool getIsLogOutput() const;
     void setIsLogOutput(bool value);
 
+    QString getPortName() const;
+    void setPortName(const QString &value);
+
 signals:
     void dataChanged();
     void dateTimeChanged();
     void logOutputChanged();
+    void portNameChanged();
 };
 
 #endif // UARTPACKAGE_H

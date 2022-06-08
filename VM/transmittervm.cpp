@@ -20,7 +20,8 @@ void TransmitterVM::send(QString text)
 {
     if (uart->isOpen()){
         text.append(getOptionsModel()->getInputModel()->getStringEnd());
-        uart->writeRead(text.toUtf8(), 0);
+        QByteArray message = text.toUtf8();
+        uart->writeRead(message, 0);
     }
     else{
         output("Выберите последовательный порт!");

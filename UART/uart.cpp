@@ -76,13 +76,15 @@ bool UART::begin(OptionsInputModel *model, QSerialPortInfo port)
     if (!serial->setBaudRate(model->getBaudRate(), QSerialPort::AllDirections)){
         return false;
     }
-    if (!serial->setDataBits((QSerialPort::DataBits)model->getDataBits())){
+    QSerialPort::DataBits bits = (QSerialPort::DataBits)model->getDataBits();
+    if (!serial->setDataBits(bits)){
         return false;
     }
     if (!serial->setParity(model->getParity())){
         return false;
     }
-    if (!serial->setStopBits(model->getStopBits())){
+    QSerialPort::StopBits stops = model->getStopBits();
+    if (!serial->setStopBits(stops)){
         return false;
     }
     if (!serial->setFlowControl(model->getFlowControl())){
@@ -104,6 +106,7 @@ void UART::end()
 {
     if (serial){
         serial->close();
+        serial->clearError();
     }
 }
 
