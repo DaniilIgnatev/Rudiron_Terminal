@@ -9,7 +9,7 @@ macx{
     ICON = icon.icns
 }
 else{
-    ICON = icon.ico
+    RC_ICONS = icon.ico
 }
 
 
