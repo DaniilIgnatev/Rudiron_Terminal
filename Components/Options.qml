@@ -29,7 +29,7 @@ Rectangle {
 
         RudironOptionsBox{
             id: inputSwitchBox
-            Layout.preferredWidth: 200
+            Layout.preferredWidth: 250
             Layout.alignment: Qt.AlignLeft
 
             default_value: "Передатчик"
@@ -293,7 +293,7 @@ Rectangle {
 
         RudironOptionsBox{
             id: outputSwitchBox
-            Layout.preferredWidth: 100
+            Layout.preferredWidth: 150
             Layout.alignment: Qt.AlignLeft
 
             default_value: "Приемник"
