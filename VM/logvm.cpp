@@ -97,13 +97,32 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
     QString text;
 
     if (getOptionsModel()->getOutputModel()->getShowTimeStamps()){
-        text.append(QString::number(package->getDateTime().time().hour()));
+        QString hourStr = QString::number(package->getDateTime().time().hour());
+        while (hourStr.count() < 2){
+            hourStr.prepend("0");
+        }
+        text.append(hourStr);
         text.append(":");
-        text.append(QString::number(package->getDateTime().time().minute()));
+
+        QString minStr = QString::number(package->getDateTime().time().minute());
+        while (minStr.count() < 2){
+            minStr.prepend("0");
+        }
+        text.append(minStr);
         text.append(":");
-        text.append(QString::number(package->getDateTime().time().second()));
+
+        QString secStr = QString::number(package->getDateTime().time().second());
+        while (secStr.count() < 2){
+            secStr.prepend("0");
+        }
+        text.append(secStr);
         text.append(":");
-        text.append(QString::number(package->getDateTime().time().msec()));
+
+        QString msecStr = QString::number(package->getDateTime().time().msec());
+        while (msecStr.count() < 3){
+            msecStr.append("0");
+        }
+        text.append(msecStr);
         text.append(" ");
     }
 
@@ -121,10 +140,10 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
 
 void LogVM::onOptionsModelChanged()
 {
-    OptionsModel* newValue = getOptionsModel();
-    if (_lastDisplayMode != newValue->getOutputModel()->getMode() || _lastShowTimeStamps != newValue->getOutputModel()->getShowTimeStamps()){
-        _lastDisplayMode = newValue->getOutputModel()->getMode();
-        _lastShowTimeStamps = newValue->getOutputModel()->getShowTimeStamps();
+//    OptionsModel* newValue = getOptionsModel();
+//    if (_lastDisplayMode != newValue->getOutputModel()->getMode() || _lastShowTimeStamps != newValue->getOutputModel()->getShowTimeStamps()){
+//        _lastDisplayMode = newValue->getOutputModel()->getMode();
+//        _lastShowTimeStamps = newValue->getOutputModel()->getShowTimeStamps();
         emit logReplaced(getLog());
-    }
+//    }
 }

@@ -43,7 +43,7 @@ RowLayout{
             selectionColor: "#0664d3"
             selectedTextColor: "#ffffff"
 
-            font.pointSize: 12
+            font.pointSize: Qt.platform.os === "windows" ? 10 : 12
             font.letterSpacing: 0.5
             selectByMouse: true
             cursorVisible: true
@@ -66,7 +66,7 @@ RowLayout{
                 color: "#d1d5da"
                 visible: !textInput.text
 
-                font.pointSize: 12
+                font.pointSize: Qt.platform.os === "windows" ? 10 : 12
                 font.letterSpacing: 0.5
                 selectByMouse: false
                 cursorVisible: false

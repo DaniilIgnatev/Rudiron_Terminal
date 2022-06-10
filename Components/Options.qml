@@ -174,27 +174,27 @@ Rectangle {
                     ]
                     values_index: 0
                 }
-                ListElement {
-                    name: "Режим:"
-                    values_available: [
-                        ListElement{
-                            value: "строка"
-                        },
-                        ListElement{
-                            value: "2-й"
-                        },
-                        ListElement{
-                            value: "8-й"
-                        },
-                        ListElement{
-                            value: "10-й"
-                        },
-                        ListElement{
-                            value: "16-й"
-                        }
-                    ]
-                    values_index: 0
-                }
+//                ListElement {
+//                    name: "Режим:"
+//                    values_available: [
+//                        ListElement{
+//                            value: "строка"
+//                        },
+//                        ListElement{
+//                            value: "2-й"
+//                        },
+//                        ListElement{
+//                            value: "8-й"
+//                        },
+//                        ListElement{
+//                            value: "10-й"
+//                        },
+//                        ListElement{
+//                            value: "16-й"
+//                        }
+//                    ]
+//                    values_index: 0
+//                }
             }
 
             onOpened: {
@@ -205,7 +205,7 @@ Rectangle {
                 var values_index = 0
 
                 for(var i = 0; i < portNames.length; i++){
-                    console.log(portNames[i])
+//                    console.log(portNames[i])
                     model.get(0).values_available.append({
                                                              value: portNames[i]
                                                          })
@@ -324,27 +324,27 @@ Rectangle {
                     ]
                     values_index: 0
                 }
-                ListElement {
-                    name: "Режим:"
-                    values_available: [
-                        ListElement{
-                            value: "строка"
-                        },
-                        ListElement{
-                            value: "2-й"
-                        },
-                        ListElement{
-                            value: "8-й"
-                        },
-                        ListElement{
-                            value: "10-й"
-                        },
-                        ListElement{
-                            value: "16-й"
-                        }
-                    ]
-                    values_index: 0
-                }
+//                ListElement {
+//                    name: "Режим:"
+//                    values_available: [
+//                        ListElement{
+//                            value: "строка"
+//                        },
+//                        ListElement{
+//                            value: "2-й"
+//                        },
+//                        ListElement{
+//                            value: "8-й"
+//                        },
+//                        ListElement{
+//                            value: "10-й"
+//                        },
+//                        ListElement{
+//                            value: "16-й"
+//                        }
+//                    ]
+//                    values_index: 0
+//                }
             }
 
             onModelChanged: {

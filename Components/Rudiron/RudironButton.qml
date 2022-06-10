@@ -16,7 +16,7 @@ Button{
     text: "Отправить"
     font.letterSpacing: 0.5
     font.weight: Font.Light
-    font.pointSize: Qt.platform.os === "windows" ? 7 : 10
+    font.pointSize: Qt.platform.os === "windows" ? 7 : 9
     font.family: "Verdana"
     Layout.rightMargin: 2
     Layout.fillHeight: true

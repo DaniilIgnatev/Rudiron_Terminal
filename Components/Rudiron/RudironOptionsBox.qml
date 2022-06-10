@@ -34,6 +34,7 @@ MouseArea{
         anchors.fill: parent
 
         font.letterSpacing: 0.5
+        font.pointSize: Qt.platform.os === "windows" ? 9 : 11
         displayText: default_value
         model: root_mouse.model
 

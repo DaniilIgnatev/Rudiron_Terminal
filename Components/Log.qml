@@ -18,6 +18,9 @@ Rectangle{
 
         vm.logReplaced.connect ((newLog) => {
                                     textEdit.text = newLog
+                                    if (vm.optionsModel.outputModel.autoScroll){
+                                        scroll.ScrollBar.vertical.position = 1
+                                    }
                                 })
     }
 
@@ -49,13 +52,14 @@ Rectangle{
 
             color: "#d1d5da"
             font.letterSpacing: 0.5
+            font.pointSize: Qt.platform.os === "windows" ? 10 : 12
             selectionColor: "#0664d3"
             selectedTextColor: "#ffffff"
 
             textFormat: Text.PlainText
 
             onHeightChanged: {
-                if (root.vm && root.vm.optionsModel.autoScroll){
+                if (root.vm && root.vm.optionsModel.outputModel.autoScroll){
                     scroll.ScrollBar.vertical.position = 1
                 }
             }
