@@ -6,10 +6,12 @@ QT += serialport
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 macx{
-    CONFIG += app_bundle
+    ICON = icon.icns
+}
+else{
+    ICON = icon.ico
 }
 
-RC_ICONS = icon.ico
 
 SOURCES += \
     Model/iomode.cpp \
