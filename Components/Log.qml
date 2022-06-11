@@ -14,18 +14,19 @@ Rectangle{
         scroll.ScrollBar.vertical.position = 0
         vm.logAppended.connect ((appendedLog) => {
                                     textEdit.text += appendedLog
+                                    textEdit.height = textEdit.contentHeight
                                 })
 
         vm.logReplaced.connect ((newLog) => {
                                     textEdit.text = newLog
-                                    if (vm.optionsModel.outputModel.autoScroll){
-                                        var inc = textEdit.lineCount / 1000
-                                        if (inc > 0.1){
-                                            inc = 0.1
+                                    if (newLog === ""){
+                                        scroll.ScrollBar.vertical.position = 0
+                                    }
+                                    else{
+                                        if (vm.optionsModel.outputModel.autoScroll){
+                                            textEdit.height = textEdit.height + 1
+                                            textEdit.height = textEdit.height - 1
                                         }
-                                        console.log(inc)
-
-                                        scroll.ScrollBar.vertical.position = 0.9 + inc
                                     }
                                 })
     }
@@ -41,6 +42,9 @@ Rectangle{
 
         ScrollBar.vertical.policy: ScrollBar.AsNeeded
         ScrollBar.horizontal.policy: ScrollBar.AsNeeded
+
+        contentWidth: textEdit.width
+        contentHeight: textEdit.height
 
         TextEdit {
             id: textEdit
