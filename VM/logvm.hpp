@@ -33,7 +33,7 @@ public:
     virtual IOptionsModelDelegate *getOptionsModelDelegate() const override;
     virtual void setOptionsModelDelegate(IOptionsModelDelegate *newDisplayModeDelegate) override;
 
-    virtual void output(QString message) override;
+    Q_INVOKABLE virtual void output(QString message) override;
     virtual void clear() override;
 
 private slots:

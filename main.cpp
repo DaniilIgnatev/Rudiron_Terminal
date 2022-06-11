@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    QCoreApplication::setApplicationName("Rudiron UART programmer");
-    QCoreApplication::setApplicationVersion("1.1.1");
+    QCoreApplication::setApplicationName("Rudiron Terminal");
+    QCoreApplication::setApplicationVersion("1.1.2");
 
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/icon.ico"));
@@ -32,11 +32,11 @@ int main(int argc, char *argv[])
     //Не реализованые фичи:
     //Доделать режим ввода текста
     //Доделать режим вывода текста
+    //Открывать порт только для чтения
     //Сохранять последние настройки
     //Загружать последние настройки
     //Кодировка отправляемого текста
     //Кодировка читаемого текста
-    //Открывать порт только для чтения
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Components/Terminal.qml"));

@@ -29,6 +29,8 @@ Rectangle{
                                         }
                                     }
                                 })
+
+        vm.output("Добро пожаловать! Версия: " + Qt.application.version)
     }
 
     color: "#1d2125"
