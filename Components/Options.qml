@@ -399,7 +399,7 @@ Rectangle {
     function initializeFromOutputModel(){
         outputSwitchBox.model.get(0).values_index = vm.optionsModel.outputModel.autoScroll ? 1 : 0
         outputSwitchBox.model.get(1).values_index = vm.optionsModel.outputModel.showTimeStamps ? 1 : 0
-        outputSwitchBox.model.get(2).values_index = vm.optionsModel.outputModel.mode
+        //.model.get(2).values_index = vm.optionsModel.outputModel.mode
     }
 
     function initializeFromInputModel(){
@@ -450,7 +450,7 @@ Rectangle {
             break
         }
 
-        inputSwitchBox.model.get(7).values_index = vm.optionsModel.inputModel.mode
+        //inputSwitchBox.model.get(7).values_index = vm.optionsModel.inputModel.mode
     }
 }
 

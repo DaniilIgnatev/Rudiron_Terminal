@@ -19,7 +19,13 @@ Rectangle{
         vm.logReplaced.connect ((newLog) => {
                                     textEdit.text = newLog
                                     if (vm.optionsModel.outputModel.autoScroll){
-                                        scroll.ScrollBar.vertical.position = 1
+                                        var inc = textEdit.lineCount / 1000
+                                        if (inc > 0.1){
+                                            inc = 0.1
+                                        }
+                                        console.log(inc)
+
+                                        scroll.ScrollBar.vertical.position = 0.9 + inc
                                     }
                                 })
     }

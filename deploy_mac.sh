@@ -1,5 +1,5 @@
-#!/bin/sh
 clear
+cd /Users/daniilignatev/GitHub/Rudiron_Terminal/
 root_dir=$(PWD)
 echo $root_dir
 

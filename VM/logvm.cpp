@@ -67,7 +67,7 @@ void LogVM::uartAvailable()
     uart->clearRXBuffer();
     receivedPackages.append(package);
 
-    QString appendedLog = convertToLog(package);
+    QString appendedLog = convertToLog(package) + "\n";
     emit logAppended(appendedLog);
 }
 
