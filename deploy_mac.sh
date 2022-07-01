@@ -1,12 +1,27 @@
 clear
-cd /Users/daniilignatev/GitHub/Rudiron_Terminal/
-root_dir=$(PWD)
-echo $root_dir
+
+qtversion="5.12.12"
+echo "qtversion = $qtversion"
+qt_version="$(echo "$qtversion" | tr '.' '_')"
+echo "qt_version = $qt_version"
+
+#compiler_bin="/Users/daniilignatev/Qt/${qtversion}/clang_64/bin"
+compiler_bin="/Users/daniilignatev/Qt${qtversion}/${qtversion}/clang_64/bin"
+echo "compiler_bin = $compiler_bin"
+
+target="Rudiron_Terminal"
+echo "target = $target"
+
+target_user="$(echo "$target" | tr '_' ' ')"
+echo "target_user = $target_user"
+
+root_dir="/Users/daniilignatev/GitHub/$target"
+echo "root_dir = ${root_dir}"
+cd $root_dir
 
 rm -r release
 mkdir release
-cp -r /Users/daniilignatev/GitHub/build-Rudiron_Terminal-Desktop_Qt_5_12_12_clang_64bit-Release/Rudiron_Terminal.app release/
-cd /Users/daniilignatev/Qt5.12.12/5.12.12/clang_64/bin
-./macdeployqt $root_dir/release/Rudiron_Terminal.app -qmldir=$root_dir/Components -dmg
-
-$SHELL
+cp -r "${root_dir}/../build-${target}-Desktop_Qt_${qt_version}_clang_64bit-Release/${target}.app" "release/${target_user}.app"
+cd ${compiler_bin}
+./macdeployqt "${root_dir}/release/${target_user}.app" -qmldir=${root_dir} -dmg
+# $SHELL
