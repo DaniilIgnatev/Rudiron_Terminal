@@ -8,7 +8,7 @@ import QtQuick.Layouts 1.12
 import com.VM 1.0
 
 MouseArea{
-    id: root_mouse
+    id: combobox_mouse
 
     property var model
     property alias current_index: combobox.currentIndex
@@ -36,7 +36,7 @@ MouseArea{
         font.letterSpacing: 0.5
         font.pointSize: Qt.platform.os === "windows" ? 9 : 11
         displayText: default_value
-        model: root_mouse.model
+        model: combobox_mouse.model
 
         background: Rectangle {
             color: "#1d2125"
@@ -48,7 +48,7 @@ MouseArea{
             text: parent.displayText
             font: parent.font
 
-            color: parent.pressed ? "#d1d5da" : (root_mouse.containsMouse ? "white" : "#d1d5da")
+            color: parent.pressed ? "#d1d5da" : (combobox_mouse.containsMouse ? "white" : "#d1d5da")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
@@ -109,7 +109,7 @@ MouseArea{
                     context.fillStyle = color_pressed
                 }
                 else{
-                    context.fillStyle = root_mouse.containsMouse ? color_hovered : color_default
+                    context.fillStyle = combobox_mouse.containsMouse ? color_hovered : color_default
                 }
                 context.fill();
             }
@@ -138,12 +138,12 @@ MouseArea{
             }
 
             onOpened: {
-                root_mouse.opened()
+                combobox_mouse.opened()
             }
 
             onClosed: {
-                root_mouse.closed()
-                root_mouse.modelChanged()
+                combobox_mouse.closed()
+                combobox_mouse.modelChanged()
                 changed_indexes = []
             }
         }
@@ -244,15 +244,26 @@ MouseArea{
                         Layout.fillWidth: true
                     }
 
-                    Text {
-                        Layout.rightMargin: 5
-                        text: model.values_available.get(model.values_index).value
-                        font: combobox.font
+                    RowLayout{
+                        ValueSwitchButton{
+                            Layout.preferredWidth: 20
+                        }
 
-                        color: delegate_mouse.pressed ? "#d1d5da" : (delegate_mouse.containsMouse ? "white" : "#d1d5da")
-                        horizontalAlignment: Text.right
-                        verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideRight
+                        Text {
+                            Layout.maximumWidth: 100
+                            Layout.rightMargin: 5
+                            text: model.values_available.get(model.values_index).value
+                            font: combobox.font
+
+                            color: delegate_mouse.pressed ? "#d1d5da" : (delegate_mouse.containsMouse ? "white" : "#d1d5da")
+                            horizontalAlignment: Text.Center
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.Center
+                        }
+
+                        ValueSwitchButton{
+                            Layout.preferredWidth: 20
+                        }
                     }
                 }
             }
@@ -260,3 +271,9 @@ MouseArea{
     }
 }
 
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
