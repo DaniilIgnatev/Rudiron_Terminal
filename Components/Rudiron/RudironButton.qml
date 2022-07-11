@@ -17,7 +17,7 @@ Button{
     font.letterSpacing: 0.5
     font.weight: Font.Light
     font.pointSize: Qt.platform.os === "windows" ? 7 : 9
-    font.family: "Verdana"
+    font.family: "Arial"
     Layout.rightMargin: 2
     Layout.fillHeight: true
     Layout.fillWidth: false

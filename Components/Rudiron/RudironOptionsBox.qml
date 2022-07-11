@@ -37,6 +37,7 @@ MouseArea{
 
         font.letterSpacing: 0.5
         font.pointSize: Qt.platform.os === "windows" ? 9 : 11
+        font.family: "Arial"
         displayText: default_value
         model: combobox_mouse.model
 
@@ -220,7 +221,7 @@ MouseArea{
                         color: delegate_mouse.containsMouse ? "white" : "#d1d5da"
                         horizontalAlignment: Text.left
                         verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideLeft
+                        elide: Text.ElideMiddle
                     }
 
                     Item{

@@ -34,6 +34,7 @@ RowLayout{
 
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
+            font.family: "Arial"
 
             focus: true
 
@@ -61,6 +62,7 @@ RowLayout{
 
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
+                font.family: "Arial"
 
                 text: "Введите строку..."
                 color: "#d1d5da"

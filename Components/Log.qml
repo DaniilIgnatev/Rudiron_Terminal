@@ -58,6 +58,7 @@ Rectangle{
 
             readOnly: true
             wrapMode: Text.NoWrap
+            font.family: "Arial"
             renderType: Text.QtRendering
             selectByKeyboard: true
             selectByMouse: true
