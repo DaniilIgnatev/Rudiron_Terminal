@@ -15,14 +15,23 @@ Canvas{
     property string color_hovered: "#FF6600"
     property string color_pressed: "#993c00"
 
+    signal clicked()
+
     MouseArea {
         id: mouse
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onClicked: (mouse) => {
-                       console.log("arrow clicked!")
-                   }
+        onClicked: {
+            root.clicked()
+        }
+
+        onPressed: {
+            root.requestPaint()
+        }
+        onReleased: {
+            root.requestPaint()
+        }
         onContainsMouseChanged: {
             root.requestPaint()
         }

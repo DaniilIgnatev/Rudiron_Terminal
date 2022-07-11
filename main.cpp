@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QCoreApplication::setApplicationName("Rudiron Terminal");
-    QCoreApplication::setApplicationVersion("1.1.2");
+    QCoreApplication::setApplicationVersion("1.1.3");
 
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/icon.ico"));
@@ -34,7 +34,6 @@ int main(int argc, char *argv[])
     //скрол должен снимать автопрокрутку
 
     //Не реализованые фичи:
-    //Индикатор интерактивности опций
     //Доделать режим ввода текста
     //Доделать режим вывода текста
     //Открывать порт только для чтения

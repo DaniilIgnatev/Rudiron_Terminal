@@ -200,26 +200,6 @@ MouseArea{
                 }
             }
 
-            onClicked: (event) => {
-                           if (event.button === Qt.LeftButton){
-                               chooseNextValue()
-                           }
-                           else{
-                               if (event.button === Qt.RightButton){
-                                   choosePreviousValue()
-                               }
-                           }
-                       }
-
-            onWheel: (event) => {
-                         if (event.angleDelta.y > 0){
-                             chooseNextValue()
-                         }
-                         else{
-                             choosePreviousValue()
-                         }
-                     }
-
             Rectangle
             {
                 anchors.fill: parent
@@ -237,7 +217,7 @@ MouseArea{
                         text: model.name
                         font: combobox.font
 
-                        color: delegate_mouse.pressed ? "#d1d5da" : (delegate_mouse.containsMouse ? "white" : "#d1d5da")
+                        color: delegate_mouse.containsMouse ? "white" : "#d1d5da"
                         horizontalAlignment: Text.left
                         verticalAlignment: Text.AlignVCenter
                         elide: Text.ElideLeft
@@ -260,6 +240,9 @@ MouseArea{
                         ValueSwitchButton{
                             id: previous_value_button
                             rotation: 90
+                            onClicked: {
+                                 delegate_mouse.choosePreviousValue()
+                            }
                         }
 
                         Text {
@@ -267,7 +250,7 @@ MouseArea{
                             text: model.values_available.get(model.values_index).value
                             font: combobox.font
 
-                            color: delegate_mouse.pressed ? "#d1d5da" : (delegate_mouse.containsMouse ? "white" : "#d1d5da")
+                            color: delegate_mouse.containsMouse ? "white" : "#d1d5da"
                             horizontalAlignment: Text.Center
                             verticalAlignment: Text.AlignVCenter
                             clip: true
@@ -276,6 +259,9 @@ MouseArea{
                         ValueSwitchButton{
                             id: next_value_button
                             rotation: 270
+                            onClicked: {
+                                 delegate_mouse.chooseNextValue()
+                            }
                         }
                     }
                 }
