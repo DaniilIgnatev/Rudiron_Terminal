@@ -16,6 +16,8 @@ MouseArea{
 
     property var changed_indexes: []
 
+    property int textSizeAddition: 0
+
     signal opened
     signal closed
 
@@ -226,6 +228,7 @@ MouseArea{
                 color: delegate_mouse.containsMouse ? "#4c5763" : "#2f363d"
 
                 RowLayout{
+                    id: valuesLayout
                     anchors.fill: parent
                     spacing: 0
 
@@ -245,24 +248,34 @@ MouseArea{
                     }
 
                     RowLayout{
+                        Layout.rightMargin: 5
+                        Layout.preferredWidth: valuesLayout.width / 2 - 5
+                        spacing: 0
+
+                        Item{
+                            Layout.fillWidth: true
+                        }
+
+
                         ValueSwitchButton{
-                            Layout.preferredWidth: 20
+                            id: previous_value_button
+                            rotation: 90
                         }
 
                         Text {
-                            Layout.maximumWidth: 100
-                            Layout.rightMargin: 5
+                            Layout.preferredWidth: valuesLayout.width / 2 - 5 - previous_value_button.width * 2 + combobox_mouse.textSizeAddition
                             text: model.values_available.get(model.values_index).value
                             font: combobox.font
 
                             color: delegate_mouse.pressed ? "#d1d5da" : (delegate_mouse.containsMouse ? "white" : "#d1d5da")
                             horizontalAlignment: Text.Center
                             verticalAlignment: Text.AlignVCenter
-                            elide: Text.Center
+                            clip: true
                         }
 
                         ValueSwitchButton{
-                            Layout.preferredWidth: 20
+                            id: next_value_button
+                            rotation: 270
                         }
                     }
                 }

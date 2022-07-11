@@ -6,14 +6,27 @@ import QtQuick.Layouts 1.12
 Canvas{
     id: root
 
-    Layout.preferredWidth: 20
-    Layout.fillHeight: true
+    Layout.preferredWidth: 12
+    Layout.preferredHeight: 8
 
     contextType: "2d"
 
     property string color_default: "#cc5100"
     property string color_hovered: "#FF6600"
     property string color_pressed: "#993c00"
+
+    MouseArea {
+        id: mouse
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: (mouse) => {
+                       console.log("arrow clicked!")
+                   }
+        onContainsMouseChanged: {
+            root.requestPaint()
+        }
+    }
 
     onPaint: {
         context.reset();
@@ -22,11 +35,11 @@ Canvas{
         context.lineTo(width / 2, height);
         context.closePath();
 
-        if (parent.pressed){
+        if (mouse.pressed){
             context.fillStyle = color_pressed
         }
         else{
-            context.fillStyle = false ? color_hovered : color_default
+            context.fillStyle = mouse.containsMouse ? color_hovered : color_default
         }
         context.fill();
     }
