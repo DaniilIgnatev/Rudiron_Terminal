@@ -13,7 +13,13 @@ class LogVM : public IOptionsModelDelegateHolder, IOutputDelegate
 private:
     UART* uart;
 
+public:
+    const int receivedPackages_maxCount = 10;
+
+private:
     QList<UARTPackage*> receivedPackages;
+
+    UARTPackage* addPackage(UARTPackage* package);
 
     IOptionsModelDelegate* optionsModelDelegate = nullptr;
 
@@ -40,7 +46,7 @@ private slots:
     void uartAvailable();
 
 signals:
-    void logAppended(QString appendedLog);
+    void logAdded(QString appendedLog, QString removedLog);
     void logReplaced(QString newlog);
 
 public slots:

@@ -10,25 +10,28 @@ Rectangle{
     id: root
     property LogVM vm
 
+
     onVmChanged: {
         scroll.ScrollBar.vertical.position = 0
-        vm.logAppended.connect ((appendedLog) => {
-                                    textEdit.text += appendedLog
-                                    textEdit.height = textEdit.contentHeight
-                                })
+        vm.logAdded.connect((appendedLog, removedLog) => {
+                                var logStr = textEdit.text + appendedLog
+                                logStr = logStr.slice(removedLog.length)
+                                textEdit.text = logStr
+                                textEdit.height = textEdit.contentHeight
+                            })
 
-        vm.logReplaced.connect ((newLog) => {
-                                    textEdit.text = newLog
-                                    if (newLog === ""){
-                                        scroll.ScrollBar.vertical.position = 0
-                                    }
-                                    else{
-                                        if (vm.optionsModel.outputModel.autoScroll){
-                                            textEdit.height = textEdit.height + 1
-                                            textEdit.height = textEdit.height - 1
-                                        }
-                                    }
-                                })
+        vm.logReplaced.connect((newLog) => {
+                                   textEdit.text = newLog
+                                   if (newLog === ""){
+                                       scroll.ScrollBar.vertical.position = 0
+                                   }
+                                   else{
+                                       if (vm.optionsModel.outputModel.autoScroll){
+                                           textEdit.height = textEdit.height + 1
+                                           textEdit.height = textEdit.height - 1
+                                       }
+                                   }
+                               })
 
         vm.output("Добро пожаловать! Версия: " + Qt.application.version)
     }

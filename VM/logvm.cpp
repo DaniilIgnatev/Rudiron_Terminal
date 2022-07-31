@@ -1,5 +1,18 @@
 #include "logvm.hpp"
 
+UARTPackage* LogVM::addPackage(UARTPackage *package)
+{
+    receivedPackages.append(package);
+    UARTPackage* firstPackage = nullptr;
+
+    if (receivedPackages.count() > receivedPackages_maxCount){
+        firstPackage = receivedPackages.at(0);
+        receivedPackages.removeFirst();
+    }
+
+    return firstPackage;
+}
+
 LogVM::LogVM(QObject *parent)
     : IOptionsModelDelegateHolder{parent}
 {
@@ -46,10 +59,15 @@ void LogVM::output(QString message)
     package->setData(message.toUtf8());
     package->setDateTime(QDateTime::currentDateTime());
     package->setIsLogOutput(true);
-    receivedPackages.append(package);
+    UARTPackage* removedPackage = addPackage(package);
 
-    QString appendedLog = convertToLog(package) + "\n";
-    emit logAppended(appendedLog);
+    QString removedLog = "";
+    if (removedPackage != nullptr){
+        removedLog = convertToLog(removedPackage) + "\n";
+    }
+
+    QString appendedLog = convertToLog(package) + "\n"; 
+    emit logAdded(appendedLog, removedLog);
 }
 
 void LogVM::clear()
@@ -65,10 +83,15 @@ void LogVM::uartAvailable()
     package->setDateTime(QDateTime::currentDateTime());
     package->setPortName(uart->getCurrentPortName());
     uart->clearRXBuffer();
-    receivedPackages.append(package);
+    UARTPackage* removedPackage = addPackage(package);
+
+    QString removedLog = "";
+    if (removedPackage != nullptr){
+        removedLog = convertToLog(removedPackage) + "\n";
+    }
 
     QString appendedLog = convertToLog(package) + "\n";
-    emit logAppended(appendedLog);
+    emit logAdded(appendedLog, removedLog);
 }
 
 QString LogVM::getLog()
