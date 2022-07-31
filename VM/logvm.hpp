@@ -14,10 +14,14 @@ private:
     UART* uart;
 
 public:
-    const int receivedPackages_maxCount = 10;
+    const int receivedPackages_maxCount = 100;
 
 private:
+    QList<UARTPackage*> split_UART_RX(QByteArray rx_buffer_data);
+
     QList<UARTPackage*> receivedPackages;
+
+    QList<UARTPackage*> addPackages(QList<UARTPackage*> packages);
 
     UARTPackage* addPackage(UARTPackage* package);
 
@@ -54,6 +58,8 @@ public slots:
     QString getLog();
 
 private:
+    QString convertToLog(QList<UARTPackage*> packages);
+
     QString convertToLog(const UARTPackage* package);
 
     QString convertPackageAsText(const UARTPackage* package);

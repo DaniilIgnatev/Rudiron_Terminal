@@ -14,9 +14,22 @@ Rectangle{
     onVmChanged: {
         scroll.ScrollBar.vertical.position = 0
         vm.logAdded.connect((appendedLog, removedLog) => {
-                                var logStr = textEdit.text + appendedLog
-                                logStr = logStr.slice(removedLog.length)
-                                textEdit.text = logStr
+                                var slice_from = removedLog.length
+                                while (slice_from > 0){
+                                    if (textEdit.text.charAt(slice_from) !== "\n"){
+                                        slice_from -= 1
+                                    }
+                                    else{
+                                        slice_from += 1
+                                        break
+                                    }
+                                }
+
+//                                var textEdit_bufer = textEdit.text + appendedLog
+//                                textEdit_bufer = textEdit_bufer.slice(slice_from)
+//                                textEdit.text = textEdit_bufer
+                                textEdit.text += appendedLog
+                                textEdit.text = textEdit.text.slice(slice_from)
                                 textEdit.height = textEdit.contentHeight
                             })
 

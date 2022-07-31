@@ -1,5 +1,38 @@
 #include "logvm.hpp"
 
+QList<UARTPackage*> LogVM::split_UART_RX(QByteArray rx_buffer_data)
+{
+    QList<UARTPackage*> splitted_packages;
+    QList<QByteArray> splitted_rx = rx_buffer_data.split('\n');
+
+    const QDateTime dateTime = QDateTime::currentDateTime();
+    const QString portName = uart->getCurrentPortName();
+
+    foreach (QByteArray package_data, splitted_rx) {
+        UARTPackage* package = new UARTPackage();
+        package->setData(package_data);
+        package->setDateTime(dateTime);
+        package->setPortName(portName);
+        splitted_packages.append(package);
+    }
+
+    return splitted_packages;
+}
+
+QList<UARTPackage*> LogVM::addPackages(QList<UARTPackage *> packages)
+{
+    QList<UARTPackage*> removedPackages;
+
+    foreach (auto package, packages) {
+        UARTPackage* removePackage = addPackage(package);
+        if (removePackage){
+            removedPackages.append(removePackage);
+        }
+    }
+
+    return removedPackages;
+}
+
 UARTPackage* LogVM::addPackage(UARTPackage *package)
 {
     receivedPackages.append(package);
@@ -64,10 +97,13 @@ void LogVM::output(QString message)
     QString removedLog = "";
     if (removedPackage != nullptr){
         removedLog = convertToLog(removedPackage) + "\n";
+        removedPackage->deleteLater();
     }
 
-    QString appendedLog = convertToLog(package) + "\n"; 
+    QString appendedLog = convertToLog(package) + "\n";
     emit logAdded(appendedLog, removedLog);
+
+    emit logReplaced(getLog());
 }
 
 void LogVM::clear()
@@ -78,19 +114,19 @@ void LogVM::clear()
 
 void LogVM::uartAvailable()
 {
-    UARTPackage* package = new UARTPackage();
-    package->setData(uart->getRXBuffer());
-    package->setDateTime(QDateTime::currentDateTime());
-    package->setPortName(uart->getCurrentPortName());
+    QList<UARTPackage*> packages = split_UART_RX(uart->getRXBuffer());
     uart->clearRXBuffer();
-    UARTPackage* removedPackage = addPackage(package);
+    QList<UARTPackage*> removedPackages = addPackages(packages);
 
     QString removedLog = "";
-    if (removedPackage != nullptr){
-        removedLog = convertToLog(removedPackage) + "\n";
+    if (!removedPackages.isEmpty()){
+        removedLog = convertToLog(removedPackages) + "\n";
+        foreach (auto package, removedPackages) {
+            package->deleteLater();
+        }
     }
 
-    QString appendedLog = convertToLog(package) + "\n";
+    QString appendedLog = convertToLog(packages) + "\n";
     emit logAdded(appendedLog, removedLog);
 }
 
@@ -105,10 +141,21 @@ QString LogVM::getLog()
     return log;
 }
 
+QString LogVM::convertToLog(QList<UARTPackage *> packages)
+{
+    QString logPackages = "";
+
+    foreach (auto package, packages) {
+        logPackages += convertToLog(package);
+    }
+
+    return logPackages;
+}
+
 QString LogVM::convertToLog(const UARTPackage* package)
 {
     switch (getOptionsModel()->getOutputModel()->getMode()) {
-        case IOModeEnum::TEXT:
+    case IOModeEnum::TEXT:
         return convertPackageAsText(package);
     default:
         return convertPackageAsText(package);
@@ -163,10 +210,10 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
 
 void LogVM::onOptionsModelChanged()
 {
-//    OptionsModel* newValue = getOptionsModel();
-//    if (_lastDisplayMode != newValue->getOutputModel()->getMode() || _lastShowTimeStamps != newValue->getOutputModel()->getShowTimeStamps()){
-//        _lastDisplayMode = newValue->getOutputModel()->getMode();
-//        _lastShowTimeStamps = newValue->getOutputModel()->getShowTimeStamps();
-        emit logReplaced(getLog());
-//    }
+    //    OptionsModel* newValue = getOptionsModel();
+    //    if (_lastDisplayMode != newValue->getOutputModel()->getMode() || _lastShowTimeStamps != newValue->getOutputModel()->getShowTimeStamps()){
+    //        _lastDisplayMode = newValue->getOutputModel()->getMode();
+    //        _lastShowTimeStamps = newValue->getOutputModel()->getShowTimeStamps();
+    emit logReplaced(getLog());
+    //    }
 }
