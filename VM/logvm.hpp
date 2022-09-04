@@ -19,11 +19,17 @@ public:
 private:
     QList<UARTPackage*> pack_data(const QByteArray rx_buffer_data);
 
+    QByteArray appendLastPackageData(QList<UARTPackage*> &appendPackages, UARTPackage* lastPackage, bool &lastPackageValid);
+
+    QString fillLog(QList<UARTPackage*> logPackages);
+
     QList<UARTPackage*> receivedPackages;
 
     QList<UARTPackage*> addPackages(QList<UARTPackage*> packages);
 
     UARTPackage* addPackage(UARTPackage* package);
+
+    QString remove(QList<UARTPackage *> packages);
 
     IOptionsModelDelegate* optionsModelDelegate = nullptr;
 
@@ -62,7 +68,9 @@ private:
 
     QString convertToLog(const UARTPackage* package);
 
-    QString convertPackageAsText(const UARTPackage* package);
+    QString convertToLog(const QByteArray data);
+
+    QString convertPackageAsText(const QByteArray package);
 
     QString getPackageLabel(const UARTPackage* package);
 

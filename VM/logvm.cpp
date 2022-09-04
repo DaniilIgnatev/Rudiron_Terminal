@@ -1,4 +1,5 @@
 #include "logvm.hpp"
+#include "iomode.hpp"
 
 LogVM::LogVM(QObject *parent)
     : IOptionsModelDelegateHolder{parent}
@@ -71,51 +72,59 @@ void LogVM::uartAvailable(const QByteArray incomeData)
         return;
     }
 
-    QList<UARTPackage*> logPackages = appendPackages;
-
     UARTPackage* lastPackage = nullptr;
     if (!receivedPackages.empty()){
         lastPackage = receivedPackages.last();
     }
 
+    bool lastPackageValid = false;
+    QByteArray firstIncomeData = appendLastPackageData(appendPackages, lastPackage, lastPackageValid);
+
+    QString appendLog;
+    if (lastPackage && !lastPackageValid){
+        appendLog = convertToLog(firstIncomeData);
+    }
+    appendLog += fillLog(appendPackages);
+
+    QList<UARTPackage*> removePackages = addPackages(appendPackages);
+    QString removeLog = remove(removePackages);
+
+    emit logAdded(appendLog, removeLog);
+}
+
+QByteArray LogVM::appendLastPackageData(QList<UARTPackage*> &appendPackages, UARTPackage* lastPackage, bool &lastPackageValid){
     if (lastPackage && !lastPackage->isValid() && !lastPackage->getIsLogOutput()){
+        lastPackageValid = false;
+
         UARTPackage* firstAppendPackage = appendPackages.first();
         QByteArray firstAppendPackageData = firstAppendPackage->getData();
 
         QByteArray newLastData = lastPackage->getData();
         newLastData.append(firstAppendPackageData);
-
         lastPackage->setData(newLastData);
 
         firstAppendPackage = appendPackages.first();
         firstAppendPackage->deleteLater();
         appendPackages.removeFirst();
-        logPackages.removeFirst();
 
-        if (lastPackage->isValid()){
-            logPackages.prepend(lastPackage);
-        }
+        return firstAppendPackageData;
     }
+    else{
+        lastPackageValid = true;
+        return "";
+    }
+}
 
+QString LogVM::fillLog(QList<UARTPackage *> logPackages)
+{
     QString appendLog = "";
+
     foreach (auto package, logPackages){
-        if (package->isValid()){
-            auto log = convertToLog(package);
-            appendLog += log;
-        }
+        auto log = convertToLog(package);
+        appendLog += log;
     }
 
-    QList<UARTPackage*> removePackages = addPackages(appendPackages);
-
-    QString removeLog = "";
-    if (!removePackages.isEmpty()){
-        removeLog = convertToLog(removePackages);
-        foreach (auto package, removePackages) {
-            package->deleteLater();
-        }
-    }
-
-    emit logAdded(appendLog, removeLog);
+    return appendLog;
 }
 
 QList<UARTPackage*> LogVM::pack_data(const QByteArray rx_buffer_data)
@@ -185,6 +194,19 @@ UARTPackage* LogVM::addPackage(UARTPackage *package)
     return firstPackage;
 }
 
+QString LogVM::remove(QList<UARTPackage *> packages)
+{
+    QString removeLog = "";
+    if (!packages.isEmpty()){
+        removeLog = convertToLog(packages);
+        foreach (auto package, packages) {
+            package->deleteLater();
+        }
+    }
+
+    return removeLog;;
+}
+
 QString LogVM::getLog()
 {
     QString log;
@@ -210,22 +232,23 @@ QString LogVM::convertToLog(QList<UARTPackage *> packages)
 QString LogVM::convertToLog(const UARTPackage* package)
 {
     QString log = getPackageLabel(package);
-
-    switch (getOptionsModel()->getOutputModel()->getMode()) {
-    case IOModeEnum::TEXT:
-        log += convertPackageAsText(package);
-        break;
-    default:
-        log += convertPackageAsText(package);
-        break;
-    }
+    log += convertToLog(package->getData());
 
     return log;
 }
 
-QString LogVM::convertPackageAsText(const UARTPackage* package)
+QString LogVM::convertToLog(const QByteArray data){
+    switch (getOptionsModel()->getOutputModel()->getMode()) {
+    case IOModeEnum::TEXT:
+        return convertPackageAsText(data);
+    default:
+        return convertPackageAsText(data);
+    }
+}
+
+QString LogVM::convertPackageAsText(const QByteArray data)
 {
-    QString text = package->getData();
+    QString text = data;
     text.remove('\r');
     return text;
 }
