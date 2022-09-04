@@ -1,32 +1,5 @@
 #include "logvm.hpp"
 
-QList<UARTPackage*> LogVM::addPackages(QList<UARTPackage *> packages)
-{
-    QList<UARTPackage*> removedPackages;
-
-    foreach (auto package, packages) {
-        UARTPackage* removePackage = addPackage(package);
-        if (removePackage){
-            removedPackages.append(removePackage);
-        }
-    }
-
-    return removedPackages;
-}
-
-UARTPackage* LogVM::addPackage(UARTPackage *package)
-{
-    receivedPackages.append(package);
-    UARTPackage* firstPackage = nullptr;
-
-    if (receivedPackages.count() > receivedPackages_maxCount){
-        firstPackage = receivedPackages.at(0);
-        receivedPackages.removeFirst();
-    }
-
-    return firstPackage;
-}
-
 LogVM::LogVM(QObject *parent)
     : IOptionsModelDelegateHolder{parent}
 {
@@ -83,8 +56,6 @@ void LogVM::output(QString message)
 
     QString appendedLog = convertToLog(package);
     emit logAdded(appendedLog, removedLog);
-
-//    emit logReplaced(getLog());
 }
 
 void LogVM::clear()
@@ -93,41 +64,40 @@ void LogVM::clear()
     emit logReplaced(getLog());
 }
 
-void LogVM::uartAvailable()
+void LogVM::uartAvailable(const QByteArray incomeData)
 {
-    auto incomeData = uart->getRXBuffer();
-    uart->clearRXBuffer();
+    QList<UARTPackage*> appendPackages = pack_data(incomeData);
+    if (appendPackages.empty()){
+        return;
+    }
+
+    QList<UARTPackage*> logPackages = appendPackages;
 
     UARTPackage* lastPackage = nullptr;
     if (!receivedPackages.empty()){
         lastPackage = receivedPackages.last();
     }
 
-    QList<UARTPackage*> appendPackages = pack_data(incomeData);
-    if (appendPackages.empty()){
-        return;
-    }
-
-    QString appendLog = "";
-    QList<UARTPackage*> logPackages = appendPackages;
-
     if (lastPackage && !lastPackage->isValid() && !lastPackage->getIsLogOutput()){
-        auto firstAppendPackage = appendPackages.first();
-        auto firstAppendPackageData = firstAppendPackage->getData();
+        UARTPackage* firstAppendPackage = appendPackages.first();
+        QByteArray firstAppendPackageData = firstAppendPackage->getData();
 
-        auto newLastData = lastPackage->getData();
+        QByteArray newLastData = lastPackage->getData();
         newLastData.append(firstAppendPackageData);
+
         lastPackage->setData(newLastData);
 
+        firstAppendPackage = appendPackages.first();
+        firstAppendPackage->deleteLater();
         appendPackages.removeFirst();
         logPackages.removeFirst();
-        firstAppendPackage->deleteLater();
 
         if (lastPackage->isValid()){
             logPackages.prepend(lastPackage);
         }
     }
 
+    QString appendLog = "";
     foreach (auto package, logPackages){
         if (package->isValid()){
             auto log = convertToLog(package);
@@ -148,7 +118,7 @@ void LogVM::uartAvailable()
     emit logAdded(appendLog, removeLog);
 }
 
-QList<UARTPackage*> LogVM::pack_data(QByteArray rx_buffer_data)
+QList<UARTPackage*> LogVM::pack_data(const QByteArray rx_buffer_data)
 {
     QList<UARTPackage*> splitted_packages;
 
@@ -157,6 +127,7 @@ QList<UARTPackage*> LogVM::pack_data(QByteArray rx_buffer_data)
 
     QList<QByteArray> splitted_rx;
     int package_begin_index = 0;
+
     for (int i = 0; i < rx_buffer_data.count(); i++){
         if (rx_buffer_data.at(i) == '\n'){
             QByteArray packageData = rx_buffer_data.mid(package_begin_index, i - package_begin_index + 1);
@@ -177,16 +148,41 @@ QList<UARTPackage*> LogVM::pack_data(QByteArray rx_buffer_data)
     }
 
     foreach (QByteArray package_data, splitted_rx) {
-        if (package_data != ""){
-            UARTPackage* package = new UARTPackage();
-            package->setData(package_data);
-            package->setDateTime(dateTime);
-            package->setPortName(portName);
-            splitted_packages.append(package);
-        }
+        UARTPackage* package = new UARTPackage();
+        package->setData(package_data);
+        package->setDateTime(dateTime);
+        package->setPortName(portName);
+        splitted_packages.append(package);
     }
 
     return splitted_packages;
+}
+
+QList<UARTPackage*> LogVM::addPackages(QList<UARTPackage *> packages)
+{
+    QList<UARTPackage*> removedPackages;
+
+    foreach (auto package, packages) {
+        UARTPackage* removePackage = addPackage(package);
+        if (removePackage){
+            removedPackages.append(removePackage);
+        }
+    }
+
+    return removedPackages;
+}
+
+UARTPackage* LogVM::addPackage(UARTPackage *package)
+{
+    receivedPackages.append(package);
+    UARTPackage* firstPackage = nullptr;
+
+    if (receivedPackages.count() > receivedPackages_maxCount){
+        firstPackage = receivedPackages.at(0);
+        receivedPackages.removeFirst();
+    }
+
+    return firstPackage;
 }
 
 QString LogVM::getLog()
@@ -194,7 +190,7 @@ QString LogVM::getLog()
     QString log;
     for(int i = 0; i < receivedPackages.count(); i++){
         auto package = receivedPackages.at(i);
-            log += convertToLog(package);
+        log += convertToLog(package);
     }
 
     return log;

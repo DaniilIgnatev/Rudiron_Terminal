@@ -17,7 +17,7 @@ public:
     const int receivedPackages_maxCount = 500;
 
 private:
-    QList<UARTPackage*> pack_data(QByteArray rx_buffer_data);
+    QList<UARTPackage*> pack_data(const QByteArray rx_buffer_data);
 
     QList<UARTPackage*> receivedPackages;
 
@@ -47,7 +47,7 @@ public:
     virtual void clear() override;
 
 private slots:
-    void uartAvailable();
+    void uartAvailable(const QByteArray incomeData);
 
 signals:
     void logAdded(QString appendedLog, QString removedLog);

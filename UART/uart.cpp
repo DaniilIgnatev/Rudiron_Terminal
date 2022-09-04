@@ -71,7 +71,7 @@ bool UART::begin(OptionsInputModel *model)
     QString portName = model->getPortName();
     serial = new QSerialPort(portName);
 
-//    connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
+    connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
     connect(serial, &QSerialPort::readyRead, this, &UART::readyReadSlot);
 
     if (!serial->setBaudRate(model->getBaudRate(), QSerialPort::AllDirections)){
@@ -127,8 +127,8 @@ void UART::errorSlot(QSerialPort::SerialPortError error){
     if (error != QSerialPort::NoError && error != QSerialPort::TimeoutError){
         QMetaEnum metaEnum = QMetaEnum::fromType<QSerialPort::SerialPortError>();
         QString error_str = metaEnum.valueToKey(error);
-//        qDebug() << "Serial error: " << error_str;
-//        qDebug() << serial->errorString();
+        qDebug() << "Serial error: " << error_str;
+        qDebug() << serial->errorString();
     }
 }
 
@@ -171,8 +171,7 @@ void UART::writeRead(QByteArray buffer, int waitRXBytes)
 
 void UART::readyReadSlot()
 {
-    rx_buffer.append(serial->readAll());
-    emit available();
+    emit available(serial->readAll());
 }
 
 void UART::waitRead(int timeout)
@@ -207,8 +206,7 @@ void UART::clearRXBuffer()
 
 QByteArray UART::getRXBuffer()
 {
-    QByteArray array((const char*)rx_buffer);
-    return array;
+    return QByteArray(rx_buffer);
 }
 
 QStringList UART::availablePortNames()

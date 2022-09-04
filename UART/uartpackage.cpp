@@ -18,12 +18,12 @@ void UARTPackage::setDateTime(const QDateTime &newDateTime)
     emit dateTimeChanged();
 }
 
-const QByteArray &UARTPackage::getData() const
+const QByteArray UARTPackage::getData() const
 {
     return _data;
 }
 
-void UARTPackage::setData(const QByteArray &newData)
+void UARTPackage::setData(const QByteArray newData)
 {
     if (_data == newData)
         return;

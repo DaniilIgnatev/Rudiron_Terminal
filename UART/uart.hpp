@@ -48,7 +48,7 @@ public:
 
 signals:
 
-    void available();
+    void available(QByteArray data);
 
 public slots:
     void errorSlot(QSerialPort::SerialPortError error);

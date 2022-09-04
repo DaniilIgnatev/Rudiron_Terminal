@@ -20,8 +20,8 @@ private:
 public:
     explicit UARTPackage(QObject* object = nullptr);
 
-    const QByteArray &getData() const;
-    void setData(const QByteArray &newData);
+    const QByteArray getData() const;
+    void setData(const QByteArray newData);
 
     const QDateTime &getDateTime() const;
     void setDateTime(const QDateTime &newDateTime);
