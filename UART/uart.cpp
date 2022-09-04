@@ -71,7 +71,7 @@ bool UART::begin(OptionsInputModel *model)
     QString portName = model->getPortName();
     serial = new QSerialPort(portName);
 
-    connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
+//    connect(serial, &QSerialPort::errorOccurred, this, &UART::errorSlot);
     connect(serial, &QSerialPort::readyRead, this, &UART::readyReadSlot);
 
     if (!serial->setBaudRate(model->getBaudRate(), QSerialPort::AllDirections)){
@@ -99,6 +99,7 @@ bool UART::begin(OptionsInputModel *model)
     while(!serial->isOpen()){
         QThread::currentThread()->msleep(5);
     }
+    clearRXBuffer();
 
     return true;
 }
@@ -200,9 +201,8 @@ void UART::waitRead(int timeout)
 
 void UART::clearRXBuffer()
 {
-    QThread::currentThread()->msleep(1);
-    serial->clear();
     rx_buffer.clear();
+    serial->clear();
 }
 
 QByteArray UART::getRXBuffer()
@@ -216,7 +216,7 @@ QStringList UART::availablePortNames()
     QStringList names;
     auto ports = QSerialPortInfo::availablePorts();
 
-    for(auto port: ports){
+    foreach (auto port, ports){
         names.append(port.portName());
     }
 

@@ -4,6 +4,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
 #include <QSurfaceFormat>
+#include <QThread>
 
 #include "terminalvm.hpp"
 
@@ -29,8 +30,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<OptionsOutputModel>("com.VM", 1, 0, "OptionsOutputModel");
     qmlRegisterType<IOMode>("com.VM", 1, 0, "IOMode");
 
+
+    qDebug() << "Main thread ID = " << QThread::currentThreadId();
     //Баги:
-    //----
+    //Удаление первых приводит к визуальным ошибкам
+    //Автопрокрутка срабатывает, когда сролл еще не завершился
 
     //Не реализовано:
     //режимы ввода текста: 2й, 8й, 16й

@@ -85,6 +85,7 @@ void OptionsVM::onFinishedOutputModelEditing()
 void OptionsVM::onFinishedInputModelEditing()
 {
     uart->end();
+    outputDelegate->clear();
 
     QString portName = getOptionsModel()->getInputModel()->getPortName();
     bool contains = false;

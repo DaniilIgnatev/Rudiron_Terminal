@@ -14,31 +14,37 @@ Rectangle{
     onVmChanged: {
         scroll.ScrollBar.vertical.position = 0
         vm.logAdded.connect((appendedLog, removedLog) => {
-//                                var textEdit_bufer = textEdit.text + appendedLog
-//                                textEdit_bufer = textEdit_bufer.slice(slice_from)
-//                                textEdit.text = textEdit_bufer
+                                var newText = textEdit.text
 
                                 if (removedLog !== ""){
                                     var slice_from = removedLog.length
+
                                     while (slice_from > 0){
                                         if (textEdit.text.charAt(slice_from) !== "\n"){
                                             slice_from -= 1
                                         }
                                         else{
-//                                            slice_from += 1
+                                            slice_from += 1
                                             break
                                         }
                                     }
 
-                                    textEdit.text = textEdit.text.slice(slice_from)
+                                    if (slice_from){
+                                        newText = newText.slice(slice_from)
+                                    }
+                                    else{
+                                        slice_from = removedLog.length
+                                        newText = newText.slice(slice_from)
+                                    }
                                 }
 
                                 if (textEdit.text.charAt(0) == '\n'){
-                                    textEdit.text = textEdit.text.substring(1)
+                                    newText = newText.substring(1)
                                 }
 
                                 let currentText = textEdit.text
-                                textEdit.text += appendedLog
+                                newText += appendedLog
+                                textEdit.text = newText
 
                                 textEdit.height = textEdit.contentHeight
                             })
