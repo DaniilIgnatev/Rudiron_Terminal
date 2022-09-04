@@ -14,22 +14,32 @@ Rectangle{
     onVmChanged: {
         scroll.ScrollBar.vertical.position = 0
         vm.logAdded.connect((appendedLog, removedLog) => {
-                                var slice_from = removedLog.length
-                                while (slice_from > 0){
-                                    if (textEdit.text.charAt(slice_from) !== "\n"){
-                                        slice_from -= 1
-                                    }
-                                    else{
-                                        slice_from += 1
-                                        break
-                                    }
-                                }
-
 //                                var textEdit_bufer = textEdit.text + appendedLog
 //                                textEdit_bufer = textEdit_bufer.slice(slice_from)
 //                                textEdit.text = textEdit_bufer
+
+                                if (removedLog !== ""){
+                                    var slice_from = removedLog.length
+                                    while (slice_from > 0){
+                                        if (textEdit.text.charAt(slice_from) !== "\n"){
+                                            slice_from -= 1
+                                        }
+                                        else{
+//                                            slice_from += 1
+                                            break
+                                        }
+                                    }
+
+                                    textEdit.text = textEdit.text.slice(slice_from)
+                                }
+
+                                if (textEdit.text.charAt(0) == '\n'){
+                                    textEdit.text = textEdit.text.substring(1)
+                                }
+
+                                let currentText = textEdit.text
                                 textEdit.text += appendedLog
-                                textEdit.text = textEdit.text.slice(slice_from)
+
                                 textEdit.height = textEdit.contentHeight
                             })
 
@@ -46,7 +56,7 @@ Rectangle{
                                    }
                                })
 
-        vm.output("Добро пожаловать! Версия: " + Qt.application.version)
+        vm.output("Добро пожаловать! Версия: " + Qt.application.version + "\n")
     }
 
     color: "#1d2125"

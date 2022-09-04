@@ -32,6 +32,8 @@ public:
     QString getPortName() const;
     void setPortName(const QString &value);
 
+    bool isValid();
+
 signals:
     void dataChanged();
     void dateTimeChanged();

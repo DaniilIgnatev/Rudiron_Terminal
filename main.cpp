@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QCoreApplication::setApplicationName("Rudiron Terminal");
-    QCoreApplication::setApplicationVersion("1.1.4");
+    QCoreApplication::setApplicationVersion("1.1.5");
 
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/icon.ico"));

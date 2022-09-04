@@ -1,24 +1,5 @@
 #include "logvm.hpp"
 
-QList<UARTPackage*> LogVM::split_UART_RX(QByteArray rx_buffer_data)
-{
-    QList<UARTPackage*> splitted_packages;
-    QList<QByteArray> splitted_rx = rx_buffer_data.split('\n');
-
-    const QDateTime dateTime = QDateTime::currentDateTime();
-    const QString portName = uart->getCurrentPortName();
-
-    foreach (QByteArray package_data, splitted_rx) {
-        UARTPackage* package = new UARTPackage();
-        package->setData(package_data);
-        package->setDateTime(dateTime);
-        package->setPortName(portName);
-        splitted_packages.append(package);
-    }
-
-    return splitted_packages;
-}
-
 QList<UARTPackage*> LogVM::addPackages(QList<UARTPackage *> packages)
 {
     QList<UARTPackage*> removedPackages;
@@ -96,14 +77,14 @@ void LogVM::output(QString message)
 
     QString removedLog = "";
     if (removedPackage != nullptr){
-        removedLog = convertToLog(removedPackage) + "\n";
+        removedLog = convertToLog(removedPackage);
         removedPackage->deleteLater();
     }
 
-    QString appendedLog = convertToLog(package) + "\n";
+    QString appendedLog = convertToLog(package);
     emit logAdded(appendedLog, removedLog);
 
-    emit logReplaced(getLog());
+//    emit logReplaced(getLog());
 }
 
 void LogVM::clear()
@@ -114,20 +95,98 @@ void LogVM::clear()
 
 void LogVM::uartAvailable()
 {
-    QList<UARTPackage*> packages = split_UART_RX(uart->getRXBuffer());
+    auto incomeData = uart->getRXBuffer();
     uart->clearRXBuffer();
-    QList<UARTPackage*> removedPackages = addPackages(packages);
 
-    QString removedLog = "";
-    if (!removedPackages.isEmpty()){
-        removedLog = convertToLog(removedPackages) + "\n";
-        foreach (auto package, removedPackages) {
+    UARTPackage* lastPackage = nullptr;
+    if (!receivedPackages.empty()){
+        lastPackage = receivedPackages.last();
+    }
+
+    QList<UARTPackage*> appendPackages = pack_data(incomeData);
+    if (appendPackages.empty()){
+        return;
+    }
+
+    QString appendLog = "";
+    QList<UARTPackage*> logPackages = appendPackages;
+
+    if (lastPackage && !lastPackage->isValid() && !lastPackage->getIsLogOutput()){
+        auto firstAppendPackage = appendPackages.first();
+        auto firstAppendPackageData = firstAppendPackage->getData();
+
+        auto newLastData = lastPackage->getData();
+        newLastData.append(firstAppendPackageData);
+        lastPackage->setData(newLastData);
+
+        appendPackages.removeFirst();
+        logPackages.removeFirst();
+        firstAppendPackage->deleteLater();
+
+        if (lastPackage->isValid()){
+            logPackages.prepend(lastPackage);
+        }
+    }
+
+    foreach (auto package, logPackages){
+        if (package->isValid()){
+            auto log = convertToLog(package);
+            appendLog += log;
+        }
+    }
+
+    QList<UARTPackage*> removePackages = addPackages(appendPackages);
+
+    QString removeLog = "";
+    if (!removePackages.isEmpty()){
+        removeLog = convertToLog(removePackages);
+        foreach (auto package, removePackages) {
             package->deleteLater();
         }
     }
 
-    QString appendedLog = convertToLog(packages) + "\n";
-    emit logAdded(appendedLog, removedLog);
+    emit logAdded(appendLog, removeLog);
+}
+
+QList<UARTPackage*> LogVM::pack_data(QByteArray rx_buffer_data)
+{
+    QList<UARTPackage*> splitted_packages;
+
+    const QDateTime dateTime = QDateTime::currentDateTime();
+    const QString portName = uart->getCurrentPortName();
+
+    QList<QByteArray> splitted_rx;
+    int package_begin_index = 0;
+    for (int i = 0; i < rx_buffer_data.count(); i++){
+        if (rx_buffer_data.at(i) == '\n'){
+            QByteArray packageData = rx_buffer_data.mid(package_begin_index, i - package_begin_index + 1);
+            splitted_rx.append(packageData);
+
+            package_begin_index = i + 1;
+        }
+    }
+
+    if (splitted_rx.empty()){
+        splitted_rx.append(rx_buffer_data);
+    }
+    else{
+        if (package_begin_index < rx_buffer_data.count()){
+            QByteArray packageData = rx_buffer_data.mid(package_begin_index, rx_buffer_data.count() - package_begin_index + 1);
+            splitted_rx.append(packageData);
+        }
+    }
+
+    foreach (QByteArray package_data, splitted_rx) {
+        if (package_data != ""){
+            UARTPackage* package = new UARTPackage();
+            package->setData(package_data);
+            package->setDateTime(dateTime);
+            package->setPortName(portName);
+            splitted_packages.append(package);
+        }
+    }
+
+    return splitted_packages;
 }
 
 QString LogVM::getLog()
@@ -135,7 +194,7 @@ QString LogVM::getLog()
     QString log;
     for(int i = 0; i < receivedPackages.count(); i++){
         auto package = receivedPackages.at(i);
-        log += convertToLog(package) + "\n";
+            log += convertToLog(package);
     }
 
     return log;
@@ -154,15 +213,28 @@ QString LogVM::convertToLog(QList<UARTPackage *> packages)
 
 QString LogVM::convertToLog(const UARTPackage* package)
 {
+    QString log = getPackageLabel(package);
+
     switch (getOptionsModel()->getOutputModel()->getMode()) {
     case IOModeEnum::TEXT:
-        return convertPackageAsText(package);
+        log += convertPackageAsText(package);
+        break;
     default:
-        return convertPackageAsText(package);
+        log += convertPackageAsText(package);
+        break;
     }
+
+    return log;
 }
 
 QString LogVM::convertPackageAsText(const UARTPackage* package)
+{
+    QString text = package->getData();
+    text.remove('\r');
+    return text;
+}
+
+QString LogVM::getPackageLabel(const UARTPackage* package)
 {
     QString text;
 
@@ -204,7 +276,6 @@ QString LogVM::convertPackageAsText(const UARTPackage* package)
         text.append(" -> ");
     }
 
-    text.append(package->getData());
     return text;
 }
 

@@ -42,6 +42,11 @@ void UARTPackage::setPortName(const QString &value)
     emit portNameChanged();
 }
 
+bool UARTPackage::isValid()
+{
+    return _data.endsWith('\n');
+}
+
 bool UARTPackage::getIsLogOutput() const
 {
     return _isLogOutput;

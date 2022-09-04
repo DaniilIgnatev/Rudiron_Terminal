@@ -4,7 +4,7 @@ OptionsVM::OptionsVM(QObject *parent): IOptionsModelDelegateHolder{parent}
 {
     connect(this, &OptionsVM::optionsModelChanged, this, &OptionsVM::onOptionsModelChanged);
     connect(this, &OptionsVM::optionsModelChanged, this, [=](){
-        qDebug() << "Options model changed:\n" + getOptionsModel()->printable();
+        qDebug() << "Options model changed:\n" + getOptionsModel()->printable() + "\n";
     });
 }
 
@@ -79,7 +79,7 @@ void OptionsVM::onOptionsModelChanged()
 
 void OptionsVM::onFinishedOutputModelEditing()
 {
-    qDebug("Изменены настройки вывода.");
+    qDebug("Изменены настройки вывода.\n");
 }
 
 void OptionsVM::onFinishedInputModelEditing()
@@ -90,7 +90,7 @@ void OptionsVM::onFinishedInputModelEditing()
     bool contains = false;
 
     auto availablePorts = QSerialPortInfo::availablePorts();
-    for(auto port: availablePorts){
+    foreach(auto port, availablePorts){
         if (port.portName() == portName){
             contains = true;
             break;
@@ -99,11 +99,11 @@ void OptionsVM::onFinishedInputModelEditing()
 
     if (contains){
         if (!uart->begin(getOptionsModel()->getInputModel())){
-            output("Ошибка открытия порта " + getOptionsModel()->getInputModel()->getPortName() + "!");
+            output("Ошибка открытия порта " + getOptionsModel()->getInputModel()->getPortName() + "!\n");
             getOptionsModel()->getInputModel()->setPortName("");
         }
         else{
-            output("Новые настройки порта " + getOptionsModel()->getInputModel()->getPortName() + ".");
+            output("Новые настройки порта " + getOptionsModel()->getInputModel()->getPortName() + ".\n");
         }
     }
 }

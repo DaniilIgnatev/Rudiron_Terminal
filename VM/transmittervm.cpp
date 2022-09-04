@@ -24,7 +24,7 @@ void TransmitterVM::send(QString text)
         uart->writeRead(message, 0);
     }
     else{
-        output("Выберите последовательный порт!");
+        output("Выберите последовательный порт!\n");
     }
 }
 
