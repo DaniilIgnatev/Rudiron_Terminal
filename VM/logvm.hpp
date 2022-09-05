@@ -14,7 +14,7 @@ private:
     UART* uart;
 
 public:
-    const int receivedPackages_maxCount = 500;
+    const int receivedPackages_maxCount = 1000;
 
 private:
     QList<UARTPackage*> pack_data(const QByteArray rx_buffer_data);

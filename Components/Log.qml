@@ -45,8 +45,6 @@ Rectangle{
                                 let currentText = textEdit.text
                                 newText += appendedLog
                                 textEdit.text = newText
-
-                                textEdit.height = textEdit.contentHeight
                             })
 
         vm.logReplaced.connect((newLog) => {
@@ -71,6 +69,8 @@ Rectangle{
         id: scroll
 
         anchors.fill: parent
+        hoverEnabled: true
+        enabled: true
 
         clip: true
 
@@ -80,33 +80,30 @@ Rectangle{
         contentWidth: textEdit.width
         contentHeight: textEdit.height
 
-        TextEdit {
+        Text {
             id: textEdit
 
             leftPadding: 5
             topPadding: 5
-            rightPadding: 10
-            bottomPadding: 10
+            rightPadding: 5
+            bottomPadding: 0
 
-            readOnly: true
             wrapMode: Text.NoWrap
             font.family: "Arial"
             renderType: Text.QtRendering
-            selectByKeyboard: true
-            selectByMouse: true
 
             color: "#d1d5da"
             font.letterSpacing: 0.5
             font.pointSize: Qt.platform.os === "windows" ? 10 : 12
-            selectionColor: "#0664d3"
-            selectedTextColor: "#ffffff"
 
             textFormat: Text.PlainText
 
-            onHeightChanged: {
+            onContentHeightChanged: {
                 if (root.vm && root.vm.optionsModel.outputModel.autoScroll){
                     scroll.ScrollBar.vertical.position = 1
                 }
+
+                textEdit.height = textEdit.contentHeight + topPadding
             }
         }
     }
@@ -116,6 +113,6 @@ Rectangle{
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:2}D{i:1}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
